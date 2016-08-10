@@ -6,6 +6,9 @@ import pl.karol202.stoneengine.util.Time;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class CoreEngine
@@ -26,11 +29,19 @@ public class CoreEngine
 	
 	public void start()
 	{
-		if(running) return;
-		running = true;
-		init();
-		game.init();
-		run();
+		try
+		{
+			if(running) return;
+			running = true;
+			init();
+			game.init();
+			run();
+		}
+		finally
+		{
+			glfwTerminate();
+			glfwSetErrorCallback(null).free();
+		}
 	}
 	
 	public void stop()
@@ -44,6 +55,7 @@ public class CoreEngine
 		GLFWErrorCallback.createPrint(System.err).set();
 		if(!glfwInit()) throw new RuntimeException("Unable to initialize GLFW.");
 		
+		glfwWindowHint(GLFW_SAMPLES, 4);
 		window = glfwCreateWindow(width, height, game.getTitle(), NULL, NULL);
 		if(window == NULL) throw new RuntimeException("Unable to create window.");
 		GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -82,7 +94,7 @@ public class CoreEngine
 				render = true;
 				unprocessedTime -= frameTime;
 				Time.setDelta(frameTime);
-				game.update();
+				update();
 				if(framesCounter >= Time.SECOND)
 				{
 					System.out.println(fps);
@@ -92,10 +104,7 @@ public class CoreEngine
 			}
 			if(render)
 			{
-				game.render();
-				glfwSwapBuffers(window);
-				glfwPollEvents();
-				
+				render();
 				render = false;
 				fps++;
 			}
@@ -111,6 +120,19 @@ public class CoreEngine
 				}
 			}
 		}
+	}
+	
+	private void update()
+	{
+		game.update();
+		glfwPollEvents();
+	}
+	
+	private void render()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		game.render();
+		glfwSwapBuffers(window);
 	}
 	
 	public int getWidth()
