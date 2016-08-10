@@ -2,10 +2,14 @@ package pl.karol202.testgame;
 
 import pl.karol202.stoneengine.core.CoreEngine;
 import pl.karol202.stoneengine.core.Game;
+import pl.karol202.stoneengine.rendering.Mesh;
+import pl.karol202.stoneengine.rendering.Vertex;
+import pl.karol202.stoneengine.util.Vector3f;
 
 public class TestGame implements Game
 {
 	private CoreEngine engine;
+	private Mesh mesh;
 	
 	private TestGame()
 	{
@@ -14,29 +18,24 @@ public class TestGame implements Game
 	}
 	
 	@Override
+	public void init()
+	{
+		Vertex[] vertices = new Vertex[] {new Vertex(new Vector3f(-1, -1, 0)),
+										  new Vertex(new Vector3f(0, 1, 0)),
+										  new Vertex(new Vector3f(1, -1, 0))};
+		mesh = new Mesh(vertices);
+	}
+	
+	@Override
 	public void update()
 	{
-		try
-		{
-			Thread.sleep(1);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+		
 	}
 	
 	@Override
 	public void render()
 	{
-		try
-		{
-			Thread.sleep(1);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+		mesh.draw();
 	}
 	
 	@Override

@@ -29,6 +29,7 @@ public class CoreEngine
 		if(running) return;
 		running = true;
 		init();
+		game.init();
 		run();
 	}
 	
