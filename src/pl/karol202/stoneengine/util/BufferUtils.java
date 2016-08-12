@@ -1,7 +1,6 @@
-package pl.karol202.stoneengine.utils;
+package pl.karol202.stoneengine.util;
 
 import pl.karol202.stoneengine.rendering.Vertex;
-import pl.karol202.stoneengine.util.Matrix4f;
 
 import java.nio.FloatBuffer;
 

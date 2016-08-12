@@ -18,6 +18,7 @@ public class CoreEngine
 	private long window;
 	private int width;
 	private int height;
+	private Input inputHandler;
 	
 	public CoreEngine(Game game)
 	{
@@ -41,6 +42,7 @@ public class CoreEngine
 		{
 			glfwTerminate();
 			glfwSetErrorCallback(null).free();
+			glfwSetKeyCallback(window, null);
 		}
 	}
 	
@@ -56,76 +58,54 @@ public class CoreEngine
 		if(!glfwInit()) throw new RuntimeException("Unable to initialize GLFW.");
 		
 		glfwWindowHint(GLFW_SAMPLES, 4);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 		window = glfwCreateWindow(width, height, game.getTitle(), NULL, NULL);
 		if(window == NULL) throw new RuntimeException("Unable to create window.");
 		GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSetWindowPos(window, (mode.width() - width) / 2, (mode.height() - height) / 2);
 		glfwMakeContextCurrent(window);
-		glfwSwapInterval(1);
+		glfwSwapInterval(0);
 		glfwShowWindow(window);
 		createCapabilities();
+		
+		inputHandler = new Input();
+		inputHandler.init(window, width, height);
 	}
 	
 	private void run()
 	{
-		boolean render = false;
-		final double frameTime = Time.SECOND / 500.0;
-		
 		int fps = 0;
 		long framesCounter = 0;
-		
 		long lastTime = System.nanoTime();
-		long unprocessedTime = 0;
 		
 		while(running)
 		{
 			long passedTime = System.nanoTime() - lastTime;
 			lastTime = System.nanoTime();
-			unprocessedTime += passedTime;
 			framesCounter += passedTime;
-			
-			while(unprocessedTime > frameTime)
+			if(glfwWindowShouldClose(window))
 			{
-				if(glfwWindowShouldClose(window))
-				{
-					stop();
-					break;
-				}
-				render = true;
-				unprocessedTime -= frameTime;
-				Time.setDelta(frameTime);
-				update();
-				if(framesCounter >= Time.SECOND)
-				{
-					System.out.println(fps);
-					fps = 0;
-					framesCounter = 0;
-				}
+				stop();
+				break;
 			}
-			if(render)
+			Time.setDelta(passedTime);
+			update();
+			render();
+			fps++;
+			if(framesCounter >= Time.SECOND)
 			{
-				render();
-				render = false;
-				fps++;
-			}
-			else
-			{
-				try
-				{
-					Thread.sleep(1);
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
+				System.out.println(fps);
+				fps = 0;
+				framesCounter = 0;
 			}
 		}
 	}
 	
 	private void update()
 	{
-		game.update();
 		glfwPollEvents();
+		game.update();
+		inputHandler.update();
 	}
 	
 	private void render()
@@ -140,18 +120,14 @@ public class CoreEngine
 		return width;
 	}
 	
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
-	
 	public int getHeight()
 	{
 		return height;
 	}
 	
-	public void setHeight(int height)
+	public void setSize(int width, int height)
 	{
+		this.width = width;
 		this.height = height;
 	}
 }

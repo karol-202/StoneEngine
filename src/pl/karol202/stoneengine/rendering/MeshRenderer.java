@@ -1,6 +1,6 @@
 package pl.karol202.stoneengine.rendering;
 
-import pl.karol202.stoneengine.core.GameComponent;
+import pl.karol202.stoneengine.component.GameComponent;
 import pl.karol202.stoneengine.rendering.shader.Shader;
 
 public class MeshRenderer extends GameComponent
@@ -10,6 +10,7 @@ public class MeshRenderer extends GameComponent
 	
 	public MeshRenderer(Mesh mesh, Shader shader)
 	{
+		super();
 		this.mesh = mesh;
 		this.shader = shader;
 	}
@@ -24,6 +25,7 @@ public class MeshRenderer extends GameComponent
 	public void render()
 	{
 		shader.bind();
+		shader.updateShader(getGameObject().getTransform());
 		mesh.draw();
 	}
 }

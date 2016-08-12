@@ -1,8 +1,9 @@
 package pl.karol202.stoneengine.rendering.shader;
 
 import pl.karol202.stoneengine.util.Matrix4f;
+import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Vector3f;
-import pl.karol202.stoneengine.utils.BufferUtils;
+import pl.karol202.stoneengine.util.BufferUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public class Shader
+public abstract class Shader
 {
 	private Map<String, Integer> uniforms;
 	private int program;
@@ -29,10 +30,10 @@ public class Shader
 		glUseProgram(program);
 	}
 	
-	public void addUniforms(String uniform)
+	public void addUniform(String uniform)
 	{
 		int uniformLocation = glGetUniformLocation(program, uniform);
-		if(uniformLocation == 0xFFFFFFFF) throw new RuntimeException("Cannot add uniform to shader.");
+		if(uniformLocation == -1) throw new RuntimeException("Cannot add uniform to shader.");
 		uniforms.put(uniform, uniformLocation);
 	}
 	
@@ -95,6 +96,8 @@ public class Shader
 	{
 		glUniformMatrix4fv(uniforms.get(uniformName), true, BufferUtils.createFlippedBuffer(value));
 	}
+	
+	public abstract void updateShader(Transform transform);
 	
 	public static String loadShader(String path)
 	{

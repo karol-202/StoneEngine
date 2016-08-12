@@ -4,14 +4,14 @@ public class Time
 {
 	public static final long SECOND = 1000000000L;
 	
-	private static double delta;
+	private static long delta;
 	
-	public static double getDelta()
+	public static long getDelta()
 	{
 		return delta;
 	}
 	
-	public static void setDelta(double delta)
+	public static void setDelta(long delta)
 	{
 		Time.delta = delta;
 	}

@@ -18,7 +18,15 @@ public class Transform
 		Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.getX(), translation.getY(), translation.getZ());
 		Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
 		Matrix4f scaleMatrix = new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
-		return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
+		return translationMatrix.mul(rotationMatrix).mul(scaleMatrix);
+	}
+	
+	public Transform invert()
+	{
+		Transform newTransform = new Transform();
+		newTransform.setTranslation(translation.mul(-1f));
+		newTransform.setRotation(rotation.mul(-1f));
+		return newTransform;
 	}
 	
 	public Vector3f getTranslation()
@@ -45,6 +53,7 @@ public class Transform
 	{
 		this.rotation = rotation;
 	}
+	
 	public void setRotation(float x, float y, float z)
 	{
 		this.rotation = new Vector3f(x, y, z);
