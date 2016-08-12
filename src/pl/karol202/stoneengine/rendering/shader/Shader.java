@@ -1,6 +1,7 @@
 package pl.karol202.stoneengine.rendering.shader;
 
 import pl.karol202.stoneengine.rendering.Material;
+import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Utils;
@@ -78,12 +79,12 @@ public abstract class Shader
 		glAttachShader(program, shader);
 	}
 	
-	public void setUniformi(String uniformName, int value)
+	public void setUniform(String uniformName, int value)
 	{
 		glUniform1i(uniforms.get(uniformName), value);
 	}
 	
-	public void setUniformf(String uniformName, float value)
+	public void setUniform(String uniformName, float value)
 	{
 		glUniform1f(uniforms.get(uniformName), value);
 	}
@@ -98,7 +99,7 @@ public abstract class Shader
 		glUniformMatrix4fv(uniforms.get(uniformName), true, Utils.createFlippedBuffer(value));
 	}
 	
-	public abstract void updateShader(Transform transform, Material material);
+	public abstract void updateShader(Transform transform, Material material, Light light);
 	
 	public static String loadShader(String path)
 	{

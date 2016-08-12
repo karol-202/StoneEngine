@@ -1,6 +1,7 @@
 package pl.karol202.stoneengine.rendering;
 
 import pl.karol202.stoneengine.component.GameComponent;
+import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.shader.Shader;
 
 public class MeshRenderer extends GameComponent
@@ -24,10 +25,10 @@ public class MeshRenderer extends GameComponent
 	public void update() { }
 	
 	@Override
-	public void render()
+	public void render(Shader shader, Light light)
 	{
 		shader.bind();
-		shader.updateShader(getGameObject().getTransform(), material);
+		shader.updateShader(getGameObject().getTransform(), material, light);
 		mesh.draw();
 	}
 }

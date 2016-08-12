@@ -1,6 +1,8 @@
 package pl.karol202.stoneengine.core;
 
 import pl.karol202.stoneengine.component.GameComponent;
+import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.Transform;
 
 import java.util.ArrayList;
@@ -36,11 +38,11 @@ public class GameObject
 		children.forEach(GameObject::update);
 	}
 	
-	public void render()
+	public void render(Shader shader, Light light)
 	{
 		if(!enabled) return;
-		components.forEach((comp) -> { if(comp.isEnabled()) comp.render(); });
-		children.forEach(GameObject::render);
+		components.forEach((comp) -> { if(comp.isEnabled()) comp.render(shader, light); });
+		children.forEach((object) -> object.render(shader, light));
 	}
 	
 	public void addChild(GameObject object)

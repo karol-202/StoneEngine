@@ -6,16 +6,18 @@ import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 
-public class BasicShader extends Shader
+public class ForwardAmbientShader extends Shader
 {
-	public BasicShader()
+	public ForwardAmbientShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/basic/basic.vs"));
-		addFragmentShader(loadShader("./res/shaders/basic/basic.fs"));
+		addVertexShader(loadShader("./res/shaders/forward/ambient.vs"));
+		addFragmentShader(loadShader("./res/shaders/forward/ambient.fs"));
 		compileShader();
 		addUniform("MVP");
-		addUniform("color");
+		addUniform("matColor");
+		addUniform("lightColor");
+		addUniform("lightIntensity");
 	}
 	
 	@Override
@@ -25,6 +27,8 @@ public class BasicShader extends Shader
 		
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transform.getTransformation());
 		setUniform("MVP", MVP);
-		setUniform("color", material.getColor());
+		setUniform("matColor", material.getColor());
+		setUniform("lightColor", light.getColor());
+		setUniform("lightIntensity", light.getIntensity());
 	}
 }

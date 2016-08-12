@@ -1,6 +1,8 @@
 package pl.karol202.stoneengine.component;
 
 import pl.karol202.stoneengine.core.GameObject;
+import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.shader.Shader;
 
 public abstract class GameComponent
 {
@@ -16,7 +18,7 @@ public abstract class GameComponent
 	
 	public abstract void update();
 	
-	public abstract void render();
+	public abstract void render(Shader shader, Light light);
 	
 	public GameObject getGameObject()
 	{

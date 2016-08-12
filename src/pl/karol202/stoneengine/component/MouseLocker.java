@@ -1,6 +1,8 @@
 package pl.karol202.stoneengine.component;
 
 import pl.karol202.stoneengine.core.Input;
+import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.shader.Shader;
 
 public class MouseLocker extends GameComponent
 {
@@ -25,5 +27,5 @@ public class MouseLocker extends GameComponent
 	}
 	
 	@Override
-	public void render() { }
+	public void render(Shader shader, Light light) { }
 }

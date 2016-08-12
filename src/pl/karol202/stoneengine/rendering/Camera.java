@@ -1,6 +1,8 @@
 package pl.karol202.stoneengine.rendering;
 
 import pl.karol202.stoneengine.component.GameComponent;
+import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Utils;
@@ -35,7 +37,7 @@ public class Camera extends GameComponent
 	public void update() { }
 	
 	@Override
-	public void render() { }
+	public void render(Shader shader, Light light) { }
 	
 	private void updateProjection()
 	{

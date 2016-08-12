@@ -1,6 +1,8 @@
 package pl.karol202.stoneengine.component;
 
 import pl.karol202.stoneengine.core.Input;
+import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.*;
 
 public class FPPController extends GameComponent
@@ -51,7 +53,7 @@ public class FPPController extends GameComponent
 	}
 	
 	@Override
-	public void render() { }
+	public void render(Shader shader, Light light) { }
 	
 	private void move()
 	{
