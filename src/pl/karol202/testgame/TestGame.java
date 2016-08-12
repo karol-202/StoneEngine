@@ -9,10 +9,8 @@ import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.Camera;
 import pl.karol202.stoneengine.rendering.Mesh;
 import pl.karol202.stoneengine.rendering.MeshRenderer;
-import pl.karol202.stoneengine.rendering.Vertex;
 import pl.karol202.stoneengine.rendering.shader.BasicShader;
 import pl.karol202.stoneengine.rendering.shader.Shader;
-import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
 
@@ -37,10 +35,7 @@ public class TestGame implements Game
 	public void init()
 	{
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
-		Vertex[] vertices = new Vertex[] {new Vertex(new Vector3f(-1f, -1f, 0f)),
-										  new Vertex(new Vector3f(0f, 1f, 0f)),
-										  new Vertex(new Vector3f(1f, -1f, 0f))};
-		Mesh mesh = new Mesh(vertices);
+		Mesh mesh = Mesh.loadMesh("./res/meshes/box.obj");
 		Shader shader = new BasicShader();
 		MeshRenderer renderer = new MeshRenderer(mesh, shader);
 		GameObject triangle = new GameObject();
