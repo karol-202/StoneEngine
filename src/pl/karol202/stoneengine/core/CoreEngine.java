@@ -6,9 +6,7 @@ import pl.karol202.stoneengine.util.Time;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class CoreEngine
@@ -67,6 +65,9 @@ public class CoreEngine
 		glfwSwapInterval(0);
 		glfwShowWindow(window);
 		createCapabilities();
+		
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 		
 		inputHandler = new Input();
 		inputHandler.init(window, width, height);

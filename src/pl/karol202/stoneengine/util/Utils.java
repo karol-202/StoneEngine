@@ -18,6 +18,9 @@ public class Utils
 			buffer.put(vertex.getPos().getX());
 			buffer.put(vertex.getPos().getY());
 			buffer.put(vertex.getPos().getZ());
+			buffer.put(vertex.getNormal().getX());
+			buffer.put(vertex.getNormal().getY());
+			buffer.put(vertex.getNormal().getZ());
 		}
 		buffer.flip();
 		return buffer;

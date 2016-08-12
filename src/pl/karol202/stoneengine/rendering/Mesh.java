@@ -46,11 +46,14 @@ public class Mesh
 	public void draw()
 	{
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, false, Vertex.SIZE * 4, 12);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 	}
 	
 	public static Mesh loadMesh(String path)
@@ -122,7 +125,7 @@ public class Mesh
 					indices.add(verts[1]);
 					indices.add(verts[2]);
 					
-					if(verts.length > 4)
+					if(verts.length > 3)
 					{
 						indices.add(verts[0]);
 						indices.add(verts[2]);

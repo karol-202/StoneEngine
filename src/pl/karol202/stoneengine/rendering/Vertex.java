@@ -5,7 +5,7 @@ import pl.karol202.stoneengine.util.Vector3f;
 
 public class Vertex
 {
-	public static final int SIZE = 3;
+	public static final int SIZE = 6;
 	
 	private Vector3f pos;
 	private Vector2f texCoord;
