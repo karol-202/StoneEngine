@@ -3,7 +3,7 @@ package pl.karol202.stoneengine.rendering.shader;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Vector3f;
-import pl.karol202.stoneengine.util.BufferUtils;
+import pl.karol202.stoneengine.util.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -94,7 +94,7 @@ public abstract class Shader
 	
 	public void setUniform(String uniformName, Matrix4f value)
 	{
-		glUniformMatrix4fv(uniforms.get(uniformName), true, BufferUtils.createFlippedBuffer(value));
+		glUniformMatrix4fv(uniforms.get(uniformName), true, Utils.createFlippedBuffer(value));
 	}
 	
 	public abstract void updateShader(Transform transform);

@@ -44,7 +44,7 @@ public class TestGame implements Game
 		root.addChild(triangle);
 		
 		Camera camera = new Camera(70f, 0.1f, 100f, (float) WIDTH / HEIGHT);
-		FPPController controller = new FPPController(true, true, true, 3f, 0.4f);
+		FPPController controller = new FPPController(3f, 0.4f);
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);
 		camObject.addComponent(controller);

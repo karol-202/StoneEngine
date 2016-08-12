@@ -1,18 +1,17 @@
 package pl.karol202.stoneengine.component;
 
 import pl.karol202.stoneengine.core.Input;
-import pl.karol202.stoneengine.util.Time;
-import pl.karol202.stoneengine.util.Transform;
-import pl.karol202.stoneengine.util.Vector2f;
-import pl.karol202.stoneengine.util.Vector3f;
+import pl.karol202.stoneengine.util.*;
 
 public class FPPController extends GameComponent
 {
-	private boolean move;
-	private boolean lookX;
-	private boolean lookY;
+	private boolean moving;
+	private boolean lookingX;
+	private boolean lookingY;
 	private float moveSpeed;
 	private float lookSpeed;
+	private float xRangeMin;
+	private float xRangeMax;
 	private int keyForward;
 	private int keyBackward;
 	private int keyLeft;
@@ -20,14 +19,16 @@ public class FPPController extends GameComponent
 	private int keyUp;
 	private int keyDown;
 	
-	public FPPController(boolean move, boolean lookX, boolean lookY, float moveSpeed, float lookSpeed)
+	public FPPController(float moveSpeed, float lookSpeed)
 	{
 		super();
-		this.move = move;
-		this.lookX = lookX;
-		this.lookY = lookY;
+		this.moving = true;
+		this.lookingX = true;
+		this.lookingY = true;
 		this.moveSpeed = moveSpeed;
 		this.lookSpeed = lookSpeed;
+		this.xRangeMin = -90;
+		this.xRangeMax = 90;
 		this.keyForward = Input.KEY_W;
 		this.keyBackward = Input.KEY_S;
 		this.keyLeft = Input.KEY_A;
@@ -42,11 +43,11 @@ public class FPPController extends GameComponent
 	@Override
 	public void update()
 	{
-		if(move) move();
+		if(moving) move();
 		
 		Vector2f delta = Input.getMouseDelta();
-		if(lookX && delta.getX() != 0) lookX(delta.getX());
-		if(lookY && delta.getY() != 0) lookY(delta.getY());
+		if(lookingX && delta.getX() != 0) lookX(delta.getX());
+		if(lookingY && delta.getY() != 0) lookY(delta.getY());
 	}
 	
 	@Override
@@ -58,22 +59,22 @@ public class FPPController extends GameComponent
 		
 		if(Input.isKeyDown(keyForward))
 		{
-			Vector3f move = getForward(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
+			Vector3f move = getFlatForward(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
 			transform.setTranslation(transform.getTranslation().add(move));
 		}
 		if(Input.isKeyDown(keyBackward))
 		{
-			Vector3f move = getForward(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
+			Vector3f move = getFlatForward(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
 			transform.setTranslation(transform.getTranslation().sub(move));
 		}
 		if(Input.isKeyDown(keyLeft))
 		{
-			Vector3f move = getRight(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
+			Vector3f move = Utils.getRightFromEuler(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
 			transform.setTranslation(transform.getTranslation().sub(move));
 		}
 		if(Input.isKeyDown(keyRight))
 		{
-			Vector3f move = getRight(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
+			Vector3f move = Utils.getRightFromEuler(transform.getRotation()).mul((float) (getDeltaSeconds() * moveSpeed));
 			transform.setTranslation(transform.getTranslation().add(move));
 		}
 		if(Input.isKeyDown(keyUp))
@@ -88,6 +89,11 @@ public class FPPController extends GameComponent
 		}
 	}
 	
+	private Vector3f getFlatForward(Vector3f euler)
+	{
+		return Utils.getForwardFromEuler(euler).mul(new Vector3f(1f, 0f, 1f)).normalized();
+	}
+	
 	private void lookX(float delta)
 	{
 		float rotY = getGameObject().getTransform().getRotation().getY() + (getDeltaMilis() * -lookSpeed * delta);
@@ -96,27 +102,10 @@ public class FPPController extends GameComponent
 	
 	private void lookY(float delta)
 	{
-		
-	}
-	
-	private Vector3f getForward(Vector3f euler)
-	{
-		Vector3f forward = new Vector3f();
-		double x = Math.toRadians(euler.getX());
-		double y = -Math.toRadians(euler.getY());
-		forward.setX((float) (Math.cos(x) * Math.sin(y)));
-		forward.setY((float) (Math.sin(x)));
-		forward.setZ((float) (Math.cos(x) * Math.cos(y)));
-		return forward;
-	}
-	
-	private Vector3f getRight(Vector3f euler)
-	{
-		Vector3f right = new Vector3f();
-		double y = Math.toRadians(-euler.getY() + 90);
-		right.setX((float) Math.sin(y));
-		right.setZ((float) Math.cos(y));
-		return right;
+		float rotX = getGameObject().getTransform().getRotation().getX() + (getDeltaMilis() * lookSpeed * delta);
+		if(rotX < xRangeMin) rotX = xRangeMin;
+		if(rotX > xRangeMax) rotX = xRangeMax;
+		getGameObject().getTransform().getRotation().setX(rotX);
 	}
 	
 	private float getDeltaMilis()
@@ -127,6 +116,36 @@ public class FPPController extends GameComponent
 	private double getDeltaSeconds()
 	{
 		return Time.getDelta() / (double) Time.SECOND;
+	}
+	
+	public boolean isMoving()
+	{
+		return moving;
+	}
+	
+	public void setMoving(boolean moving)
+	{
+		this.moving = moving;
+	}
+	
+	public boolean isLookingX()
+	{
+		return lookingX;
+	}
+	
+	public void setLookingX(boolean lookingX)
+	{
+		this.lookingX = lookingX;
+	}
+	
+	public boolean isLookingY()
+	{
+		return lookingY;
+	}
+	
+	public void setLookingY(boolean lookingY)
+	{
+		this.lookingY = lookingY;
 	}
 	
 	public float getMoveSpeed()
@@ -147,6 +166,26 @@ public class FPPController extends GameComponent
 	public void setLookSpeed(float lookSpeed)
 	{
 		this.lookSpeed = lookSpeed;
+	}
+	
+	public float getxRangeMin()
+	{
+		return xRangeMin;
+	}
+	
+	public void setxRangeMin(float xRangeMin)
+	{
+		this.xRangeMin = xRangeMin;
+	}
+	
+	public float getxRangeMax()
+	{
+		return xRangeMax;
+	}
+	
+	public void setxRangeMax(float xRangeMax)
+	{
+		this.xRangeMax = xRangeMax;
 	}
 	
 	public int getKeyForward()

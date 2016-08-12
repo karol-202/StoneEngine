@@ -8,7 +8,7 @@ import java.nio.IntBuffer;
 import static org.lwjgl.BufferUtils.createFloatBuffer;
 import static org.lwjgl.BufferUtils.createIntBuffer;
 
-public class BufferUtils
+public class Utils
 {
 	public static FloatBuffer createFlippedBuffer(Vertex[] vertices)
 	{
@@ -43,5 +43,25 @@ public class BufferUtils
 		buffer.put(values);
 		buffer.flip();
 		return buffer;
+	}
+	
+	public static Vector3f getForwardFromEuler(Vector3f euler)
+	{
+		Vector3f forward = new Vector3f();
+		double x = Math.toRadians(-euler.getX());
+		double y = Math.toRadians(-euler.getY());
+		forward.setX((float) (Math.cos(x) * Math.sin(y)));
+		forward.setY((float) (Math.sin(x)));
+		forward.setZ((float) (Math.cos(x) * Math.cos(y)));
+		return forward;
+	}
+	
+	public static Vector3f getRightFromEuler(Vector3f euler)
+	{
+		Vector3f right = new Vector3f();
+		double y = Math.toRadians(-euler.getY() + 90);
+		right.setX((float) Math.sin(y));
+		right.setZ((float) Math.cos(y));
+		return right;
 	}
 }

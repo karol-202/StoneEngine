@@ -1,6 +1,6 @@
 package pl.karol202.stoneengine.rendering;
 
-import pl.karol202.stoneengine.util.BufferUtils;
+import pl.karol202.stoneengine.util.Utils;
 import pl.karol202.stoneengine.util.Vector2f;
 import pl.karol202.stoneengine.util.Vector3f;
 
@@ -37,10 +37,10 @@ public class Mesh
 		size = indices.length;
 		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, BufferUtils.createFlippedBuffer(vertices), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, Utils.createFlippedBuffer(vertices), GL_STATIC_DRAW);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferUtils.createFlippedBuffer(indices), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
 	
 	public void draw()

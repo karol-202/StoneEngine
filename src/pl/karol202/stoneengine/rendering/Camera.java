@@ -2,6 +2,8 @@ package pl.karol202.stoneengine.rendering;
 
 import pl.karol202.stoneengine.component.GameComponent;
 import pl.karol202.stoneengine.util.Matrix4f;
+import pl.karol202.stoneengine.util.Transform;
+import pl.karol202.stoneengine.util.Utils;
 
 public class Camera extends GameComponent
 {
@@ -86,13 +88,11 @@ public class Camera extends GameComponent
 	
 	private Matrix4f getViewMatrix()
 	{
-		//return getGameObject().getTransform().invert().getTransformation();
-		Matrix4f cameraRotation = new Matrix4f().initRotation(-getGameObject().getTransform().getRotation().getX(),
-				-getGameObject().getTransform().getRotation().getY(),
-				-getGameObject().getTransform().getRotation().getZ());
-		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-getGameObject().getTransform().getTranslation().getX(),
-				-getGameObject().getTransform().getTranslation().getY(),
-				-getGameObject().getTransform().getTranslation().getZ());
+		Transform tr = getGameObject().getTransform();
+		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
+		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-tr.getTranslation().getX(),
+																	-tr.getTranslation().getY(),
+																	-tr.getTranslation().getZ());
 		
 		return cameraRotation.mul(cameraTranslation);
 	}
