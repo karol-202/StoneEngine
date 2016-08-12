@@ -6,11 +6,10 @@ import pl.karol202.stoneengine.core.CoreEngine;
 import pl.karol202.stoneengine.core.Game;
 import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.core.Input;
-import pl.karol202.stoneengine.rendering.Camera;
-import pl.karol202.stoneengine.rendering.Mesh;
-import pl.karol202.stoneengine.rendering.MeshRenderer;
+import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.shader.BasicShader;
 import pl.karol202.stoneengine.rendering.shader.Shader;
+import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
 
@@ -35,12 +34,15 @@ public class TestGame implements Game
 	public void init()
 	{
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
-		Mesh mesh = Mesh.loadMesh("./res/meshes/box.obj");
+		Mesh mesh = Mesh.loadMesh("./res/meshes/hammer.obj");
+		Material material = new Material();
+		material.setColor(new Vector3f(1f, 1f, 1f));
+		material.setTexture(Texture.loadTexture("./res/textures/hammer.png"));
 		Shader shader = new BasicShader();
-		MeshRenderer renderer = new MeshRenderer(mesh, shader);
+		MeshRenderer renderer = new MeshRenderer(mesh, material, shader);
 		GameObject triangle = new GameObject();
 		triangle.addComponent(renderer);
-		triangle.getTransform().setTranslation(0f, 0f, 2f);
+		triangle.getTransform().setScale(3f, 3f, 3f);
 		root.addChild(triangle);
 		
 		Camera camera = new Camera(70f, 0.1f, 100f, (float) WIDTH / HEIGHT);
@@ -48,8 +50,7 @@ public class TestGame implements Game
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);
 		camObject.addComponent(controller);
-		//camObject.getTransform().setTranslation(-1f, 0f, -1f);
-		//camObject.getTransform().setRotation(0f, 40f, 0f);
+		camObject.getTransform().setTranslation(0f, 0f, -2f);
 		root.addChild(camObject);
 		
 		MouseLocker mouseLocker = new MouseLocker(true);

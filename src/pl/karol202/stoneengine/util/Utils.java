@@ -2,9 +2,11 @@ package pl.karol202.stoneengine.util;
 
 import pl.karol202.stoneengine.rendering.Vertex;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import static org.lwjgl.BufferUtils.createByteBuffer;
 import static org.lwjgl.BufferUtils.createFloatBuffer;
 import static org.lwjgl.BufferUtils.createIntBuffer;
 
@@ -18,6 +20,8 @@ public class Utils
 			buffer.put(vertex.getPos().getX());
 			buffer.put(vertex.getPos().getY());
 			buffer.put(vertex.getPos().getZ());
+			buffer.put(vertex.getTexCoord().getX());
+			buffer.put(vertex.getTexCoord().getY());
 			buffer.put(vertex.getNormal().getX());
 			buffer.put(vertex.getNormal().getY());
 			buffer.put(vertex.getNormal().getZ());
@@ -43,6 +47,14 @@ public class Utils
 	public static IntBuffer createFlippedBuffer(int... values)
 	{
 		IntBuffer buffer = createIntBuffer(values.length);
+		buffer.put(values);
+		buffer.flip();
+		return buffer;
+	}
+	
+	public static ByteBuffer createFlippedBuffer(byte... values)
+	{
+		ByteBuffer buffer = createByteBuffer(values.length);
 		buffer.put(values);
 		buffer.flip();
 		return buffer;

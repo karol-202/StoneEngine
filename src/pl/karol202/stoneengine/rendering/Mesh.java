@@ -47,13 +47,16 @@ public class Mesh
 	{
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, Vertex.SIZE * 4, 12);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12);
+		glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * 4, 20);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 	}
 	
 	public static Mesh loadMesh(String path)
@@ -61,12 +64,15 @@ public class Mesh
 		String[] splitArray = path.split("\\.");
 		String ext = splitArray[splitArray.length - 1];
 		
-		if(!ext.equals("obj"))
+		if(ext.equals("obj")) return loadMeshFromOBJ(path);
+		else
 		{
-			new RuntimeException("File format not supported for mesh data: " + ext).printStackTrace();
-			System.exit(1);
+			throw new RuntimeException("File format not supported for mesh data: " + ext);
 		}
-		
+	}
+	
+	private static Mesh loadMeshFromOBJ(String path)
+	{
 		ArrayList<Vector3f> vertPos = new ArrayList<>();
 		ArrayList<Vector2f> vertTexture = new ArrayList<>();
 		ArrayList<Vector3f> vertNormal = new ArrayList<>();
@@ -86,15 +92,15 @@ public class Mesh
 				if(tokens.length == 0 || tokens[0].equals("#")) continue;
 				if(tokens[0].equals("v"))
 					vertPos.add(new Vector3f(Float.valueOf(tokens[1]),
-											 Float.valueOf(tokens[2]),
-											 Float.valueOf(tokens[3])));
+							Float.valueOf(tokens[2]),
+							Float.valueOf(tokens[3])));
 				if(tokens[0].equals("vt"))
 					vertTexture.add(new Vector2f(Float.valueOf(tokens[1]),
-												 Float.valueOf(tokens[2])));
+							Float.valueOf(tokens[2])));
 				if(tokens[0].equals("vn"))
 					vertNormal.add(new Vector3f(Float.valueOf(tokens[1]),
-												Float.valueOf(tokens[2]),
-												Float.valueOf(tokens[3])));
+							Float.valueOf(tokens[2]),
+							Float.valueOf(tokens[3])));
 				if(tokens[0].equals("f"))
 				{
 					int[] verts = new int[tokens.length - 1];
@@ -148,7 +154,7 @@ public class Mesh
 		}
 	}
 	
-	public static String[] removeEmptyStrings(String[] data)
+	private static String[] removeEmptyStrings(String[] data)
 	{
 		List<String> result = new ArrayList<>();
 		for(String str : data)
@@ -163,7 +169,7 @@ public class Mesh
 		return res;
 	}
 	
-	public static int[] toIntArray(Integer[] data)
+	private static int[] toIntArray(Integer[] data)
 	{
 		int[] result = new int[data.length];
 		for(int i = 0; i < data.length; i++)

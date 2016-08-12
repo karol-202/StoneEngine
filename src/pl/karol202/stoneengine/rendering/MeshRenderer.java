@@ -6,12 +6,14 @@ import pl.karol202.stoneengine.rendering.shader.Shader;
 public class MeshRenderer extends GameComponent
 {
 	private Mesh mesh;
+	private Material material;
 	private Shader shader;
 	
-	public MeshRenderer(Mesh mesh, Shader shader)
+	public MeshRenderer(Mesh mesh, Material material, Shader shader)
 	{
 		super();
 		this.mesh = mesh;
+		this.material = material;
 		this.shader = shader;
 	}
 	
@@ -25,7 +27,7 @@ public class MeshRenderer extends GameComponent
 	public void render()
 	{
 		shader.bind();
-		shader.updateShader(getGameObject().getTransform());
+		shader.updateShader(getGameObject().getTransform(), material);
 		mesh.draw();
 	}
 }
