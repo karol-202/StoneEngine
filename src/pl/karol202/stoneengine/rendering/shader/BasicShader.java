@@ -4,7 +4,6 @@ import pl.karol202.stoneengine.rendering.Camera;
 import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
-import pl.karol202.stoneengine.util.Transform;
 
 public class BasicShader extends Shader
 {
@@ -19,11 +18,11 @@ public class BasicShader extends Shader
 	}
 	
 	@Override
-	public void updateShader(Transform transform, Material material, Light light)
+	public void updateShader(Matrix4f transformation, Material material, Light light)
 	{
 		material.getTexture().bind();
 		
-		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transform.getTransformation());
+		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("color", material.getColor());
 	}

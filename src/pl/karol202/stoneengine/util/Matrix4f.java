@@ -27,6 +27,11 @@ public class Matrix4f
 		return this;
 	}
 	
+	public Matrix4f initRotation(Vector3f euler)
+	{
+		return initRotation(euler.getX(), euler.getY(), euler.getZ());
+	}
+	
 	public Matrix4f initRotation(float x, float y, float z)
 	{
 		Matrix4f rx = new Matrix4f();

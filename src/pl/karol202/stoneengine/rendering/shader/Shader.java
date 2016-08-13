@@ -3,7 +3,6 @@ package pl.karol202.stoneengine.rendering.shader;
 import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
-import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Utils;
 import pl.karol202.stoneengine.util.Vector3f;
 
@@ -99,7 +98,7 @@ public abstract class Shader
 		glUniformMatrix4fv(uniforms.get(uniformName), true, Utils.createFlippedBuffer(value));
 	}
 	
-	public abstract void updateShader(Transform transform, Material material, Light light);
+	public abstract void updateShader(Matrix4f transformation, Material material, Light light);
 	
 	public static String loadShader(String path)
 	{

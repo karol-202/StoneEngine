@@ -3,6 +3,7 @@ package pl.karol202.stoneengine.core;
 import pl.karol202.stoneengine.component.GameComponent;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.shader.Shader;
+import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 
 import java.util.ArrayList;
@@ -11,17 +12,21 @@ public class GameObject
 {
 	private GameObject parent;
 	private Transform transform;
+	private Matrix4f transformation;
 	private boolean enabled;
 	private ArrayList<GameComponent> components;
 	private ArrayList<GameObject> children;
+	private Transform previousTransform;
 	
 	public GameObject()
 	{
 		parent = null;
 		transform = new Transform();
+		transformation = transform.getTransformation();
 		enabled = true;
 		components = new ArrayList<>();
 		children = new ArrayList<>();
+		previousTransform = new Transform(transform);
 	}
 	
 	public void init()
@@ -34,6 +39,12 @@ public class GameObject
 	public void update()
 	{
 		if(!enabled) return;
+		if(!previousTransform.equals(transform))
+		{
+			transformation = transform.getTransformation();
+			previousTransform = new Transform(transform);
+		}
+		
 		components.forEach((comp) -> { if(comp.isEnabled()) comp.update(); });
 		children.forEach(GameObject::update);
 	}
@@ -48,7 +59,7 @@ public class GameObject
 	public void addChild(GameObject object)
 	{
 		children.add(object);
-		object.setParent(this);
+		object.parent = this;
 	}
 	
 	public void addComponent(GameComponent component)
@@ -60,7 +71,7 @@ public class GameObject
 	public void removeChild(GameObject object)
 	{
 		children.remove(object);
-		object.setParent(null);
+		object.parent = null;
 	}
 	
 	public void removeComponent(GameComponent component)
@@ -74,14 +85,14 @@ public class GameObject
 		return parent;
 	}
 	
-	public void setParent(GameObject parent)
-	{
-		this.parent = parent;
-	}
-	
 	public Transform getTransform()
 	{
 		return transform;
+	}
+	
+	public Matrix4f getTransformation()
+	{
+		return transformation;
 	}
 	
 	public boolean isEnabled()

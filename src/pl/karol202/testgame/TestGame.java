@@ -7,6 +7,7 @@ import pl.karol202.stoneengine.core.Game;
 import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
+import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.shader.BasicShader;
 import pl.karol202.stoneengine.rendering.shader.Shader;
@@ -36,6 +37,11 @@ public class TestGame implements Game
 	{
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
 		ForwardRendering.setAmbientLight(new Light(new Vector3f(0.18f, 0.19f, 0.2f), 1f));
+		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0.8f, 1f, 0.6f), 1f);
+		GameObject lightObject = new GameObject();
+		lightObject.getTransform().setRotation(90f, 0f, 45f);
+		lightObject.addComponent(directionalLight);
+		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/hammer.obj");
 		Material material = new Material();

@@ -13,6 +13,13 @@ public class Transform
 		scale = new Vector3f(1, 1, 1);
 	}
 
+	public Transform(Transform copy)
+	{
+		translation = copy.getTranslation();
+		rotation = copy.getRotation();
+		scale = copy.getScale();
+	}
+	
 	public Matrix4f getTransformation()
 	{
 		Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.getX(), translation.getY(), translation.getZ());
@@ -21,12 +28,16 @@ public class Transform
 		return translationMatrix.mul(rotationMatrix).mul(scaleMatrix);
 	}
 	
-	public Transform invert()
+	@Override
+	public boolean equals(Object o)
 	{
-		Transform newTransform = new Transform();
-		newTransform.setTranslation(translation.mul(-1f));
-		newTransform.setRotation(rotation.mul(-1f));
-		return newTransform;
+		if(o == null || getClass() != o.getClass()) return false;
+		
+		Transform transform = (Transform) o;
+		
+		if(!translation.equals(transform.translation)) return false;
+		if(!rotation.equals(transform.rotation)) return false;
+		return scale.equals(transform.scale);
 	}
 	
 	public Vector3f getTranslation()

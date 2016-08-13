@@ -127,15 +127,11 @@ public class Mesh
 						}
 					}
 					
-					indices.add(verts[0]);
-					indices.add(verts[1]);
-					indices.add(verts[2]);
-					
-					if(verts.length > 3)
+					for(int i = 0; i < verts.length - 2; i++)
 					{
 						indices.add(verts[0]);
-						indices.add(verts[2]);
-						indices.add(verts[3]);
+						indices.add(verts[1 + i]);
+						indices.add(verts[2 + i]);
 					}
 				}
 			}
