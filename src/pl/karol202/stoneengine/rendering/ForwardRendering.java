@@ -3,8 +3,10 @@ package pl.karol202.stoneengine.rendering;
 import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.light.PointLight;
 import pl.karol202.stoneengine.rendering.shader.ForwardAmbientShader;
 import pl.karol202.stoneengine.rendering.shader.ForwardDirectionalShader;
+import pl.karol202.stoneengine.rendering.shader.ForwardPointShader;
 
 import java.util.ArrayList;
 
@@ -14,9 +16,11 @@ public class ForwardRendering
 {
 	private static ForwardAmbientShader ambientShader = new ForwardAmbientShader();
 	private static ForwardDirectionalShader directionalShader = new ForwardDirectionalShader();
+	private static ForwardPointShader pointShader = new ForwardPointShader();
 	
 	private static Light ambientLight;
 	private static ArrayList<DirectionalLight> directionalLights = new ArrayList<>();
+	private static ArrayList<PointLight> pointLights = new ArrayList<>();
 	
 	public static void render(GameObject gameObject)
 	{
@@ -26,7 +30,8 @@ public class ForwardRendering
 		glDepthMask(false);
 		glDepthFunc(GL_EQUAL);
 		
-		directionalLights.forEach((light) -> gameObject.render(directionalShader, light));
+		directionalLights.forEach((light) -> { if(light.isEnabled()) gameObject.render(directionalShader, light); });
+		pointLights.forEach((light) -> { if(light.isEnabled()) gameObject.render(pointShader, light); });
 		
 		glDepthFunc(GL_LESS);
 		glDepthMask(true);
@@ -46,5 +51,10 @@ public class ForwardRendering
 	public static void addDirectionalLight(DirectionalLight light)
 	{
 		directionalLights.add(light);
+	}
+	
+	public static void addPointLight(PointLight light)
+	{
+		pointLights.add(light);
 	}
 }

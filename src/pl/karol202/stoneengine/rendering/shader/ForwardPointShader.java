@@ -2,21 +2,19 @@ package pl.karol202.stoneengine.rendering.shader;
 
 import pl.karol202.stoneengine.rendering.Camera;
 import pl.karol202.stoneengine.rendering.Material;
-import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.light.PointLight;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL13.*;
 
-public class ForwardDirectionalShader extends Shader
+public class ForwardPointShader extends Shader
 {
-	public ForwardDirectionalShader()
+	public ForwardPointShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/forward/directional.vs"));
-		addFragmentShader(loadShader("./res/shaders/forward/directional.fs"));
+		addVertexShader(loadShader("./res/shaders/forward/point.vs"));
+		addFragmentShader(loadShader("./res/shaders/forward/point.fs"));
 		compileShader();
 		addUniform("MVP");
 		addUniform("M");
@@ -27,13 +25,16 @@ public class ForwardDirectionalShader extends Shader
 		addUniform("specularTexture");
 		addUniform("lightColor");
 		addUniform("lightIntensity");
-		addUniform("lightRotation");
+		addUniform("lightPos");
+		addUniform("lightAttenLinear");
+		addUniform("lightAttenQuadratic");
+		addUniform("lightRange");
 	}
 	
 	@Override
 	public void updateShader(Matrix4f transformation, Material material, Light light)
 	{
-		if(!(light instanceof DirectionalLight))
+		if(!(light instanceof PointLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
 		
 		if(material.getDiffuseTexture() != null)
@@ -47,6 +48,7 @@ public class ForwardDirectionalShader extends Shader
 			material.getSpecularTexture().bind();
 		}
 		
+		PointLight pointLight = (PointLight) light;
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("M", transformation);
@@ -57,6 +59,9 @@ public class ForwardDirectionalShader extends Shader
 		setUniform("specularTexture", 1);
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
-		setUniform("lightRotation", light.getGameObject().getTransformation());
+		setUniform("lightPos", light.getGameObject().getTransform().getTranslation());
+		setUniform("lightAttenLinear", pointLight.getLightAttenLinear());
+		setUniform("lightAttenQuadratic", pointLight.getLightAttenQuadratic());
+		setUniform("lightRange", pointLight.getRange());
 	}
 }

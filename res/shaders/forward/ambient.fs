@@ -1,17 +1,17 @@
 #version 330
 
-in vec3 pos;
 in vec2 uv;
-in vec3 normal;
 
-uniform vec3 matColor;
-uniform sampler2D matTexture;
+uniform vec3 diffuseColor;
+uniform sampler2D diffuseTexture;
 uniform vec3 lightColor;
 uniform float lightIntensity;
 
+out vec4 fragColor;
+
 void main()
 {
-	vec4 material = texture2D(matTexture, uv) * vec4(matColor, 1);
-	vec4 light = vec4(lightColor, 1) * lightIntensity;
-	gl_FragColor = material * light;
+	vec4 diffuseMaterial = texture2D(diffuseTexture, uv) * vec4(diffuseColor, 1);
+	vec4 diffuseLight = vec4(lightColor, 1) * lightIntensity;
+	fragColor = diffuseMaterial * diffuseLight;
 }

@@ -31,14 +31,14 @@ public class GameObject
 	
 	public void init()
 	{
-		if(!enabled) return;
+		if(!isEnabled()) return;
 		components.forEach((comp) -> { if(comp.isEnabled()) comp.init(); });
 		children.forEach(GameObject::init);
 	}
 	
 	public void update()
 	{
-		if(!enabled) return;
+		if(!isEnabled()) return;
 		if(!previousTransform.equals(transform))
 		{
 			transformation = transform.getTransformation();
@@ -51,7 +51,7 @@ public class GameObject
 	
 	public void render(Shader shader, Light light)
 	{
-		if(!enabled) return;
+		if(!isEnabled()) return;
 		components.forEach((comp) -> { if(comp.isEnabled()) comp.render(shader, light); });
 		children.forEach((object) -> object.render(shader, light));
 	}
@@ -95,13 +95,18 @@ public class GameObject
 		return transformation;
 	}
 	
-	public boolean isEnabled()
+	public boolean isEnabledSelf()
 	{
 		return enabled;
 	}
 	
-	public void setEnabled(boolean enabled)
+	public void setEnabledSelf(boolean enabled)
 	{
 		this.enabled = enabled;
+	}
+	
+	public boolean isEnabled()
+	{
+		return (parent == null || parent.isEnabled()) && enabled;
 	}
 }

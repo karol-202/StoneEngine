@@ -11,13 +11,19 @@ uniform vec3 specularColor;
 uniform sampler2D specularTexture;
 uniform vec3 lightColor;
 uniform float lightIntensity;
-uniform mat4 lightRotation;
+uniform vec3 lightPos;
+uniform float lightAttenLinear;
+uniform float lightAttenQuadratic;
+uniform float lightRange;
 
 out vec4 fragColor;
 
 void main()
 {
-	vec3 lightDirection = normalize((lightRotation * vec4(0, 0, 1, 0)).xyz);
+	vec3 lightDirection = pos - lightPos;
+	float lightDistance = length(lightDirection);
+	if(lightDistance > lightRange) return;
+	lightDirection = normalize(lightDirection);
 	vec3 cameraDirection = normalize(cameraPos - pos);
 
 	vec4 diffuseMaterial = texture2D(diffuseTexture, uv) * vec4(diffuseColor, 1);
@@ -35,5 +41,8 @@ void main()
 	vec4 specularLight = vec4(lightColor, 1) * lightIntensity * specularFactor;
 	vec4 specular = specularMaterial * specularLight;
 	
-	fragColor = diffuse + specular;
+	float lightAtten = 1 / (1 + lightAttenLinear * lightDistance +
+							   lightAttenQuadratic * pow(lightDistance, 2));
+	
+	fragColor = (diffuse + specular) * lightAtten;
 }

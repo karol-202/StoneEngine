@@ -30,13 +30,18 @@ public abstract class GameComponent
 		this.gameObject = gameObject;
 	}
 	
-	public boolean isEnabled()
+	public boolean isEnabledSelf()
 	{
 		return enabled;
 	}
 	
-	public void setEnabled(boolean enabled)
+	public void setEnabledSelf(boolean enabled)
 	{
 		this.enabled = enabled;
+	}
+	
+	public boolean isEnabled()
+	{
+		return gameObject.isEnabled() && enabled;
 	}
 }

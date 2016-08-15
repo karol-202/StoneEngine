@@ -5,25 +5,21 @@ import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-public class BasicShader extends Shader
+public class DebugNormalShader extends Shader
 {
-	public BasicShader()
+	public DebugNormalShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/basic/basic.vs"));
-		addFragmentShader(loadShader("./res/shaders/basic/basic.fs"));
+		addVertexShader(loadShader("./res/shaders/debug/normals.vs"));
+		addFragmentShader(loadShader("./res/shaders/debug/normals.fs"));
 		compileShader();
 		addUniform("MVP");
-		addUniform("color");
 	}
 	
 	@Override
 	public void updateShader(Matrix4f transformation, Material material, Light light)
 	{
-		material.getDiffuseTexture().bind();
-		
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
-		setUniform("color", material.getDiffuseColor());
 	}
 }

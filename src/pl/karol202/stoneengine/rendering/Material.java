@@ -4,26 +4,49 @@ import pl.karol202.stoneengine.util.Vector3f;
 
 public class Material
 {
-	private Vector3f color;
-	private Texture texture;
+	private Vector3f diffuseColor;
+	private Texture diffuseTexture;
 	
-	public Vector3f getColor()
+	private Vector3f specularColor;
+	private Texture specularTexture;
+	
+	public Vector3f getDiffuseColor()
 	{
-		return color;
+		return diffuseColor;
 	}
 	
-	public void setColor(Vector3f color)
+	public void setDiffuseColor(Vector3f diffuseColor)
 	{
-		this.color = color;
+		this.diffuseColor = diffuseColor;
 	}
 	
-	public Texture getTexture()
+	public Texture getDiffuseTexture()
 	{
-		return texture;
+		return diffuseTexture;
 	}
 	
-	public void setTexture(Texture texture)
+	public void setDiffuseTexture(Texture diffuseTexture)
 	{
-		this.texture = texture;
+		this.diffuseTexture = diffuseTexture;
+	}
+	
+	public Vector3f getSpecularColor()
+	{
+		return specularColor;
+	}
+	
+	public void setSpecularColor(Vector3f specularColor)
+	{
+		this.specularColor = specularColor;
+	}
+	
+	public Texture getSpecularTexture()
+	{
+		return specularTexture;
+	}
+	
+	public void setSpecularTexture(Texture specularTexture)
+	{
+		this.specularTexture = specularTexture;
 	}
 }
