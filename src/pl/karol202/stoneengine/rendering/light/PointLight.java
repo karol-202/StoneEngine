@@ -5,8 +5,8 @@ import pl.karol202.stoneengine.util.Vector3f;
 
 public class PointLight extends Light
 {
-	private float lightAttenLinear;
-	private float lightAttenQuadratic;
+	private float attenLinear;
+	private float attenQuadratic;
 	private float range;
 	
 	public PointLight(Vector3f color, float intensity)
@@ -14,39 +14,38 @@ public class PointLight extends Light
 		this(color, intensity, 0f, 1f, 10f);
 	}
 	
-	public PointLight(Vector3f color, float intensity, float lightAttenLinear, float lightAttenQuadratic, float range)
+	public PointLight(Vector3f color, float intensity, float attenLinear, float attenQuadratic, float range)
 	{
 		super(color, intensity);
-		this.lightAttenLinear = lightAttenLinear;
-		this.lightAttenQuadratic = lightAttenQuadratic;
+		this.attenLinear = attenLinear;
+		this.attenQuadratic = attenQuadratic;
 		this.range = range;
 	}
 	
 	@Override
 	public void init()
 	{
-		super.init();
 		ForwardRendering.addPointLight(this);
 	}
 	
-	public float getLightAttenLinear()
+	public float getAttenLinear()
 	{
-		return lightAttenLinear;
+		return attenLinear;
 	}
 	
-	public void setLightAttenLinear(float lightAttenLinear)
+	public void setAttenLinear(float attenLinear)
 	{
-		this.lightAttenLinear = lightAttenLinear;
+		this.attenLinear = attenLinear;
 	}
 	
-	public float getLightAttenQuadratic()
+	public float getAttenQuadratic()
 	{
-		return lightAttenQuadratic;
+		return attenQuadratic;
 	}
 	
-	public void setLightAttenQuadratic(float lightAttenQuadratic)
+	public void setAttenQuadratic(float attenQuadratic)
 	{
-		this.lightAttenQuadratic = lightAttenQuadratic;
+		this.attenQuadratic = attenQuadratic;
 	}
 	
 	public float getRange()

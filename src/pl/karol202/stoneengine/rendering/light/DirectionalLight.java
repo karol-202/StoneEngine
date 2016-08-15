@@ -13,7 +13,6 @@ public class DirectionalLight extends Light
 	@Override
 	public void init()
 	{
-		super.init();
 		ForwardRendering.addDirectionalLight(this);
 	}
 }

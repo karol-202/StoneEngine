@@ -3,18 +3,18 @@ package pl.karol202.stoneengine.rendering.shader;
 import pl.karol202.stoneengine.rendering.Camera;
 import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
-import pl.karol202.stoneengine.rendering.light.PointLight;
+import pl.karol202.stoneengine.rendering.light.SpotLight;
 import pl.karol202.stoneengine.util.Matrix4f;
 
 import static org.lwjgl.opengl.GL13.*;
 
-public class ForwardPointShader extends Shader
+public class ForwardSpotShader extends Shader
 {
-	public ForwardPointShader()
+	public ForwardSpotShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/forward/point.vs"));
-		addFragmentShader(loadShader("./res/shaders/forward/point.fs"));
+		addVertexShader(loadShader("./res/shaders/forward/spot.vs"));
+		addFragmentShader(loadShader("./res/shaders/forward/spot.fs"));
 		compileShader();
 		addUniform("MVP");
 		addUniform("M");
@@ -26,15 +26,18 @@ public class ForwardPointShader extends Shader
 		addUniform("lightColor");
 		addUniform("lightIntensity");
 		addUniform("lightPos");
+		addUniform("lightSpotDirectionMat");
 		addUniform("lightAttenLinear");
 		addUniform("lightAttenQuadratic");
 		addUniform("lightRange");
+		addUniform("lightInnerAngle");
+		addUniform("lightOuterAngle");
 	}
 	
 	@Override
 	public void updateShader(Matrix4f transformation, Material material, Light light)
 	{
-		if(!(light instanceof PointLight))
+		if(!(light instanceof SpotLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
 		
 		if(material.getDiffuseTexture() != null)
@@ -48,7 +51,7 @@ public class ForwardPointShader extends Shader
 			material.getSpecularTexture().bind();
 		}
 		
-		PointLight pointLight = (PointLight) light;
+		SpotLight spotLight = (SpotLight) light;
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("M", transformation);
@@ -60,8 +63,11 @@ public class ForwardPointShader extends Shader
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightPos", light.getGameObject().getTransform().getTranslation());
-		setUniform("lightAttenLinear", pointLight.getAttenLinear());
-		setUniform("lightAttenQuadratic", pointLight.getAttenQuadratic());
-		setUniform("lightRange", pointLight.getRange());
+		setUniform("lightSpotDirectionMat", light.getGameObject().getTransformation());
+		setUniform("lightAttenLinear", spotLight.getAttenLinear());
+		setUniform("lightAttenQuadratic", spotLight.getAttenQuadratic());
+		setUniform("lightRange", spotLight.getRange());
+		setUniform("lightInnerAngle", spotLight.getInnerAngle());
+		setUniform("lightOuterAngle", spotLight.getOuterAngle());
 	}
 }
