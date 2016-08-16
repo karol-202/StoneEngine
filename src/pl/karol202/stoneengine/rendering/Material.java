@@ -10,6 +10,9 @@ public class Material
 	private Vector3f specularColor;
 	private Texture specularTexture;
 	
+	private float ambientOcclussionIntensity;
+	private Texture ambientOcclussionTexture;
+	
 	public Vector3f getDiffuseColor()
 	{
 		return diffuseColor;
@@ -48,5 +51,25 @@ public class Material
 	public void setSpecularTexture(Texture specularTexture)
 	{
 		this.specularTexture = specularTexture;
+	}
+	
+	public float getAmbientOcclussionIntensity()
+	{
+		return ambientOcclussionIntensity;
+	}
+	
+	public void setAmbientOcclussionIntensity(float ambientOcclussionIntensity)
+	{
+		this.ambientOcclussionIntensity = ambientOcclussionIntensity;
+	}
+	
+	public Texture getAmbientOcclussionTexture()
+	{
+		return ambientOcclussionTexture;
+	}
+	
+	public void setAmbientOcclussionTexture(Texture ambientOcclussionTexture)
+	{
+		this.ambientOcclussionTexture = ambientOcclussionTexture;
 	}
 }

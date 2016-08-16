@@ -43,7 +43,7 @@ void main()
 	vec4 diffuse = diffuseMaterial * diffuseLight;
 	
 	vec4 specularTexture = texture2D(specularTexture, uv);
-	float specularPower = specularTexture.a * 10;
+	float specularPower = (specularTexture.a * 10) + 1;
 	specularTexture.a = 1;
 	vec4 specularMaterial = specularTexture * vec4(specularColor, 1);
 	vec3 reflection = reflect(lightDirection, normal);

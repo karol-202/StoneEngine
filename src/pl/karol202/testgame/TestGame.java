@@ -9,9 +9,6 @@ import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.SpotLight;
-import pl.karol202.stoneengine.rendering.shader.BasicShader;
-import pl.karol202.stoneengine.rendering.shader.DebugNormalShader;
-import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
@@ -20,8 +17,6 @@ public class TestGame implements Game
 {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
-	
-	private static DebugNormalShader debugNormalShader;
 	
 	private CoreEngine engine;
 	private GameObject root;
@@ -38,8 +33,6 @@ public class TestGame implements Game
 	@Override
 	public void init()
 	{
-		debugNormalShader = new DebugNormalShader();
-		
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
 		ForwardRendering.setAmbientLight(new Light(new Vector3f(0.18f, 0.19f, 0.2f), 1f));
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
@@ -48,7 +41,7 @@ public class TestGame implements Game
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
 		spotLight.setRange(2f);
-		spotLight.setInnerAngle(35f);
+		spotLight.setInnerAngle(15f);
 		spotLight.setOuterAngle(45f);
 		GameObject lightObject = new GameObject();
 		//lightObject.addComponent(directionalLight);
@@ -57,18 +50,19 @@ public class TestGame implements Game
 		lightObject.addComponent(spotLight);
 		root.addChild(lightObject);
 		
-		Mesh mesh = Mesh.loadMesh("./res/meshes/hammer.obj");
+		Mesh mesh = Mesh.loadMesh("./res/meshes/box.obj");
 		Material material = new Material();
 		material.setDiffuseColor(new Vector3f(1f, 1f, 1f));
-		material.setDiffuseTexture(Texture.loadTexture("./res/textures/hammer.png"));
+		material.setDiffuseTexture(Texture.loadTexture("./res/textures/box.png"));
 		material.setSpecularColor(new Vector3f(1f, 1f, 1f));
-		material.setSpecularTexture(Texture.loadTexture("./res/textures/hammer_spec.png"));
-		Shader shader = new BasicShader();
-		MeshRenderer renderer = new MeshRenderer(mesh, material, shader);
+		material.setSpecularTexture(Texture.loadTexture("./res/textures/box_spec.png"));
+		material.setAmbientOcclussionIntensity(0.5f);
+		material.setAmbientOcclussionTexture(Texture.loadTexture("./res/textures/box_occ.png"));
+		MeshRenderer renderer = new MeshRenderer(mesh, material);
 		GameObject triangle = new GameObject();
 		triangle.addComponent(renderer);
 		triangle.getTransform().setTranslation(0f, 0f, 2f);
-		triangle.getTransform().setScale(3f, 3f, 3f);
+		//triangle.getTransform().setScale(3f, 3f, 3f);
 		root.addChild(triangle);
 		
 		Camera camera = new Camera(70f, 0.1f, 100f, (float) WIDTH / HEIGHT);

@@ -5,8 +5,7 @@ import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL13.*;
 
 public class ForwardAmbientShader extends Shader
 {
@@ -19,6 +18,8 @@ public class ForwardAmbientShader extends Shader
 		addUniform("MVP");
 		addUniform("diffuseColor");
 		addUniform("diffuseTexture");
+		addUniform("ambientOcclussionIntensity");
+		addUniform("ambientOcclussionTexture");
 		addUniform("lightColor");
 		addUniform("lightIntensity");
 	}
@@ -31,11 +32,18 @@ public class ForwardAmbientShader extends Shader
 			glActiveTexture(GL_TEXTURE0);
 			material.getDiffuseTexture().bind();
 		}
+		if(material.getAmbientOcclussionTexture() != null)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			material.getAmbientOcclussionTexture().bind();
+		}
 		
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", 0);
+		setUniform("ambientOcclussionIntensity", material.getAmbientOcclussionIntensity());
+		setUniform("ambientOcclussionTexture", 1);
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 	}

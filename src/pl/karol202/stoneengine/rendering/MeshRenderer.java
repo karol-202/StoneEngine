@@ -8,14 +8,12 @@ public class MeshRenderer extends GameComponent
 {
 	private Mesh mesh;
 	private Material material;
-	private Shader shader;
 	
-	public MeshRenderer(Mesh mesh, Material material, Shader shader)
+	public MeshRenderer(Mesh mesh, Material material)
 	{
 		super();
 		this.mesh = mesh;
 		this.material = material;
-		this.shader = shader;
 	}
 	
 	@Override
