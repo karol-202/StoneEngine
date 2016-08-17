@@ -21,6 +21,8 @@ public class TestGame implements Game
 	private CoreEngine engine;
 	private GameObject root;
 	
+	private Material material;
+	
 	private TestGame()
 	{
 		engine = new CoreEngine(this);
@@ -51,15 +53,15 @@ public class TestGame implements Game
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/box.obj");
-		Material material = new Material();
+		material = new Material();
 		material.setDiffuseColor(new Vector3f(1f, 1f, 1f));
 		material.setDiffuseTexture(Texture.loadTexture("./res/textures/box.png"));
-		material.setSpecularColor(new Vector3f(1f, 1f, 1f));
+		material.setSpecularColor(new Vector3f(0.7f, 0.7f, 0.7f));
 		material.setSpecularTexture(Texture.loadTexture("./res/textures/box_spec.png"));
 		material.setAmbientOcclussionIntensity(0.5f);
 		material.setAmbientOcclussionTexture(Texture.loadTexture("./res/textures/box_occ.png"));
-		material.setNormalMapIntensity(1f);
-		material.setNormalMap(Texture.loadTexture("./res/textures/box_spec.png"));
+		material.setNormalMapIntensity(0f);
+		material.setNormalMap(Texture.loadTexture("./res/textures/box_norm.png"));
 		MeshRenderer renderer = new MeshRenderer(mesh, material);
 		GameObject triangle = new GameObject();
 		triangle.addComponent(renderer);
@@ -86,13 +88,23 @@ public class TestGame implements Game
 	public void update()
 	{
 		root.update();
+		
+		if(Input.isKeyDown(Input.KEY_N))
+		{
+			material.setNormalMapIntensity(material.getNormalMapIntensity() + 0.0001f);
+			System.out.println("Normal map intensity: " + material.getNormalMapIntensity());
+		}
+		if(Input.isKeyDown(Input.KEY_M))
+		{
+			material.setNormalMapIntensity(material.getNormalMapIntensity() - 0.0001f);
+			System.out.println("Normal map intensity: " + material.getNormalMapIntensity());
+		}
 	}
 	
 	@Override
 	public void render()
 	{
 		ForwardRendering.render(root);
-		//root.render(debugNormalShader, null);
 	}
 	
 	@Override

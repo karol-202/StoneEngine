@@ -55,7 +55,9 @@ public class Mesh
 			
 			for(int j = 0; j < 3; j++)
 			{
-				fv[j].setTangent(tangent);
+				fv[j].setTangent(tangent.add(fv[j].getNormal().mul(-1 * tangent.dot(fv[j].getNormal()))));
+				if(fv[j].getNormal().cross(fv[j].getTangent()).dot(bitangent) < 0f)
+					fv[j].setTangent(fv[j].getTangent().mul(-1f));
 				fv[j].setBitangent(bitangent);
 
 				if(verticesList.contains(fv[j]))
@@ -63,8 +65,8 @@ public class Mesh
 					int indexOfOldVertex = verticesList.indexOf(fv[j]);
 					indicesList.add(indexOfOldVertex);
 					Vertex oldVertex = verticesList.get(indexOfOldVertex);
-					oldVertex.setTangent(oldVertex.getTangent().mul(fv[j].getTangent()));
-					oldVertex.setBitangent(oldVertex.getBitangent().mul(fv[j].getBitangent()));
+					oldVertex.setTangent(oldVertex.getTangent().add(fv[j].getTangent()));
+					oldVertex.setBitangent(oldVertex.getBitangent().add(fv[j].getBitangent()));
 				}
 				else
 				{
