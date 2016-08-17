@@ -15,6 +15,13 @@ public class Vector3f
 		this.z = z;
 	}
 
+	public Vector3f(Vector3f vector)
+	{
+		this.x = vector.getX();
+		this.y = vector.getY();
+		this.z = vector.getZ();
+	}
+	
 	public float length()
 	{
 		return (float) Math.sqrt(x * x + y * y + z * z);

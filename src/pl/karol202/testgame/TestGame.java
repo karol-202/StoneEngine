@@ -41,8 +41,8 @@ public class TestGame implements Game
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
 		spotLight.setRange(2f);
-		spotLight.setInnerAngle(15f);
-		spotLight.setOuterAngle(45f);
+		spotLight.setInnerAngle(40f);
+		spotLight.setOuterAngle(60f);
 		GameObject lightObject = new GameObject();
 		//lightObject.addComponent(directionalLight);
 		lightObject.getTransform().setTranslation(0f, 1f, 2f);
@@ -58,6 +58,8 @@ public class TestGame implements Game
 		material.setSpecularTexture(Texture.loadTexture("./res/textures/box_spec.png"));
 		material.setAmbientOcclussionIntensity(0.5f);
 		material.setAmbientOcclussionTexture(Texture.loadTexture("./res/textures/box_occ.png"));
+		material.setNormalMapIntensity(1f);
+		material.setNormalMap(Texture.loadTexture("./res/textures/box_spec.png"));
 		MeshRenderer renderer = new MeshRenderer(mesh, material);
 		GameObject triangle = new GameObject();
 		triangle.addComponent(renderer);

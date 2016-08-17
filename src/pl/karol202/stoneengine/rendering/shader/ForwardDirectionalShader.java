@@ -6,9 +6,7 @@ import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL13.*;
 
 public class ForwardDirectionalShader extends Shader
 {
@@ -25,6 +23,8 @@ public class ForwardDirectionalShader extends Shader
 		addUniform("diffuseTexture");
 		addUniform("specularColor");
 		addUniform("specularTexture");
+		addUniform("normalMapIntensity");
+		addUniform("normalMap");
 		addUniform("lightColor");
 		addUniform("lightIntensity");
 		addUniform("lightRotation");
@@ -46,6 +46,11 @@ public class ForwardDirectionalShader extends Shader
 			glActiveTexture(GL_TEXTURE1);
 			material.getSpecularTexture().bind();
 		}
+		if(material.getNormalMap() != null)
+		{
+			glActiveTexture(GL_TEXTURE2);
+			material.getNormalMap().bind();
+		}
 		
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
@@ -55,6 +60,8 @@ public class ForwardDirectionalShader extends Shader
 		setUniform("diffuseTexture", 0);
 		setUniform("specularColor", material.getSpecularColor());
 		setUniform("specularTexture", 1);
+		setUniform("normalMapIntensity", material.getNormalMapIntensity());
+		setUniform("normalMap", 2);
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightRotation", light.getGameObject().getTransformation());

@@ -13,6 +13,9 @@ public class Material
 	private float ambientOcclussionIntensity;
 	private Texture ambientOcclussionTexture;
 	
+	private float normalMapIntensity;
+	private Texture normalMap;
+	
 	public Vector3f getDiffuseColor()
 	{
 		return diffuseColor;
@@ -58,9 +61,9 @@ public class Material
 		return ambientOcclussionIntensity;
 	}
 	
-	public void setAmbientOcclussionIntensity(float ambientOcclussionIntensity)
+	public void setAmbientOcclussionIntensity(float aoIntensity)
 	{
-		this.ambientOcclussionIntensity = ambientOcclussionIntensity;
+		this.ambientOcclussionIntensity = aoIntensity;
 	}
 	
 	public Texture getAmbientOcclussionTexture()
@@ -68,8 +71,28 @@ public class Material
 		return ambientOcclussionTexture;
 	}
 	
-	public void setAmbientOcclussionTexture(Texture ambientOcclussionTexture)
+	public void setAmbientOcclussionTexture(Texture aoTexture)
 	{
-		this.ambientOcclussionTexture = ambientOcclussionTexture;
+		this.ambientOcclussionTexture = aoTexture;
+	}
+	
+	public float getNormalMapIntensity()
+	{
+		return normalMapIntensity;
+	}
+	
+	public void setNormalMapIntensity(float normalMapIntensity)
+	{
+		this.normalMapIntensity = normalMapIntensity;
+	}
+	
+	public Texture getNormalMap()
+	{
+		return normalMap;
+	}
+	
+	public void setNormalMap(Texture normalMap)
+	{
+		this.normalMap = normalMap;
 	}
 }

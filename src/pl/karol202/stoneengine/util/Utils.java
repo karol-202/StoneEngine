@@ -20,11 +20,17 @@ public class Utils
 			buffer.put(vertex.getPos().getX());
 			buffer.put(vertex.getPos().getY());
 			buffer.put(vertex.getPos().getZ());
-			buffer.put(vertex.getTexCoord().getX());
-			buffer.put(vertex.getTexCoord().getY());
+			buffer.put(vertex.getUV().getX());
+			buffer.put(vertex.getUV().getY());
 			buffer.put(vertex.getNormal().getX());
 			buffer.put(vertex.getNormal().getY());
 			buffer.put(vertex.getNormal().getZ());
+			buffer.put(vertex.getTangent().getX());
+			buffer.put(vertex.getTangent().getY());
+			buffer.put(vertex.getTangent().getZ());
+			buffer.put(vertex.getBitangent().getX());
+			buffer.put(vertex.getBitangent().getY());
+			buffer.put(vertex.getBitangent().getZ());
 		}
 		buffer.flip();
 		return buffer;

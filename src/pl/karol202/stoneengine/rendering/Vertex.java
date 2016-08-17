@@ -5,29 +5,39 @@ import pl.karol202.stoneengine.util.Vector3f;
 
 public class Vertex
 {
-	public static final int SIZE = 8;
+	public static final int SIZE = 14;
 	
 	private Vector3f pos;
-	private Vector2f texCoord;
+	private Vector2f uv;
 	private Vector3f normal;
+	private Vector3f tangent;
+	private Vector3f bitangent;
 	
-	public Vertex(Vector3f pos)
+	public Vertex(Vector3f pos, Vector2f uv, Vector3f normal)
 	{
-		this(pos, new Vector2f(0, 0));
+		this(pos, uv, normal, null, null);
 	}
 	
-	public Vertex(Vector3f pos, Vector2f texCoord)
-	{
-		this(pos, texCoord, new Vector3f(0, 0, 0));
-	}
-	
-	public Vertex(Vector3f pos, Vector2f texCoord, Vector3f normal)
+	public Vertex(Vector3f pos, Vector2f uv, Vector3f normal, Vector3f tangent, Vector3f bitangent)
 	{
 		this.pos = pos;
-		this.texCoord = texCoord;
+		this.uv = uv;
 		this.normal = normal;
+		this.tangent = tangent;
+		this.bitangent = bitangent;
 	}
 	
+	public Vertex(Vertex vertex)
+	{
+		this.pos = new Vector3f(vertex.getPos());
+		this.uv = new Vector2f(vertex.getUV());
+		this.normal = new Vector3f(vertex.getNormal());
+		this.tangent = vertex.getTangent() != null ? new Vector3f(vertex.getTangent()) : null;
+		this.bitangent = vertex.getBitangent() != null ? new Vector3f(vertex.getBitangent()) : null;
+	}
+	
+	//Checks equality of two vertices by checking its positions, uvs and normals.
+	//Doesn't check tangents and bitangents.
 	@Override
 	public boolean equals(Object o)
 	{
@@ -36,7 +46,9 @@ public class Vertex
 		
 		Vertex vertex = (Vertex) o;
 		
-		return pos.equals(vertex.pos) && texCoord.equals(vertex.texCoord) && normal.equals(vertex.normal);
+		if(!pos.equals(vertex.pos)) return false;
+		if(!uv.equals(vertex.uv)) return false;
+		return normal.equals(vertex.normal);
 		
 	}
 	
@@ -44,7 +56,7 @@ public class Vertex
 	public int hashCode()
 	{
 		int result = pos.hashCode();
-		result = 31 * result + texCoord.hashCode();
+		result = 31 * result + uv.hashCode();
 		result = 31 * result + normal.hashCode();
 		return result;
 	}
@@ -59,14 +71,14 @@ public class Vertex
 		this.pos = pos;
 	}
 	
-	public Vector2f getTexCoord()
+	public Vector2f getUV()
 	{
-		return texCoord;
+		return uv;
 	}
 	
-	public void setTexCoord(Vector2f texCoord)
+	public void setUV(Vector2f uv)
 	{
-		this.texCoord = texCoord;
+		this.uv = uv;
 	}
 	
 	public Vector3f getNormal()
@@ -77,5 +89,25 @@ public class Vertex
 	public void setNormal(Vector3f normal)
 	{
 		this.normal = normal;
+	}
+	
+	public Vector3f getTangent()
+	{
+		return tangent;
+	}
+	
+	public void setTangent(Vector3f tangent)
+	{
+		this.tangent = tangent;
+	}
+	
+	public Vector3f getBitangent()
+	{
+		return bitangent;
+	}
+	
+	public void setBitangent(Vector3f bitangent)
+	{
+		this.bitangent = bitangent;
 	}
 }

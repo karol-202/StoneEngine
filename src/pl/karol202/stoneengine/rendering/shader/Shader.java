@@ -34,7 +34,7 @@ public abstract class Shader
 	public void addUniform(String uniform)
 	{
 		int uniformLocation = glGetUniformLocation(program, uniform);
-		if(uniformLocation == -1) throw new RuntimeException("Cannot add uniform to shader.");
+		if(uniformLocation == -1) throw new RuntimeException("Cannot add uniform to shader: " + uniform);
 		uniforms.put(uniform, uniformLocation);
 	}
 	

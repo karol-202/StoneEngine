@@ -13,6 +13,12 @@ public class Vector2f
 		this.y = y;
 	}
 	
+	public Vector2f(Vector2f vector)
+	{
+		this.x = vector.getX();
+		this.y = vector.getY();
+	}
+	
 	public String toString()
 	{
 		return "(" + x + " " + y + ")";

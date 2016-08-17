@@ -7,18 +7,19 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
   - Keyboard and mouse input
 2. **Rendering**:
   - Mesh rendering based on VBO
-  - Adjustable camera
+  - Shaders system
+  - Textures
   - Materials:
     - Diffuse texture
     - Specular texture
     - Ambient occlussion
-  - Textures
-  - Shaders system
+    - Normal map
   - Lights:
     - Ambient
     - Directional
     - Point
     - Spot
+  - Adjustable camera
    
 3. **Components**:
   - First person controller based on keyboard and mouse input

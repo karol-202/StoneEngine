@@ -23,6 +23,8 @@ public class ForwardSpotShader extends Shader
 		addUniform("diffuseTexture");
 		addUniform("specularColor");
 		addUniform("specularTexture");
+		addUniform("normalMapIntensity");
+		addUniform("normalMap");
 		addUniform("lightColor");
 		addUniform("lightIntensity");
 		addUniform("lightPos");
@@ -50,6 +52,11 @@ public class ForwardSpotShader extends Shader
 			glActiveTexture(GL_TEXTURE1);
 			material.getSpecularTexture().bind();
 		}
+		if(material.getNormalMap() != null)
+		{
+			glActiveTexture(GL_TEXTURE2);
+			material.getNormalMap().bind();
+		}
 		
 		SpotLight spotLight = (SpotLight) light;
 		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
@@ -60,6 +67,8 @@ public class ForwardSpotShader extends Shader
 		setUniform("diffuseTexture", 0);
 		setUniform("specularColor", material.getSpecularColor());
 		setUniform("specularTexture", 1);
+		setUniform("normalMapIntensity", material.getNormalMapIntensity());
+		setUniform("normalMap", 2);
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightPos", light.getGameObject().getTransform().getTranslation());
