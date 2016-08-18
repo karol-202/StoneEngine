@@ -18,7 +18,7 @@ uniform float lightAttenLinear;
 uniform float lightAttenQuadratic;
 uniform float lightRange;
 
-out vec4 fragColor;
+layout(location = 0) out vec3 fragColor;
 
 void main()
 {
@@ -29,20 +29,19 @@ void main()
 	vec3 cameraDirection = TBN * normalize(cameraPos - pos);
 	vec3 normal = normalize(mix(vec3(0, 0, 1), texture2D(normalMap, uv).rgb * 2.0 - 1.0, normalMapIntensity));
 
-	vec4 diffuseMaterial = texture2D(diffuseTexture, uv) * vec4(diffuseColor, 1);
+	vec3 diffuseMaterial = texture2D(diffuseTexture, uv).rgb * diffuseColor;
 	float diffuseFactor = clamp(dot(normal, -lightDirection), 0, 1);
-	vec4 diffuseLight = vec4(lightColor, 1) * lightIntensity * diffuseFactor;
-	vec4 diffuse = diffuseMaterial * diffuseLight;
+	vec3 diffuseLight = lightColor * lightIntensity * diffuseFactor;
+	vec3 diffuse = diffuseMaterial * diffuseLight;
 	
 	vec4 specularTexture = texture2D(specularTexture, uv);
 	float specularPower = specularTexture.a * 10 + 1;
-	specularTexture.a = 1;
-	vec4 specularMaterial = specularTexture * vec4(specularColor, 1);
+	vec3 specularMaterial = specularTexture.rgb * specularColor;
 	vec3 reflection = reflect(lightDirection, normal);
 	float specularFactor = clamp(dot(cameraDirection, reflection), 0, 1);
 	specularFactor = pow(specularFactor, specularPower);
-	vec4 specularLight = vec4(lightColor, 1) * lightIntensity * specularFactor;
-	vec4 specular = specularMaterial * specularLight;
+	vec3 specularLight = lightColor * lightIntensity * specularFactor;
+	vec3 specular = specularMaterial * specularLight;
 	
 	float lightAtten = 1 / (1 + lightAttenLinear * lightDistance +
 							   lightAttenQuadratic * pow(lightDistance, 2));

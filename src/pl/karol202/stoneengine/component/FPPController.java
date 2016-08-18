@@ -1,8 +1,6 @@
 package pl.karol202.stoneengine.component;
 
 import pl.karol202.stoneengine.core.Input;
-import pl.karol202.stoneengine.rendering.light.Light;
-import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.*;
 
 public class FPPController extends GameComponent
@@ -51,9 +49,6 @@ public class FPPController extends GameComponent
 		if(lookingX && delta.getX() != 0) lookX(delta.getX());
 		if(lookingY && delta.getY() != 0) lookY(delta.getY());
 	}
-	
-	@Override
-	public void render(Shader shader, Light light) { }
 	
 	private void move()
 	{

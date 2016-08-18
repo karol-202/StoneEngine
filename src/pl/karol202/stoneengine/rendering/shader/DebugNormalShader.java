@@ -17,9 +17,9 @@ public class DebugNormalShader extends Shader
 	}
 	
 	@Override
-	public void updateShader(Matrix4f transformation, Material material, Light light)
+	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
 	{
-		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
+		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 	}
 }

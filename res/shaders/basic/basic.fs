@@ -2,14 +2,13 @@
 
 in vec2 uv;
 
-uniform sampler2D samplerTexture;
+uniform sampler2D texture;
 uniform vec3 color;
 
-out vec4 fragColor;
+layout(location = 0) out vec3 fragColor;
 
 void main()
 {
-	vec4 texture = texture2D(samplerTexture, uv);
-	fragColor = texture * vec4(color, 1);
-	//fragColor = vec4(color, 1);
+	vec3 texture = texture2D(texture, uv).rgb;
+	fragColor = texture * color;
 }

@@ -4,9 +4,9 @@ in vec3 pos;
 in vec2 uv;
 in vec3 normal;
 
-out vec4 fragColor;
+layout(location = 0) out vec3 fragColor;
 
 void main()
 {
-	fragColor = vec4(normal, 1);
+	fragColor = normal;
 }

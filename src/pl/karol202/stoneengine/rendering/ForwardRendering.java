@@ -1,14 +1,10 @@
 package pl.karol202.stoneengine.rendering;
 
-import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.PointLight;
 import pl.karol202.stoneengine.rendering.light.SpotLight;
-import pl.karol202.stoneengine.rendering.shader.ForwardAmbientShader;
-import pl.karol202.stoneengine.rendering.shader.ForwardDirectionalShader;
-import pl.karol202.stoneengine.rendering.shader.ForwardPointShader;
-import pl.karol202.stoneengine.rendering.shader.ForwardSpotShader;
+import pl.karol202.stoneengine.rendering.shader.*;
 
 import java.util.ArrayList;
 
@@ -26,26 +22,41 @@ public class ForwardRendering
 	private static ArrayList<PointLight> pointLights = new ArrayList<>();
 	private static ArrayList<SpotLight> spotLights = new ArrayList<>();
 	
-	public static void render(GameObject gameObject)
+	private static ArrayList<MeshRenderer> meshRenderers = new ArrayList<>();
+	
+	private static ArrayList<Camera> cameras = new ArrayList<>();
+	
+	private static Shader testShader;
+	
+	public static void renderAll()
 	{
-		gameObject.render(ambientShader, ambientLight);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE);
-		glDepthMask(false);
-		glDepthFunc(GL_EQUAL);
-		
-		directionalLights.forEach((light) -> { if(light.isEnabled()) gameObject.render(directionalShader, light); });
-		pointLights.forEach((light) -> { if(light.isEnabled()) gameObject.render(pointShader, light); });
-		spotLights.forEach((light) -> { if(light.isEnabled()) gameObject.render(spotShader, light); });
-		
-		glDepthFunc(GL_LESS);
-		glDepthMask(true);
-		glDisable(GL_BLEND);
+		cameras.forEach(Camera::render);
 	}
 	
-	public static Light getAmbientLight()
+	public static void renderCamera(Camera camera)
 	{
-		return ambientLight;
+		if(testShader != null) renderShader(testShader, null, camera);
+		else
+		{
+			renderShader(ambientShader, ambientLight, camera);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE);
+			glDepthMask(false);
+			glDepthFunc(GL_EQUAL);
+			
+			directionalLights.forEach(light -> { if(light.isEnabled()) renderShader(directionalShader, light, camera); });
+			pointLights.forEach(light -> { if(light.isEnabled()) renderShader(pointShader, light, camera); });
+			spotLights.forEach(light -> { if(light.isEnabled()) renderShader(spotShader, light, camera); });
+			
+			glDepthFunc(GL_LESS);
+			glDepthMask(true);
+			glDisable(GL_BLEND);
+		}
+	}
+	
+	public static void renderShader(Shader shader, Light light, Camera camera)
+	{
+		meshRenderers.forEach(meshRenderer -> meshRenderer.render(shader, light, camera));
 	}
 	
 	public static void setAmbientLight(Light light)
@@ -66,5 +77,20 @@ public class ForwardRendering
 	public static void addSpotLight(SpotLight light)
 	{
 		spotLights.add(light);
+	}
+	
+	public static void addMeshRenderer(MeshRenderer renderer)
+	{
+		meshRenderers.add(renderer);
+	}
+	
+	public static void addCamera(Camera camera)
+	{
+		cameras.add(camera);
+	}
+	
+	public static void setTestShader(Shader shader)
+	{
+		testShader = shader;
 	}
 }

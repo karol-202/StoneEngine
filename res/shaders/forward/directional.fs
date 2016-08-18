@@ -16,7 +16,7 @@ uniform sampler2D normalMap;
 uniform vec3 lightColor;
 uniform float lightIntensity;
 
-out vec3 fragColor;
+layout(location = 0) out vec3 fragColor;
 
 void main()
 {

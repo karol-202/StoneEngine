@@ -25,7 +25,7 @@ public class ForwardAmbientShader extends Shader
 	}
 	
 	@Override
-	public void updateShader(Matrix4f transformation, Material material, Light light)
+	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
 	{
 		if(material.getDiffuseTexture() != null)
 		{
@@ -38,7 +38,7 @@ public class ForwardAmbientShader extends Shader
 			material.getAmbientOcclussionTexture().bind();
 		}
 		
-		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
+		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", 0);

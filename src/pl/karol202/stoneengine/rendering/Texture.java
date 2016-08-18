@@ -15,6 +15,11 @@ public class Texture
 {
 	private int textureId;
 	
+	public Texture(int textureId)
+	{
+		this.textureId = textureId;
+	}
+	
 	public Texture(int width, int height, ByteBuffer buffer)
 	{
 		this.textureId = glGenTextures();
@@ -51,5 +56,10 @@ public class Texture
 		{
 			throw new RuntimeException("Could not load texture from file: " + path);
 		}
+	}
+	
+	public int getTextureId()
+	{
+		return textureId;
 	}
 }

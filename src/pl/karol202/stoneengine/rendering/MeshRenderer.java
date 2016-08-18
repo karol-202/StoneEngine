@@ -17,16 +17,18 @@ public class MeshRenderer extends GameComponent
 	}
 	
 	@Override
-	public void init() { }
+	public void init()
+	{
+		ForwardRendering.addMeshRenderer(this);
+	}
 	
 	@Override
 	public void update() { }
 	
-	@Override
-	public void render(Shader shader, Light light)
+	public void render(Shader shader, Light light, Camera camera)
 	{
 		shader.bind();
-		shader.updateShader(getGameObject().getTransformation(), material, light);
+		shader.updateShader(getGameObject().getTransformation(), material, light, camera);
 		mesh.draw();
 	}
 }

@@ -1,7 +1,6 @@
 package pl.karol202.stoneengine.rendering.light;
 
 import pl.karol202.stoneengine.component.GameComponent;
-import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.Vector3f;
 
 public class Light extends GameComponent
@@ -20,9 +19,6 @@ public class Light extends GameComponent
 	
 	@Override
 	public void update() { }
-	
-	@Override
-	public void render(Shader shader, Light light) { }
 	
 	public Vector3f getColor()
 	{

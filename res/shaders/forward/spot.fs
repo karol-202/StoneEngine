@@ -22,7 +22,7 @@ uniform float lightRange;
 uniform float lightInnerAngle;
 uniform float lightOuterAngle;
 
-out vec3 fragColor;
+layout(location = 0) out vec3 fragColor;
 
 void main()
 {

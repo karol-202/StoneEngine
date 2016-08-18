@@ -37,7 +37,7 @@ public class ForwardSpotShader extends Shader
 	}
 	
 	@Override
-	public void updateShader(Matrix4f transformation, Material material, Light light)
+	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
 	{
 		if(!(light instanceof SpotLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
@@ -59,10 +59,10 @@ public class ForwardSpotShader extends Shader
 		}
 		
 		SpotLight spotLight = (SpotLight) light;
-		Matrix4f MVP = Camera.mainCamera.getViewProjectionMatrix().mul(transformation);
+		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
 		setUniform("MVP", MVP);
 		setUniform("M", transformation);
-		setUniform("cameraPos", Camera.mainCamera.getGameObject().getTransform().getTranslation());
+		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", 0);
 		setUniform("specularColor", material.getSpecularColor());

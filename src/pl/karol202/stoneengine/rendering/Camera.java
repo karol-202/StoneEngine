@@ -1,47 +1,73 @@
 package pl.karol202.stoneengine.rendering;
 
 import pl.karol202.stoneengine.component.GameComponent;
-import pl.karol202.stoneengine.rendering.light.Light;
-import pl.karol202.stoneengine.rendering.shader.Shader;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Utils;
 
+import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
+
 public class Camera extends GameComponent
 {
-	public static Camera mainCamera;
-	
 	private float fov;
 	private float zNear;
 	private float zFar;
 	private float aspect;
 	private Matrix4f projectionMatrix;
+	private int width;
+	private int height;
+	private int screenOffsetX;
+	private int screenOffsetY;
 	
-	public Camera(float fov, float zNear, float zFar, float aspect)
+	public Camera(float fov, float zNear, float zFar, int width, int height)
 	{
 		super();
 		this.fov = fov;
 		this.zNear = zNear;
 		this.zFar = zFar;
-		this.aspect = aspect;
+		this.aspect = (float) width / height;
 		updateProjection();
+		this.width = width;
+		this.height = height;
 	}
 	
 	@Override
 	public void init()
 	{
-		Camera.mainCamera = this;
+		ForwardRendering.addCamera(this);
 	}
 	
 	@Override
 	public void update() { }
 	
-	@Override
-	public void render(Shader shader, Light light) { }
+	public void render()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(screenOffsetX, screenOffsetY, width, height);
+		ForwardRendering.renderCamera(this);
+	}
 	
 	private void updateProjection()
 	{
 		projectionMatrix = new Matrix4f().initPerspective(zNear, zFar, aspect, fov);
+	}
+	
+	private Matrix4f getViewMatrix()
+	{
+		Transform tr = getGameObject().getTransform();
+		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
+		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-tr.getTranslation().getX(),
+				-tr.getTranslation().getY(),
+				-tr.getTranslation().getZ());
+		
+		return cameraRotation.mul(cameraTranslation);
+	}
+	
+	public Matrix4f getViewProjectionMatrix()
+	{
+		return projectionMatrix.mul(getViewMatrix());
 	}
 	
 	public float getFov()
@@ -88,19 +114,43 @@ public class Camera extends GameComponent
 		updateProjection();
 	}
 	
-	private Matrix4f getViewMatrix()
+	public int getWidth()
 	{
-		Transform tr = getGameObject().getTransform();
-		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
-		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-tr.getTranslation().getX(),
-																	-tr.getTranslation().getY(),
-																	-tr.getTranslation().getZ());
-		
-		return cameraRotation.mul(cameraTranslation);
+		return width;
 	}
 	
-	public Matrix4f getViewProjectionMatrix()
+	public void setWidth(int width)
 	{
-		return projectionMatrix.mul(getViewMatrix());
+		this.width = width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	public void setHeight(int height)
+	{
+		this.height = height;
+	}
+	
+	public int getScreenOffsetX()
+	{
+		return screenOffsetX;
+	}
+	
+	public void setScreenOffsetX(int screenOffsetX)
+	{
+		this.screenOffsetX = screenOffsetX;
+	}
+	
+	public int getScreenOffsetY()
+	{
+		return screenOffsetY;
+	}
+	
+	public void setScreenOffsetY(int screenOffsetY)
+	{
+		this.screenOffsetY = screenOffsetY;
 	}
 }
