@@ -7,8 +7,8 @@ import pl.karol202.stoneengine.core.Game;
 import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
-import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.light.PointLight;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
@@ -37,8 +37,8 @@ public class TestGame implements Game
 	{
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
 		ForwardRendering.setAmbientLight(new Light(new Vector3f(0.18f, 0.19f, 0.2f), 1f));
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		//PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 0f, 1f, 2f);
+		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
+		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 0f, 1f, 2f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
@@ -46,10 +46,8 @@ public class TestGame implements Game
 		spotLight.setInnerAngle(40f);
 		spotLight.setOuterAngle(60f);*/
 		GameObject lightObject = new GameObject();
-		lightObject.addComponent(directionalLight);
+		lightObject.addComponent(pointLight);
 		lightObject.getTransform().setTranslation(0f, 1f, 2f);
-		lightObject.getTransform().setRotation(90f, 0f, 45f);
-		//lightObject.addComponent(spotLight);
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/box.obj");

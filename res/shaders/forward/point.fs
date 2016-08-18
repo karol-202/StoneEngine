@@ -1,14 +1,16 @@
 #version 330
 
+in mat3 TBN;
 in vec3 pos;
 in vec2 uv;
-in vec3 normal;
 
 uniform vec3 cameraPos;
 uniform vec3 diffuseColor;
 uniform sampler2D diffuseTexture;
 uniform vec3 specularColor;
 uniform sampler2D specularTexture;
+uniform float normalMapIntensity;
+uniform sampler2D normalMap;
 uniform vec3 lightColor;
 uniform float lightIntensity;
 uniform vec3 lightPos;
@@ -20,11 +22,12 @@ out vec4 fragColor;
 
 void main()
 {
-	vec3 lightDirection = pos - lightPos;
+	vec3 lightDirection = TBN * (pos - lightPos);
 	float lightDistance = length(lightDirection);
 	if(lightDistance > lightRange) return;
 	lightDirection = normalize(lightDirection);
-	vec3 cameraDirection = normalize(cameraPos - pos);
+	vec3 cameraDirection = TBN * normalize(cameraPos - pos);
+	vec3 normal = normalize(mix(vec3(0, 0, 1), texture2D(normalMap, uv).rgb * 2.0 - 1.0, normalMapIntensity));
 
 	vec4 diffuseMaterial = texture2D(diffuseTexture, uv) * vec4(diffuseColor, 1);
 	float diffuseFactor = clamp(dot(normal, -lightDirection), 0, 1);
