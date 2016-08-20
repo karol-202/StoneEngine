@@ -3,15 +3,17 @@ package pl.karol202.stoneengine.rendering.light;
 import pl.karol202.stoneengine.rendering.ForwardRendering;
 import pl.karol202.stoneengine.rendering.Texture;
 import pl.karol202.stoneengine.rendering.camera.ShadowmapCameraDirectional;
+import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Vector3f;
 
 public class DirectionalLight extends Light
 {
+	private ShadowmapCameraDirectional shadowmapCamera;
 	private float shadowZNear;
 	private float shadowZFar;
 	private int shadowResolutionX;
 	private int shadowResolutionY;
-	private ShadowmapCameraDirectional shadowmapCamera;
+	private float shadowBias;
 	
 	public DirectionalLight(Vector3f color, float intensity)
 	{
@@ -20,6 +22,7 @@ public class DirectionalLight extends Light
 		shadowZFar = 10f;
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
+		shadowBias = 0.001f;
 		shadowmapCamera = new ShadowmapCameraDirectional(this);
 	}
 	
@@ -31,6 +34,16 @@ public class DirectionalLight extends Light
 		ForwardRendering.addDirectionalLight(this);
 		ForwardRendering.addCamera(shadowmapCamera);
 		shadowmapCamera.init();
+	}
+	
+	public Texture getShadowmap()
+	{
+		return shadowmapCamera.getShadowmap();
+	}
+	
+	public Matrix4f getShadowmapViewProjection()
+	{
+		return shadowmapCamera.getViewProjectionMatrix();
 	}
 	
 	public float getShadowZNear()
@@ -73,8 +86,13 @@ public class DirectionalLight extends Light
 		this.shadowResolutionY = shadowResolutionY;
 	}
 	
-	public Texture getShadowmap()
+	public float getShadowBias()
 	{
-		return shadowmapCamera.getShadowmap();
+		return shadowBias;
+	}
+	
+	public void setShadowBias(float shadowBias)
+	{
+		this.shadowBias = shadowBias;
 	}
 }

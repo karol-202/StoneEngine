@@ -3,6 +3,7 @@
 in mat3 TBN;
 in vec3 pos;
 in vec2 uv;
+in vec3 shadowmapPos;
 
 in vec3 lightDirection;
 
@@ -15,11 +16,15 @@ uniform float normalMapIntensity;
 uniform sampler2D normalMap;
 uniform vec3 lightColor;
 uniform float lightIntensity;
+uniform sampler2D shadowmap;
+uniform float shadowBias;
 
 layout(location = 0) out vec3 fragColor;
 
 void main()
 {
+	if(texture2D(shadowmap, shadowmapPos.xy).z < shadowmapPos.z - shadowBias) return;
+	
 	vec3 cameraDirection = TBN * normalize(cameraPos - pos);
 	vec3 normal = normalize(mix(vec3(0, 0, 1), texture2D(normalMap, uv).rgb * 2.0 - 1.0, normalMapIntensity));
 

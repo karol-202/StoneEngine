@@ -80,6 +80,7 @@ public class TestGame implements Game
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);
 		camObject.addComponent(controller);
+		camObject.getTransform().setTranslation(0f, 1f, -3f);
 		root.addChild(camObject);
 		
 		MouseLocker mouseLocker = new MouseLocker(true);

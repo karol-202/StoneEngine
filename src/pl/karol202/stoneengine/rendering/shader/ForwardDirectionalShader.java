@@ -10,14 +10,19 @@ import static org.lwjgl.opengl.GL13.*;
 
 public class ForwardDirectionalShader extends Shader
 {
+	private Matrix4f SMVPTransform;
+	
 	public ForwardDirectionalShader()
 	{
 		super();
+		SMVPTransform = new Matrix4f().initTranslation(0.5f, 0.5f, 0.5f).mul(new Matrix4f().initScale(0.5f, 0.5f, 0.5f));
+		
 		addVertexShader(loadShader("./res/shaders/forward/directional.vs"));
 		addFragmentShader(loadShader("./res/shaders/forward/directional.fs"));
 		compileShader();
 		addUniform("MVP");
 		addUniform("M");
+		addUniform("shadowmapMVP");
 		addUniform("cameraPos");
 		addUniform("diffuseColor");
 		addUniform("diffuseTexture");
@@ -28,6 +33,8 @@ public class ForwardDirectionalShader extends Shader
 		addUniform("lightColor");
 		addUniform("lightIntensity");
 		addUniform("lightRotation");
+		addUniform("shadowmap");
+		addUniform("shadowBias");
 	}
 	
 	@Override
@@ -35,6 +42,7 @@ public class ForwardDirectionalShader extends Shader
 	{
 		if(!(light instanceof DirectionalLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
+		DirectionalLight directionalLight = (DirectionalLight) light;
 		
 		if(material.getDiffuseTexture() != null)
 		{
@@ -51,10 +59,17 @@ public class ForwardDirectionalShader extends Shader
 			glActiveTexture(GL_TEXTURE2);
 			material.getNormalMap().bind();
 		}
-		
+		if(directionalLight.getShadowmap() != null)
+		{
+			glActiveTexture(GL_TEXTURE3);
+			directionalLight.getShadowmap().bind();
+		}
+			
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
+		Matrix4f shadowmapMVP = SMVPTransform.mul(directionalLight.getShadowmapViewProjection().mul(transformation));
 		setUniform("MVP", MVP);
 		setUniform("M", transformation);
+		setUniform("shadowmapMVP", shadowmapMVP);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", 0);
@@ -65,5 +80,7 @@ public class ForwardDirectionalShader extends Shader
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightRotation", light.getGameObject().getTransformation());
+		setUniform("shadowmap", 3);
+		setUniform("shadowBias", directionalLight.getShadowBias());
 	}
 }

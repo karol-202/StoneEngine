@@ -8,12 +8,14 @@ layout(location = 4) in vec3 vertBitangent;
 
 uniform mat4 MVP;
 uniform mat4 M;
+uniform mat4 shadowmapMVP;
 uniform vec3 cameraPos;
 uniform mat4 lightRotation;
 
 out mat3 TBN;
 out vec3 pos;
 out vec2 uv;
+out vec3 shadowmapPos;
 
 out vec3 lightDirection;
 
@@ -28,6 +30,7 @@ void main()
     TBN = transpose(mat3(tangent, bitangent, normal));
 	pos = (M * vec4(vertPos, 1)).xyz;
 	uv = vec2(vertUv.x, 1 - vertUv.y);
+	shadowmapPos = (shadowmapMVP * vec4(vertPos, 1)).xyz;
 	
 	lightDirection = TBN * normalize((lightRotation * vec4(0, 0, 1, 0)).xyz);
 }
