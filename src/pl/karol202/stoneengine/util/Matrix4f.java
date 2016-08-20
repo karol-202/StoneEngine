@@ -18,6 +18,11 @@ public class Matrix4f
 		return this;
 	}
 	
+	public Matrix4f initTranslation(Vector3f vector)
+	{
+		return initTranslation(vector.getX(), vector.getY(), vector.getZ());
+	}
+	
 	public Matrix4f initTranslation(float x, float y, float z)
 	{
 		m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = x;
@@ -25,11 +30,6 @@ public class Matrix4f
 		m[2][0] = 0;	m[2][1] = 0;	m[2][2] = 1;	m[2][3] = z;
 		m[3][0] = 0;	m[3][1] = 0;	m[3][2] = 0;	m[3][3] = 1;
 		return this;
-	}
-	
-	public Matrix4f initRotation(Vector3f euler)
-	{
-		return initRotation(euler.getX(), euler.getY(), euler.getZ());
 	}
 	
 	public Matrix4f initRotation(float x, float y, float z)
@@ -88,18 +88,18 @@ public class Matrix4f
 		float tanHalfFOV = (float)Math.tan(fov / 2);
 		float zRange = zNear - zFar;
 
-		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
-		m[1][0] = 0;	m[1][1] = 1.0f / tanHalfFOV;	m[1][2] = 0;	m[1][3] = 0;
-		m[2][0] = 0;	m[2][1] = 0;	m[2][2] = (-zNear -zFar)/zRange;	m[2][3] = 2 * zFar * zNear / zRange;
-		m[3][0] = 0;	m[3][1] = 0;	m[3][2] = 1;	m[3][3] = 0;
+		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;	            m[0][2] = 0;	                m[0][3] = 0;
+		m[1][0] = 0;	                    m[1][1] = 1.0f / tanHalfFOV;m[1][2] = 0;	                m[1][3] = 0;
+		m[2][0] = 0;	                    m[2][1] = 0;	            m[2][2] = (-zNear -zFar)/zRange;m[2][3] = 2 * zFar * zNear / zRange;
+		m[3][0] = 0;	                    m[3][1] = 0;	            m[3][2] = 1;	                m[3][3] = 0;
 
 		return this;
 	}
 	
-	public Matrix4f initOrtographic(float left, float right, float bottom, float top, float near, float far)
+	public Matrix4f initOrthagonal(float left, float right, float bottom, float top, float near, float far)
 	{
 		float width = right - left;
-		float height = bottom - top;
+		float height = top - bottom;
 		float depth = far - near;
 		
 		m[0][0] = 2 / width;	m[0][1] = 0;			m[0][2] = 0;			m[0][3] = -(right + left) / width;

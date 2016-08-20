@@ -1,6 +1,6 @@
 package pl.karol202.stoneengine.rendering.shader;
 
-import pl.karol202.stoneengine.rendering.Camera;
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.Material;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;

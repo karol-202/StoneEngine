@@ -1,26 +1,32 @@
-package pl.karol202.stoneengine.rendering;
+package pl.karol202.stoneengine.rendering.camera;
+
+import pl.karol202.stoneengine.rendering.ForwardRendering;
+import pl.karol202.stoneengine.rendering.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
-public class RenderToTextureCamera extends Camera
+public class RTTCamera extends Camera
 {
+	private CameraSettings settings;
 	private int framebuffer;
 	private Texture renderTexture;
 	private int depthRenderbuffer;
 	
-	public RenderToTextureCamera(float fov, float zNear, float zFar, int width, int height)
+	public RTTCamera(int width, int height)
 	{
-		super(fov, zNear, zFar, width, height);
+		super(width, height);
 		renderTexture = new Texture(glGenTextures());
+		setSettings(new PerspectiveSettings(70f, 0.1f, 100f, (float) width / height));
 	}
 	
 	@Override
 	public void init()
 	{
 		super.init();
+		
 		framebuffer = glGenFramebuffers();
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		
@@ -28,14 +34,13 @@ public class RenderToTextureCamera extends Camera
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, getWidth(), getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, renderTexture.getTextureId(), 0);
+		glDrawBuffers(new int[] { GL_COLOR_ATTACHMENT0 });
 		
 		depthRenderbuffer = glGenRenderbuffers();
 		glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, getWidth(), getHeight());
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
-		
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, renderTexture.getTextureId(), 0);
-		glDrawBuffers(new int[] { GL_COLOR_ATTACHMENT0 });
 		
 		if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			throw new RuntimeException("Cannot initialize framebuffer for camera.");
@@ -47,6 +52,23 @@ public class RenderToTextureCamera extends Camera
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderCamera(this);
+	}
+	
+	@Override
+	protected void updateProjection()
+	{
+		projectionMatrix = settings.getProjection();
+	}
+	
+	public CameraSettings getSettings()
+	{
+		return settings;
+	}
+	
+	public void setSettings(CameraSettings settings)
+	{
+		this.settings = settings;
+		this.settings.setCamera(this);
 	}
 	
 	public Texture getRenderTexture()

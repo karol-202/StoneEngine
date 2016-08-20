@@ -65,6 +65,7 @@ public class CoreEngine
 		glfwSwapInterval(0);
 		glfwShowWindow(window);
 		createCapabilities();
+		System.out.println("OpenGL version: " + glGetString(GL_VERSION));
 		
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);

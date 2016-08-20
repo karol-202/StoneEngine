@@ -1,17 +1,16 @@
 package pl.karol202.stoneengine.rendering.shader;
 
-import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.Material;
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-public class DebugNormalShader extends Shader
+public class ShadowmapShader extends Shader
 {
-	public DebugNormalShader()
+	public ShadowmapShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/debug/normals.vs"));
-		addFragmentShader(loadShader("./res/shaders/debug/normals.fs"));
+		addVertexShader(loadShader("./res/shaders/shadowmap/shadowmap.vs"));
 		compileShader();
 		addUniform("MVP");
 	}

@@ -21,14 +21,14 @@ public class Mesh
 	private int ibo;
 	private int size;
 	
-	public Mesh(Vertex[] vertices, int[] indices)
+	public Mesh(Vertex[] vertices, int[] indices, boolean calcTangents)
 	{
 		this.vertices = vertices;
 		this.indices = indices;
 		this.vbo = glGenBuffers();
 		this.ibo = glGenBuffers();
 		this.size = 0;
-		calcTangents();
+		if(calcTangents) calcTangents();
 		addVertices();
 	}
 	
@@ -200,7 +200,7 @@ public class Mesh
 			Integer[] indexData = new Integer[indices.size()];
 			indices.toArray(indexData);
 			
-			return new Mesh(vertexData, toIntArray(indexData));
+			return new Mesh(vertexData, toIntArray(indexData), true);
 		}
 		catch(Exception e)
 		{

@@ -1,5 +1,6 @@
 package pl.karol202.stoneengine.rendering;
 
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.PointLight;
@@ -16,15 +17,16 @@ public class ForwardRendering
 	private static ForwardDirectionalShader directionalShader = new ForwardDirectionalShader();
 	private static ForwardPointShader pointShader = new ForwardPointShader();
 	private static ForwardSpotShader spotShader = new ForwardSpotShader();
+	private static ShadowmapShader shadowmapShader = new ShadowmapShader();
+	private static DebugTextureShader debugTextureShader = new DebugTextureShader();
 	
 	private static Light ambientLight;
 	private static ArrayList<DirectionalLight> directionalLights = new ArrayList<>();
 	private static ArrayList<PointLight> pointLights = new ArrayList<>();
 	private static ArrayList<SpotLight> spotLights = new ArrayList<>();
 	
-	private static ArrayList<MeshRenderer> meshRenderers = new ArrayList<>();
-	
 	private static ArrayList<Camera> cameras = new ArrayList<>();
+	private static ArrayList<MeshRenderer> meshRenderers = new ArrayList<>();
 	
 	private static Shader testShader;
 	
@@ -35,18 +37,19 @@ public class ForwardRendering
 	
 	public static void renderCamera(Camera camera)
 	{
-		if(testShader != null) renderShader(testShader, null, camera);
+		if(testShader != null) renderMeshes(testShader, null, camera);
 		else
 		{
-			renderShader(ambientShader, ambientLight, camera);
+			renderMeshes(ambientShader, ambientLight, camera);
+			
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_ONE, GL_ONE);
 			glDepthMask(false);
 			glDepthFunc(GL_EQUAL);
 			
-			directionalLights.forEach(light -> { if(light.isEnabled()) renderShader(directionalShader, light, camera); });
-			pointLights.forEach(light -> { if(light.isEnabled()) renderShader(pointShader, light, camera); });
-			spotLights.forEach(light -> { if(light.isEnabled()) renderShader(spotShader, light, camera); });
+			directionalLights.forEach(light -> { if(light.isEnabled()) renderMeshes(directionalShader, light, camera); });
+			pointLights.forEach(light -> { if(light.isEnabled()) renderMeshes(pointShader, light, camera); });
+			spotLights.forEach(light -> { if(light.isEnabled()) renderMeshes(spotShader, light, camera); });
 			
 			glDepthFunc(GL_LESS);
 			glDepthMask(true);
@@ -54,7 +57,17 @@ public class ForwardRendering
 		}
 	}
 	
-	public static void renderShader(Shader shader, Light light, Camera camera)
+	public static void renderShadowmap(Camera camera)
+	{
+		renderMeshes(shadowmapShader, null, camera);
+	}
+	
+	public static void renderDebugTexture(TextureRenderer renderer)
+	{
+		renderer.render(debugTextureShader);
+	}
+	
+	private static void renderMeshes(Shader shader, Light light, Camera camera)
 	{
 		meshRenderers.forEach(meshRenderer -> meshRenderer.render(shader, light, camera));
 	}
