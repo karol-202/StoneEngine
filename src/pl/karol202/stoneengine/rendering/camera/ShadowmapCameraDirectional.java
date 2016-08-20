@@ -18,16 +18,17 @@ public class ShadowmapCameraDirectional extends ShadowmapCamera
 	@Override
 	protected void updateProjection()
 	{
-		//projectionMatrix = new Matrix4f().initOrthagonal(-10, 10, -10, 10, light.getShadowZNear(), light.getShadowZFar());
-		projectionMatrix = new Matrix4f().initPerspective(0.1f, 20f, 1f, 70f);
+		projectionMatrix = new Matrix4f().initOrthagonal(-5, 5, -3, 7, light.getShadowZNear(), light.getShadowZFar());
+		//projectionMatrix = new Matrix4f().initPerspective(0.1f, 20f, 1f, 70f);
 	}
 	
 	@Override
 	protected Matrix4f getViewMatrix()
 	{
 		Transform tr = getGameObject().getTransform();
-		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
-		Matrix4f cameraTranslation = new Matrix4f().initTranslation(Utils.getForwardFromEuler(tr.getRotation()).mul(-1f));
+		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()),
+															  Utils.getRightFromEuler(tr.getRotation()));
+		Matrix4f cameraTranslation = new Matrix4f().initTranslation(Utils.getForwardFromEuler(tr.getRotation()).mul(-3f));
 		
 		return cameraRotation.mul(cameraTranslation);
 	}

@@ -41,10 +41,10 @@ public class TextureRenderer extends GameComponent
 	private void createQuad()
 	{
 		Vector3f normal = new Vector3f();
-		Vertex[] vertices = new Vertex[] { new Vertex(new Vector3f(start.getX(), start.getY(), 0f), new Vector2f(0f, 1f), normal),
-										   new Vertex(new Vector3f(end.getX(), start.getY(), 0f), new Vector2f(1f, 1f), normal),
-										   new Vertex(new Vector3f(end.getX(), end.getY(), 0f), new Vector2f(1f, 0f), normal),
-										   new Vertex(new Vector3f(start.getX(), end.getY(), 0f), new Vector2f(0f, 0f), normal) };
+		Vertex[] vertices = new Vertex[] { new Vertex(new Vector3f(start.getX(), start.getY(), 0f), new Vector2f(0f, 0f), normal),
+										   new Vertex(new Vector3f(end.getX(), start.getY(), 0f), new Vector2f(1f, 0f), normal),
+										   new Vertex(new Vector3f(end.getX(), end.getY(), 0f), new Vector2f(1f, 1f), normal),
+										   new Vertex(new Vector3f(start.getX(), end.getY(), 0f), new Vector2f(0f, 1f), normal) };
 		int[] indices = new int[] { 0, 2, 1, 0, 3, 2 };
 		mesh = new Mesh(vertices, indices, true);
 	}

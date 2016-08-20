@@ -100,7 +100,7 @@ public class Matrix4f
 	{
 		float width = right - left;
 		float height = top - bottom;
-		float depth = far - near;
+		float depth = near - far;
 		
 		m[0][0] = 2 / width;	m[0][1] = 0;			m[0][2] = 0;			m[0][3] = -(right + left) / width;
 		m[1][0] = 0;			m[1][1] = 2 / height;	m[1][2] = 0;			m[1][3] = -(top + bottom) / height;

@@ -2,7 +2,7 @@ package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
 
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
@@ -19,6 +19,8 @@ public class ToScreenCamera extends Camera
 	@Override
 	public void render()
 	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderCamera(this);

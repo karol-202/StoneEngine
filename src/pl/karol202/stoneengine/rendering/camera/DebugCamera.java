@@ -6,7 +6,7 @@ import pl.karol202.stoneengine.rendering.TextureRenderer;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Vector2f;
 
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
@@ -25,6 +25,8 @@ public class DebugCamera extends Camera
 	@Override
 	public void render()
 	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderDebugTexture(renderer);

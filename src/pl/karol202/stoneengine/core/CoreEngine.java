@@ -70,9 +70,7 @@ public class CoreEngine
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		
-		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CW);
-		glCullFace(GL_BACK);
 		
 		inputHandler = new Input();
 		inputHandler.init(window, width, height);

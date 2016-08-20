@@ -49,6 +49,8 @@ public class RTTCamera extends Camera
 	@Override
 	public void render()
 	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderCamera(this);

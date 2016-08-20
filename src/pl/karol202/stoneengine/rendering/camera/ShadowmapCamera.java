@@ -46,6 +46,7 @@ public abstract class ShadowmapCamera extends Camera
 	@Override
 	public void render()
 	{
+		glDisable(GL_CULL_FACE);
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		glViewport(0, 0, getWidth(), getHeight());
 		ForwardRendering.renderShadowmap(this);

@@ -17,7 +17,7 @@ public class DirectionalLight extends Light
 	{
 		super(color, intensity);
 		shadowZNear = 0.1f;
-		shadowZFar = 20f;
+		shadowZFar = 10f;
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
 		shadowmapCamera = new ShadowmapCameraDirectional(this);

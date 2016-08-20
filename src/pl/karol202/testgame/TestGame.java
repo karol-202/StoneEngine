@@ -50,8 +50,7 @@ public class TestGame implements Game
 		spotLight.setOuterAngle(60f);*/
 		GameObject lightObject = new GameObject();
 		lightObject.addComponent(directionalLight);
-		lightObject.getTransform().setTranslation(0f, 3f, 4f);
-		lightObject.getTransform().setRotation(10f, 180f, 0f);
+		lightObject.getTransform().setRotation(35f, 20f, 0f);
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/scene.obj");
