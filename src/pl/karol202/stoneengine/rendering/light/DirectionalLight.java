@@ -18,11 +18,11 @@ public class DirectionalLight extends Light
 	public DirectionalLight(Vector3f color, float intensity)
 	{
 		super(color, intensity);
-		shadowZNear = 0.1f;
+		shadowZNear = -1f;
 		shadowZFar = 10f;
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
-		shadowBias = 0.001f;
+		shadowBias = 0.002f;
 		shadowmapCamera = new ShadowmapCameraDirectional(this);
 	}
 	
@@ -34,6 +34,20 @@ public class DirectionalLight extends Light
 		ForwardRendering.addDirectionalLight(this);
 		ForwardRendering.addCamera(shadowmapCamera);
 		shadowmapCamera.init();
+	}
+	
+	@Override
+	public void update()
+	{
+		super.update();
+		shadowmapCamera.update();
+	}
+	
+	@Override
+	public void updateTransformation()
+	{
+		super.updateTransformation();
+		shadowmapCamera.updateTransformation();
 	}
 	
 	public Texture getShadowmap()
@@ -54,6 +68,7 @@ public class DirectionalLight extends Light
 	public void setShadowZNear(float shadowZNear)
 	{
 		this.shadowZNear = shadowZNear;
+		shadowmapCamera.updateProjection();
 	}
 	
 	public float getShadowZFar()
@@ -64,6 +79,7 @@ public class DirectionalLight extends Light
 	public void setShadowZFar(float shadowZFar)
 	{
 		this.shadowZFar = shadowZFar;
+		shadowmapCamera.updateProjection();
 	}
 	
 	public int getShadowResolutionX()
@@ -74,6 +90,7 @@ public class DirectionalLight extends Light
 	public void setShadowResolutionX(int shadowResolutionX)
 	{
 		this.shadowResolutionX = shadowResolutionX;
+		shadowmapCamera.setWidth(shadowResolutionX);
 	}
 	
 	public int getShadowResolutionY()
@@ -84,6 +101,7 @@ public class DirectionalLight extends Light
 	public void setShadowResolutionY(int shadowResolutionY)
 	{
 		this.shadowResolutionY = shadowResolutionY;
+		shadowmapCamera.setHeight(shadowResolutionY);
 	}
 	
 	public float getShadowBias()

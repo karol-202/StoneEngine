@@ -12,8 +12,17 @@ public class ToScreenCamera extends Camera
 	
 	public ToScreenCamera(int width, int height)
 	{
-		super(width, height);
+		super();
+		setWidth(width);
+		setHeight(height);
 		setSettings(new PerspectiveSettings(70f, 0.1f, 100f, (float) width / height));
+	}
+	
+	@Override
+	public void init()
+	{
+		super.init();
+		ForwardRendering.addCamera(this);
 	}
 	
 	@Override
@@ -27,9 +36,10 @@ public class ToScreenCamera extends Camera
 	}
 	
 	@Override
-	protected void updateProjection()
+	public void updateProjection()
 	{
 		projectionMatrix = settings.getProjection();
+		updateViewProjection();
 	}
 	
 	public CameraSettings getSettings()

@@ -15,9 +15,9 @@ public class Transform
 
 	public Transform(Transform copy)
 	{
-		translation = copy.getTranslation();
-		rotation = copy.getRotation();
-		scale = copy.getScale();
+		translation = new Vector3f(copy.getTranslation());
+		rotation = new Vector3f(copy.getRotation());
+		scale = new Vector3f(copy.getScale());
 	}
 	
 	public Matrix4f getTransformation()
@@ -31,6 +31,7 @@ public class Transform
 	@Override
 	public boolean equals(Object o)
 	{
+		if(this == o) return true;
 		if(o == null || getClass() != o.getClass()) return false;
 		
 		Transform transform = (Transform) o;
@@ -38,6 +39,16 @@ public class Transform
 		if(!translation.equals(transform.translation)) return false;
 		if(!rotation.equals(transform.rotation)) return false;
 		return scale.equals(transform.scale);
+		
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = translation.hashCode();
+		result = 31 * result + rotation.hashCode();
+		result = 31 * result + scale.hashCode();
+		return result;
 	}
 	
 	public Vector3f getTranslation()

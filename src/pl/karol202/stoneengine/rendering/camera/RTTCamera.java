@@ -17,7 +17,9 @@ public class RTTCamera extends Camera
 	
 	public RTTCamera(int width, int height)
 	{
-		super(width, height);
+		super();
+		setWidth(width);
+		setHeight(height);
 		renderTexture = new Texture(glGenTextures());
 		setSettings(new PerspectiveSettings(70f, 0.1f, 100f, (float) width / height));
 	}
@@ -26,6 +28,7 @@ public class RTTCamera extends Camera
 	public void init()
 	{
 		super.init();
+		ForwardRendering.addCamera(this);
 		
 		framebuffer = glGenFramebuffers();
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -57,9 +60,10 @@ public class RTTCamera extends Camera
 	}
 	
 	@Override
-	protected void updateProjection()
+	public void updateProjection()
 	{
 		projectionMatrix = settings.getProjection();
+		updateViewProjection();
 	}
 	
 	public CameraSettings getSettings()

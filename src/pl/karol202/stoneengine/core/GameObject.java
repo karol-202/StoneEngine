@@ -37,14 +37,18 @@ public class GameObject
 	public void update()
 	{
 		if(!isEnabled()) return;
-		if(!previousTransform.equals(transform))
-		{
-			transformation = transform.getTransformation();
-			previousTransform = new Transform(transform);
-		}
+		if(!previousTransform.equals(transform)) updateTransformation();
 		
 		components.forEach((comp) -> { if(comp.isEnabled()) comp.update(); });
 		children.forEach(GameObject::update);
+	}
+	
+	private void updateTransformation()
+	{
+		transformation = transform.getTransformation();
+		previousTransform = new Transform(transform);
+		components.forEach((comp) -> { if(comp.isEnabled()) comp.updateTransformation(); });
+		children.forEach(GameObject::updateTransformation);
 	}
 	
 	public void addChild(GameObject object)

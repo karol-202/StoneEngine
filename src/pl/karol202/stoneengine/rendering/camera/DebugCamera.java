@@ -16,10 +16,19 @@ public class DebugCamera extends Camera
 	
 	public DebugCamera(int screenOffsetX, int screenOffsetY, int width, int height, Texture debugTexture)
 	{
-		super(width, height);
+		super();
 		setScreenOffsetX(screenOffsetX);
 		setScreenOffsetY(screenOffsetY);
+		setWidth(width);
+		setHeight(height);
 		this.renderer = new TextureRenderer(new Vector2f(-1f, -1f), new Vector2f(1f, 1f), debugTexture);
+	}
+	
+	@Override
+	public void init()
+	{
+		super.init();
+		ForwardRendering.addCamera(this);
 	}
 	
 	@Override
@@ -33,7 +42,7 @@ public class DebugCamera extends Camera
 	}
 	
 	@Override
-	protected void updateProjection() { }
+	public void updateProjection() { }
 	
 	@Override
 	public Matrix4f getViewProjectionMatrix()

@@ -8,7 +8,6 @@ import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.Camera;
-import pl.karol202.stoneengine.rendering.camera.DebugCamera;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
@@ -23,6 +22,8 @@ public class TestGame implements Game
 	
 	private CoreEngine engine;
 	private GameObject root;
+	
+	private GameObject lightObject;
 	
 	private TestGame()
 	{
@@ -48,7 +49,7 @@ public class TestGame implements Game
 		spotLight.setRange(2f);
 		spotLight.setInnerAngle(40f);
 		spotLight.setOuterAngle(60f);*/
-		GameObject lightObject = new GameObject();
+		lightObject = new GameObject();
 		lightObject.addComponent(directionalLight);
 		lightObject.getTransform().setRotation(35f, 20f, 0f);
 		root.addChild(lightObject);
@@ -69,11 +70,6 @@ public class TestGame implements Game
 		//triangle.getTransform().setTranslation(0f, 0f, 2f);
 		//triangle.getTransform().setScale(3f, 3f, 3f);
 		root.addChild(triangle);
-		
-		Camera debugCamera = new DebugCamera(0, 0, 300, 300, directionalLight.getShadowmap());
-		GameObject dcObject = new GameObject();
-		dcObject.addComponent(debugCamera);
-		root.addChild(dcObject);
 		
 		Camera camera = new ToScreenCamera(WIDTH, HEIGHT);
 		FPPController controller = new FPPController(3f, 0.4f);

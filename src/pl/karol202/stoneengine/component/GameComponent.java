@@ -16,6 +16,8 @@ public abstract class GameComponent
 	
 	public abstract void update();
 	
+	public void updateTransformation() { }
+	
 	public GameObject getGameObject()
 	{
 		return gameObject;

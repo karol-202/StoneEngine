@@ -1,41 +1,47 @@
 package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.component.GameComponent;
-import pl.karol202.stoneengine.rendering.ForwardRendering;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Transform;
 import pl.karol202.stoneengine.util.Utils;
 
 public abstract class Camera extends GameComponent
 {
+	protected Matrix4f viewMatrix;
 	protected Matrix4f projectionMatrix;
+	protected Matrix4f viewProjectionMatrix;
 	private int width;
 	private int height;
 	private int screenOffsetX;
 	private int screenOffsetY;
 	
-	public Camera(int width, int height)
+	public Camera()
 	{
 		super();
-		this.width = width;
-		this.height = height;
 	}
 	
 	@Override
 	public void init()
 	{
-		ForwardRendering.addCamera(this);
+		updateView();
 		updateProjection();
 	}
 	
 	@Override
 	public void update() { }
 	
+	@Override
+	public void updateTransformation()
+	{
+		super.updateTransformation();
+		updateView();
+	}
+	
 	public abstract void render();
 	
-	protected abstract void updateProjection();
+	public abstract void updateProjection();
 	
-	protected Matrix4f getViewMatrix()
+	protected void updateView()
 	{
 		Transform tr = getGameObject().getTransform();
 		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
@@ -43,12 +49,19 @@ public abstract class Camera extends GameComponent
 																	-tr.getTranslation().getY(),
 																	-tr.getTranslation().getZ());
 		
-		return cameraRotation.mul(cameraTranslation);
+		viewMatrix = cameraRotation.mul(cameraTranslation);
+		updateViewProjection();
+	}
+	
+	protected void updateViewProjection()
+	{
+		if(viewMatrix == null || projectionMatrix == null) return;
+		viewProjectionMatrix = projectionMatrix.mul(viewMatrix);
 	}
 	
 	public Matrix4f getViewProjectionMatrix()
 	{
-		return projectionMatrix.mul(getViewMatrix());
+		return viewProjectionMatrix;
 	}
 	
 	public int getWidth()
