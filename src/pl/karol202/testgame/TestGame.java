@@ -41,6 +41,16 @@ public class TestGame implements Game
 		
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
 		ForwardRendering.setAmbientLight(new Light(new Vector3f(0.18f, 0.19f, 0.2f), 1f));
+		Cubemap skybox = new Cubemap(512, 512);
+		skybox.addTexture(Cubemap.POS_X, "./res/textures/skybox_posx.png");
+		skybox.addTexture(Cubemap.POS_Y, "./res/textures/skybox_posy.png");
+		skybox.addTexture(Cubemap.POS_Z, "./res/textures/skybox_posz.png");
+		skybox.addTexture(Cubemap.NEG_X, "./res/textures/skybox_negx.png");
+		skybox.addTexture(Cubemap.NEG_Y, "./res/textures/skybox_negy.png");
+		skybox.addTexture(Cubemap.NEG_Z, "./res/textures/skybox_negz.png");
+		SkyboxRenderer sr = new SkyboxRenderer(skybox);
+		ForwardRendering.setSkyboxRenderer(sr);
+		
 		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
 		//PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 0f, 0f, 5f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);

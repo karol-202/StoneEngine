@@ -30,6 +30,6 @@ public class MeshRenderer extends GameComponent
 	{
 		shader.bind();
 		shader.updateShader(getGameObject().getTransformation(), material, light, camera);
-		mesh.draw();
+		mesh.render();
 	}
 }

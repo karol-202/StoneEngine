@@ -95,7 +95,7 @@ public class Mesh
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
 	
-	public void draw()
+	public void render()
 	{
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);

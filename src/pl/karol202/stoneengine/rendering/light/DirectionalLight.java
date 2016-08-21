@@ -22,7 +22,7 @@ public class DirectionalLight extends Light
 		shadowZFar = 10f;
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
-		shadowBias = 0.002f;
+		shadowBias = 0.005f;
 		shadowmapCamera = new ShadowmapCameraDirectional(this);
 	}
 	

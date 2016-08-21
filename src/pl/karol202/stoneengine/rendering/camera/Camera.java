@@ -9,7 +9,7 @@ public abstract class Camera extends GameComponent
 {
 	protected Matrix4f viewMatrix;
 	protected Matrix4f projectionMatrix;
-	protected Matrix4f viewProjectionMatrix;
+	private Matrix4f viewProjectionMatrix;
 	private int width;
 	private int height;
 	private int screenOffsetX;
@@ -57,6 +57,16 @@ public abstract class Camera extends GameComponent
 	{
 		if(viewMatrix == null || projectionMatrix == null) return;
 		viewProjectionMatrix = projectionMatrix.mul(viewMatrix);
+	}
+	
+	public Matrix4f getViewMatrix()
+	{
+		return viewMatrix;
+	}
+	
+	public Matrix4f getProjectionMatrix()
+	{
+		return projectionMatrix;
 	}
 	
 	public Matrix4f getViewProjectionMatrix()

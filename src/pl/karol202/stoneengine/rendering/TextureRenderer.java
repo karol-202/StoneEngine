@@ -35,7 +35,7 @@ public class TextureRenderer extends GameComponent
 		glActiveTexture(GL_TEXTURE0);
 		texture.bind();
 		shader.bind();
-		mesh.draw();
+		mesh.render();
 	}
 	
 	private void createQuad()

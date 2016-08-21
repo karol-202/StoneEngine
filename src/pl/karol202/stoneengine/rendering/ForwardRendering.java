@@ -19,6 +19,7 @@ public class ForwardRendering
 	private static ForwardSpotShader spotShader = new ForwardSpotShader();
 	private static ShadowmapShader shadowmapShader = new ShadowmapShader();
 	private static DebugTextureShader debugTextureShader = new DebugTextureShader();
+	private static SkyboxShader skyboxShader = new SkyboxShader();
 	
 	private static Light ambientLight;
 	private static ArrayList<DirectionalLight> directionalLights = new ArrayList<>();
@@ -27,6 +28,7 @@ public class ForwardRendering
 	
 	private static ArrayList<Camera> cameras = new ArrayList<>();
 	private static ArrayList<MeshRenderer> meshRenderers = new ArrayList<>();
+	private static SkyboxRenderer skyboxRenderer;
 	
 	private static Shader testShader;
 	
@@ -42,18 +44,21 @@ public class ForwardRendering
 		{
 			renderMeshes(ambientShader, ambientLight, camera);
 			
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ONE);
 			glDepthMask(false);
 			glDepthFunc(GL_EQUAL);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE);
 			
 			directionalLights.forEach(light -> { if(light.isEnabled()) renderMeshes(directionalShader, light, camera); });
 			pointLights.forEach(light -> { if(light.isEnabled()) renderMeshes(pointShader, light, camera); });
 			spotLights.forEach(light -> { if(light.isEnabled()) renderMeshes(spotShader, light, camera); });
 			
-			glDepthFunc(GL_LESS);
-			glDepthMask(true);
 			glDisable(GL_BLEND);
+			glDepthFunc(GL_LEQUAL);
+			
+			if(skyboxRenderer != null) skyboxRenderer.render(skyboxShader, camera);
+			
+			glDepthMask(true);
 		}
 	}
 	
@@ -100,6 +105,11 @@ public class ForwardRendering
 	public static void addCamera(Camera camera)
 	{
 		cameras.add(camera);
+	}
+	
+	public static void setSkyboxRenderer(SkyboxRenderer skyboxRenderer)
+	{
+		ForwardRendering.skyboxRenderer = skyboxRenderer;
 	}
 	
 	public static void setTestShader(Shader shader)
