@@ -7,6 +7,7 @@ in vec2 uv;
 uniform vec3 cameraPos;
 uniform vec3 diffuseColor;
 uniform sampler2D diffuseTexture;
+//Material specular color * skybox specular intensity
 uniform vec3 specularColor;
 uniform sampler2D specularTexture;
 uniform float ambientOcclussionIntensity;

@@ -11,11 +11,13 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 public class SkyboxRenderer
 {
 	private Cubemap cubemap;
+	private float specularIntensity;
 	private Mesh mesh;
 	
-	public SkyboxRenderer(Cubemap cubemap)
+	public SkyboxRenderer(Cubemap cubemap, float specularIntensity)
 	{
 		this.cubemap = cubemap;
+		this.specularIntensity = specularIntensity;
 		createCube();
 	}
 	
@@ -63,5 +65,15 @@ public class SkyboxRenderer
 	public void setCubemap(Cubemap cubemap)
 	{
 		this.cubemap = cubemap;
+	}
+	
+	public float getSpecularIntensity()
+	{
+		return specularIntensity;
+	}
+	
+	public void setSpecularIntensity(float specularIntensity)
+	{
+		this.specularIntensity = specularIntensity;
 	}
 }

@@ -109,8 +109,8 @@ public abstract class Shader
 		{
 			glActiveTexture(GL_TEXTURE0 + textures);
 			value.bind();
-			glUniform1i(uniforms.get(uniformName), textures++);
 		}
+		glUniform1i(uniforms.get(uniformName), textures++);
 	}
 	
 	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)

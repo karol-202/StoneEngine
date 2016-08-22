@@ -9,8 +9,8 @@ import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
-import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
+import pl.karol202.stoneengine.rendering.light.PointLight;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
@@ -46,11 +46,11 @@ public class TestGame implements Game
 		skybox.addTexture(Cubemap.NEG_X, "./res/textures/skybox_negx.png");
 		skybox.addTexture(Cubemap.NEG_Y, "./res/textures/skybox_negy.png");
 		skybox.addTexture(Cubemap.NEG_Z, "./res/textures/skybox_negz.png");
-		SkyboxRenderer sr = new SkyboxRenderer(skybox);
+		SkyboxRenderer sr = new SkyboxRenderer(skybox, 0.5f);
 		ForwardRendering.setSkyboxRenderer(sr);
 		
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		//PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 0f, 0f, 5f);
+		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
+		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 5f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
@@ -58,7 +58,7 @@ public class TestGame implements Game
 		spotLight.setInnerAngle(40f);
 		spotLight.setOuterAngle(60f);*/
 		lightObject = new GameObject();
-		lightObject.addComponent(directionalLight);
+		//lightObject.addComponent(pointLight);
 		lightObject.getTransform().setRotation(35f, 20f, 0f);
 		root.addChild(lightObject);
 		

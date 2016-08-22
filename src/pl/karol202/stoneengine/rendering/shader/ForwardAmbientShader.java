@@ -40,7 +40,7 @@ public class ForwardAmbientShader extends Shader
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", material.getDiffuseTexture());
-		setUniform("specularColor", material.getSpecularColor());
+		setUniform("specularColor", material.getSpecularColor().mul(ForwardRendering.getSkyboxRenderer().getSpecularIntensity()));
 		setUniform("specularTexture", material.getSpecularTexture());
 		setUniform("ambientOcclussionIntensity", material.getAmbientOcclussionIntensity());
 		setUniform("ambientOcclussionTexture", material.getAmbientOcclussionTexture());
@@ -48,6 +48,6 @@ public class ForwardAmbientShader extends Shader
 		setUniform("normalMap", material.getNormalMap());
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
-		setUniform("skybox", ForwardRendering.getSkybox());
+		setUniform("skybox", ForwardRendering.getSkyboxRenderer().getCubemap());
 	}
 }

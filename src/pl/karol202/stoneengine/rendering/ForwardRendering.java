@@ -107,9 +107,9 @@ public class ForwardRendering
 		cameras.add(camera);
 	}
 	
-	public static Cubemap getSkybox()
+	public static SkyboxRenderer getSkyboxRenderer()
 	{
-		return skyboxRenderer != null ? skyboxRenderer.getCubemap() : null;
+		return skyboxRenderer;
 	}
 	
 	public static void setSkyboxRenderer(SkyboxRenderer skyboxRenderer)
