@@ -1,12 +1,10 @@
 package pl.karol202.stoneengine.rendering.shader;
 
-import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.Material;
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.DirectionalLight;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
-
-import static org.lwjgl.opengl.GL13.*;
 
 public class ForwardDirectionalShader extends Shader
 {
@@ -40,30 +38,10 @@ public class ForwardDirectionalShader extends Shader
 	@Override
 	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
 	{
+		super.updateShader(transformation, material, light, camera);
 		if(!(light instanceof DirectionalLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
 		DirectionalLight directionalLight = (DirectionalLight) light;
-		
-		if(material.getDiffuseTexture() != null)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			material.getDiffuseTexture().bind();
-		}
-		if(material.getSpecularTexture() != null)
-		{
-			glActiveTexture(GL_TEXTURE1);
-			material.getSpecularTexture().bind();
-		}
-		if(material.getNormalMap() != null)
-		{
-			glActiveTexture(GL_TEXTURE2);
-			material.getNormalMap().bind();
-		}
-		if(directionalLight.getShadowmap() != null)
-		{
-			glActiveTexture(GL_TEXTURE3);
-			directionalLight.getShadowmap().bind();
-		}
 			
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
 		Matrix4f shadowmapMVP = SMVPTransform.mul(directionalLight.getShadowmapViewProjection().mul(transformation));
@@ -72,15 +50,15 @@ public class ForwardDirectionalShader extends Shader
 		setUniform("shadowmapMVP", shadowmapMVP);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
-		setUniform("diffuseTexture", 0);
+		setUniform("diffuseTexture", material.getDiffuseTexture());
 		setUniform("specularColor", material.getSpecularColor());
-		setUniform("specularTexture", 1);
+		setUniform("specularTexture", material.getSpecularTexture());
 		setUniform("normalMapIntensity", material.getNormalMapIntensity());
-		setUniform("normalMap", 2);
+		setUniform("normalMap", material.getNormalMap());
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightRotation", light.getGameObject().getTransformation());
-		setUniform("shadowmap", 3);
+		setUniform("shadowmap", directionalLight.getShadowmap());
 		setUniform("shadowBias", directionalLight.getShadowBias());
 	}
 }

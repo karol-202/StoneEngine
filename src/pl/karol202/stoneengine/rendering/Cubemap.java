@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL12.GL_TEXTURE_WRAP_R;
 import static org.lwjgl.opengl.GL13.*;
 
-public class Cubemap
+public class Cubemap implements Texture
 {
 	public static final int POS_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 	public static final int NEG_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X;

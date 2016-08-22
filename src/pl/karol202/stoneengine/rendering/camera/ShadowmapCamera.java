@@ -1,7 +1,7 @@
 package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
-import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.Texture2D;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
@@ -13,13 +13,13 @@ import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 public abstract class ShadowmapCamera extends Camera
 {
 	private int framebuffer;
-	private Texture depthTexture;
+	private Texture2D depthTexture;
 	private boolean render;
 	
 	public ShadowmapCamera()
 	{
 		super();
-		this.depthTexture = new Texture(glGenTextures());
+		this.depthTexture = new Texture2D(glGenTextures());
 	}
 	
 	@Override
@@ -66,7 +66,7 @@ public abstract class ShadowmapCamera extends Camera
 		render = true;
 	}
 	
-	public Texture getShadowmap()
+	public Texture2D getShadowmap()
 	{
 		return depthTexture;
 	}

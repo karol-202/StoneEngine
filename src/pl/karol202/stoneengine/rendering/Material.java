@@ -5,16 +5,16 @@ import pl.karol202.stoneengine.util.Vector3f;
 public class Material
 {
 	private Vector3f diffuseColor;
-	private Texture diffuseTexture;
+	private Texture2D diffuseTexture;
 	
 	private Vector3f specularColor;
-	private Texture specularTexture;
+	private Texture2D specularTexture;
 	
 	private float ambientOcclussionIntensity;
-	private Texture ambientOcclussionTexture;
+	private Texture2D ambientOcclussionTexture;
 	
 	private float normalMapIntensity;
-	private Texture normalMap;
+	private Texture2D normalMap;
 	
 	public Vector3f getDiffuseColor()
 	{
@@ -26,12 +26,12 @@ public class Material
 		this.diffuseColor = diffuseColor;
 	}
 	
-	public Texture getDiffuseTexture()
+	public Texture2D getDiffuseTexture()
 	{
 		return diffuseTexture;
 	}
 	
-	public void setDiffuseTexture(Texture diffuseTexture)
+	public void setDiffuseTexture(Texture2D diffuseTexture)
 	{
 		this.diffuseTexture = diffuseTexture;
 	}
@@ -46,12 +46,12 @@ public class Material
 		this.specularColor = specularColor;
 	}
 	
-	public Texture getSpecularTexture()
+	public Texture2D getSpecularTexture()
 	{
 		return specularTexture;
 	}
 	
-	public void setSpecularTexture(Texture specularTexture)
+	public void setSpecularTexture(Texture2D specularTexture)
 	{
 		this.specularTexture = specularTexture;
 	}
@@ -66,12 +66,12 @@ public class Material
 		this.ambientOcclussionIntensity = aoIntensity;
 	}
 	
-	public Texture getAmbientOcclussionTexture()
+	public Texture2D getAmbientOcclussionTexture()
 	{
 		return ambientOcclussionTexture;
 	}
 	
-	public void setAmbientOcclussionTexture(Texture aoTexture)
+	public void setAmbientOcclussionTexture(Texture2D aoTexture)
 	{
 		this.ambientOcclussionTexture = aoTexture;
 	}
@@ -86,12 +86,12 @@ public class Material
 		this.normalMapIntensity = normalMapIntensity;
 	}
 	
-	public Texture getNormalMap()
+	public Texture2D getNormalMap()
 	{
 		return normalMap;
 	}
 	
-	public void setNormalMap(Texture normalMap)
+	public void setNormalMap(Texture2D normalMap)
 	{
 		this.normalMap = normalMap;
 	}

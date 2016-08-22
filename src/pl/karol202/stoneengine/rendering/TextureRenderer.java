@@ -13,9 +13,9 @@ public class TextureRenderer extends GameComponent
 	private Vector2f start;
 	private Vector2f end;
 	private Mesh mesh;
-	private Texture texture;
+	private Texture2D texture;
 	
-	public TextureRenderer(Vector2f start, Vector2f end, Texture texture)
+	public TextureRenderer(Vector2f start, Vector2f end, Texture2D texture)
 	{
 		super();
 		this.start = start;
@@ -49,12 +49,12 @@ public class TextureRenderer extends GameComponent
 		mesh = new Mesh(vertices, indices, true);
 	}
 	
-	public Texture getTexture()
+	public Texture2D getTexture()
 	{
 		return texture;
 	}
 	
-	public void setTexture(Texture texture)
+	public void setTexture(Texture2D texture)
 	{
 		this.texture = texture;
 	}

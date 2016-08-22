@@ -1,7 +1,7 @@
 package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
-import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.Texture2D;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
@@ -12,7 +12,7 @@ public class RTTCamera extends Camera
 {
 	private CameraSettings settings;
 	private int framebuffer;
-	private Texture renderTexture;
+	private Texture2D renderTexture;
 	private int depthRenderbuffer;
 	
 	public RTTCamera(int width, int height)
@@ -20,7 +20,7 @@ public class RTTCamera extends Camera
 		super();
 		setWidth(width);
 		setHeight(height);
-		renderTexture = new Texture(glGenTextures());
+		renderTexture = new Texture2D(glGenTextures());
 		setSettings(new PerspectiveSettings(70f, 0.1f, 100f, (float) width / height));
 	}
 	
@@ -77,7 +77,7 @@ public class RTTCamera extends Camera
 		this.settings.setCamera(this);
 	}
 	
-	public Texture getRenderTexture()
+	public Texture2D getRenderTexture()
 	{
 		return renderTexture;
 	}

@@ -37,8 +37,6 @@ public class TestGame implements Game
 	@Override
 	public void init()
 	{
-		//ForwardRendering.setTestShader(new BasicShader());
-		
 		glClearColor(0.1f, 0.1f, 0.2f, 1f);
 		ForwardRendering.setAmbientLight(new Light(new Vector3f(0.18f, 0.19f, 0.2f), 1f));
 		Cubemap skybox = new Cubemap(512, 512);
@@ -67,13 +65,13 @@ public class TestGame implements Game
 		Mesh mesh = Mesh.loadMesh("./res/meshes/scene.obj");
 		Material material = new Material();
 		material.setDiffuseColor(new Vector3f(1f, 1f, 1f));
-		material.setDiffuseTexture(Texture.loadTexture("./res/textures/box.png"));
-		material.setSpecularColor(new Vector3f(0.4f, 0.4f, 0.4f));
-		material.setSpecularTexture(Texture.loadTexture("./res/textures/box_spec.png"));
+		material.setDiffuseTexture(Texture2D.loadTexture("./res/textures/box.png"));
+		material.setSpecularColor(new Vector3f(0.3f, 0.3f, 0.3f));
+		material.setSpecularTexture(Texture2D.loadTexture("./res/textures/box_spec.png"));
 		material.setAmbientOcclussionIntensity(0.5f);
-		material.setAmbientOcclussionTexture(Texture.loadTexture("./res/textures/box_occ.png"));
-		//material.setNormalMapIntensity(-0.35f);
-		//material.setNormalMap(Texture.loadTexture("./res/textures/box_norm.png"));
+		material.setAmbientOcclussionTexture(Texture2D.loadTexture("./res/textures/box_occ.png"));
+		material.setNormalMapIntensity(-0.35f);
+		material.setNormalMap(Texture2D.loadTexture("./res/textures/box_norm.png"));
 		MeshRenderer renderer = new MeshRenderer(mesh, material);
 		GameObject triangle = new GameObject();
 		triangle.addComponent(renderer);

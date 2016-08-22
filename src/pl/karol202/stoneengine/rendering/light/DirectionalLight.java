@@ -1,7 +1,7 @@
 package pl.karol202.stoneengine.rendering.light;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
-import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.Texture2D;
 import pl.karol202.stoneengine.rendering.camera.ShadowmapCameraDirectional;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Vector3f;
@@ -50,7 +50,7 @@ public class DirectionalLight extends Light
 		shadowmapCamera.updateTransformation();
 	}
 	
-	public Texture getShadowmap()
+	public Texture2D getShadowmap()
 	{
 		return shadowmapCamera.getShadowmap();
 	}

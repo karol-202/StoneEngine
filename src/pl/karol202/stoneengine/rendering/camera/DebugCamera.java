@@ -1,7 +1,7 @@
 package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
-import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.Texture2D;
 import pl.karol202.stoneengine.rendering.TextureRenderer;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Vector2f;
@@ -14,7 +14,7 @@ public class DebugCamera extends Camera
 {
 	private TextureRenderer renderer;
 	
-	public DebugCamera(int screenOffsetX, int screenOffsetY, int width, int height, Texture debugTexture)
+	public DebugCamera(int screenOffsetX, int screenOffsetY, int width, int height, Texture2D debugTexture)
 	{
 		super();
 		setScreenOffsetX(screenOffsetX);
@@ -50,12 +50,12 @@ public class DebugCamera extends Camera
 		return null;
 	}
 	
-	public Texture getDebugTexture()
+	public Texture2D getDebugTexture()
 	{
 		return renderer.getTexture();
 	}
 	
-	public void setDebugTexture(Texture debugTexture)
+	public void setDebugTexture(Texture2D debugTexture)
 	{
 		renderer.setTexture(debugTexture);
 	}

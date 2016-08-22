@@ -1,7 +1,8 @@
 package pl.karol202.stoneengine.rendering.shader;
 
-import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.Material;
+import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Utils;
@@ -13,18 +14,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.*;
 
 public abstract class Shader
 {
-	private Map<String, Integer> uniforms;
 	private int program;
+	private Map<String, Integer> uniforms;
+	private int textures;
 	
 	public Shader()
 	{
-		uniforms = new HashMap<>();
 		program = glCreateProgram();
 		if(program == 0) throw new RuntimeException("Cannot create shader program.");
+		uniforms = new HashMap<>();
 	}
 	
 	public void bind()
@@ -79,27 +83,40 @@ public abstract class Shader
 		glAttachShader(program, shader);
 	}
 	
-	public void setUniform(String uniformName, int value)
+	protected void setUniform(String uniformName, int value)
 	{
 		glUniform1i(uniforms.get(uniformName), value);
 	}
 	
-	public void setUniform(String uniformName, float value)
+	protected void setUniform(String uniformName, float value)
 	{
 		glUniform1f(uniforms.get(uniformName), value);
 	}
 	
-	public void setUniform(String uniformName, Vector3f value)
+	protected void setUniform(String uniformName, Vector3f value)
 	{
 		glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
 	}
 	
-	public void setUniform(String uniformName, Matrix4f value)
+	protected void setUniform(String uniformName, Matrix4f value)
 	{
 		glUniformMatrix4fv(uniforms.get(uniformName), true, Utils.createFlippedBuffer(value));
 	}
 	
-	public abstract void updateShader(Matrix4f transformation, Material material, Light light, Camera camera);
+	protected void setUniform(String uniformName, Texture value)
+	{
+		if(value != null)
+		{
+			glActiveTexture(GL_TEXTURE0 + textures);
+			value.bind();
+			glUniform1i(uniforms.get(uniformName), textures++);
+		}
+	}
+	
+	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
+	{
+		textures = 0;
+	}
 	
 	public static String loadShader(String path)
 	{
