@@ -61,8 +61,8 @@ public class ForwardSpotShader extends Shader
 		
 		SpotLight spotLight = (SpotLight) light;
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		setUniform("MVP", MVP);
-		setUniform("M", transformation);
+		setUniform("MVP", MVP, true);
+		setUniform("M", transformation, true);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", material.getDiffuseTexture());
@@ -73,7 +73,7 @@ public class ForwardSpotShader extends Shader
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
 		setUniform("lightPos", light.getGameObject().getTransform().getTranslation());
-		setUniform("lightSpotDirectionMat", light.getGameObject().getTransformation());
+		setUniform("lightSpotDirectionMat", light.getGameObject().getTransformation(), true);
 		setUniform("lightAttenLinear", spotLight.getAttenLinear());
 		setUniform("lightAttenQuadratic", spotLight.getAttenQuadratic());
 		setUniform("lightRange", spotLight.getRange());

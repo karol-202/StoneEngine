@@ -7,7 +7,6 @@ import pl.karol202.stoneengine.core.Game;
 import pl.karol202.stoneengine.core.GameObject;
 import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
-import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.PointLight;
@@ -50,7 +49,7 @@ public class TestGame implements Game
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 5f);
+		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
@@ -58,8 +57,9 @@ public class TestGame implements Game
 		spotLight.setInnerAngle(40f);
 		spotLight.setOuterAngle(60f);*/
 		lightObject = new GameObject();
-		//lightObject.addComponent(pointLight);
-		lightObject.getTransform().setRotation(35f, 20f, 0f);
+		lightObject.addComponent(pointLight);
+		lightObject.getTransform().setTranslation(0.5f, 1.5f, 1f);
+		//lightObject.getTransform().setRotation(35f, 20f, 0f);
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/scene.obj");
@@ -79,7 +79,7 @@ public class TestGame implements Game
 		//triangle.getTransform().setScale(3f, 3f, 3f);
 		root.addChild(triangle);
 		
-		Camera camera = new ToScreenCamera(WIDTH, HEIGHT);
+		ToScreenCamera camera = new ToScreenCamera(WIDTH, HEIGHT);
 		FPPController controller = new FPPController(3f, 0.4f);
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);

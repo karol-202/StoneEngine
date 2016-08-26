@@ -45,9 +45,9 @@ public class ForwardDirectionalShader extends Shader
 			
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
 		Matrix4f shadowmapMVP = SMVPTransform.mul(directionalLight.getShadowmapViewProjection().mul(transformation));
-		setUniform("MVP", MVP);
-		setUniform("M", transformation);
-		setUniform("shadowmapMVP", shadowmapMVP);
+		setUniform("MVP", MVP, true);
+		setUniform("M", transformation, true);
+		setUniform("shadowmapMVP", shadowmapMVP, true);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", material.getDiffuseTexture());
@@ -57,7 +57,7 @@ public class ForwardDirectionalShader extends Shader
 		setUniform("normalMap", material.getNormalMap());
 		setUniform("lightColor", light.getColor());
 		setUniform("lightIntensity", light.getIntensity());
-		setUniform("lightRotation", light.getGameObject().getTransformation());
+		setUniform("lightRotation", light.getGameObject().getTransformation(), true);
 		setUniform("shadowmap", directionalLight.getShadowmap());
 		setUniform("shadowBias", directionalLight.getShadowBias());
 	}

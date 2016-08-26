@@ -17,17 +17,27 @@ uniform vec3 lightPos;
 uniform float lightAttenLinear;
 uniform float lightAttenQuadratic;
 uniform float lightRange;
+uniform samplerCube shadowmap;
+uniform float shadowBias;
+uniform float shadowRange;
+uniform float shadowZNear;
 
 layout(location = 0) out vec3 fragColor;
 
 void main()
 {
-	vec3 lightDirection = TBN * (pos - lightPos);
-	float lightDistance = length(lightDirection);
+	vec3 lightDirectionWS = pos - lightPos;
+	vec3 lightDirection = TBN * lightDirectionWS;
+	float lightDistance = length(lightDirectionWS);
 	if(lightDistance > lightRange) return;
+	lightDirectionWS = normalize(lightDirectionWS);
 	lightDirection = normalize(lightDirection);
 	vec3 cameraDirection = TBN * normalize(cameraPos - pos);
 	vec3 normal = normalize(mix(vec3(0, 0, 1), texture2D(normalMap, uv).rgb * 2.0 - 1.0, normalMapIntensity));
+
+	float bias = clamp(shadowBias * tan(acos(dot(normal, -lightDirection))), 0, 0.05);
+	float shadowmapDepth = texture(shadowmap, lightDirectionWS).z * shadowRange + shadowZNear;
+	if(shadowmapDepth < lightDistance - bias) return;
 
 	vec3 diffuseMaterial = texture2D(diffuseTexture, uv).rgb * diffuseColor;
 	float diffuseFactor = clamp(dot(normal, -lightDirection), 0, 1);
@@ -46,5 +56,5 @@ void main()
 	float lightAtten = 1 / (1 + lightAttenLinear * lightDistance +
 							   lightAttenQuadratic * pow(lightDistance, 2));
 	
-	fragColor = (diffuse + specular) * lightAtten;
-}
+	fragColor = (diffuse + specular) * lightAtten;// * visiblity;
+ }

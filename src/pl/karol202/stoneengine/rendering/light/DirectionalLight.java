@@ -1,14 +1,14 @@
 package pl.karol202.stoneengine.rendering.light;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
-import pl.karol202.stoneengine.rendering.Texture2D;
-import pl.karol202.stoneengine.rendering.camera.ShadowmapCameraDirectional;
+import pl.karol202.stoneengine.rendering.Texture;
+import pl.karol202.stoneengine.rendering.camera.ShadowmapDirectionalCamera;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Vector3f;
 
 public class DirectionalLight extends Light
 {
-	private ShadowmapCameraDirectional shadowmapCamera;
+	private ShadowmapDirectionalCamera shadowmapCamera;
 	private float shadowZNear;
 	private float shadowZFar;
 	private int shadowResolutionX;
@@ -23,17 +23,17 @@ public class DirectionalLight extends Light
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
 		shadowBias = 0.005f;
-		shadowmapCamera = new ShadowmapCameraDirectional(this);
+		shadowmapCamera = new ShadowmapDirectionalCamera(this);
 	}
 	
 	@Override
 	public void init()
 	{
 		shadowmapCamera.setGameObject(getGameObject());
+		shadowmapCamera.init();
 		
 		ForwardRendering.addDirectionalLight(this);
 		ForwardRendering.addCamera(shadowmapCamera);
-		shadowmapCamera.init();
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class DirectionalLight extends Light
 		shadowmapCamera.updateTransformation();
 	}
 	
-	public Texture2D getShadowmap()
+	public Texture getShadowmap()
 	{
 		return shadowmapCamera.getShadowmap();
 	}

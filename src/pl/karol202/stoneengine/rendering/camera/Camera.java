@@ -45,9 +45,7 @@ public abstract class Camera extends GameComponent
 	{
 		Transform tr = getGameObject().getTransform();
 		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()), Utils.getRightFromEuler(tr.getRotation()));
-		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-tr.getTranslation().getX(),
-																	-tr.getTranslation().getY(),
-																	-tr.getTranslation().getZ());
+		Matrix4f cameraTranslation = new Matrix4f().initTranslation(tr.getTranslation().mul(-1f));
 		
 		viewMatrix = cameraRotation.mul(cameraTranslation);
 		updateViewProjection();

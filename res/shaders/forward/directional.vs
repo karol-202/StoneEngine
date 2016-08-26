@@ -9,7 +9,6 @@ layout(location = 4) in vec3 vertBitangent;
 uniform mat4 MVP;
 uniform mat4 M;
 uniform mat4 shadowmapMVP;
-uniform vec3 cameraPos;
 uniform mat4 lightRotation;
 
 out mat3 TBN;

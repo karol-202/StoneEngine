@@ -61,7 +61,11 @@ public class Matrix4f
 	
 	public Matrix4f initRotation(Vector3f forward, Vector3f right)
 	{
-		Vector3f up = forward.cross(right);
+		return initRotation(forward, right, forward.cross(right));
+	}
+	
+	public Matrix4f initRotation(Vector3f forward, Vector3f right, Vector3f up)
+	{
 		forward.normalized();
 		right.normalized();
 		up.normalized();

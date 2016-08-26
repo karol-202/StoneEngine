@@ -29,6 +29,10 @@ public class ForwardPointShader extends Shader
 		addUniform("lightAttenLinear");
 		addUniform("lightAttenQuadratic");
 		addUniform("lightRange");
+		addUniform("shadowmap");
+		addUniform("shadowBias");
+		addUniform("shadowRange");
+		addUniform("shadowZNear");
 	}
 	
 	@Override
@@ -37,11 +41,12 @@ public class ForwardPointShader extends Shader
 		super.updateShader(transformation, material, light, camera);
 		if(!(light instanceof PointLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
-		
 		PointLight pointLight = (PointLight) light;
+		
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		setUniform("MVP", MVP);
-		setUniform("M", transformation);
+		//Matrix4f MVP = pointLight.getShadowmapViewProjectionMatrices()[2].mul(transformation);
+		setUniform("MVP", MVP, true);
+		setUniform("M", transformation, true);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", material.getDiffuseTexture());
@@ -55,5 +60,9 @@ public class ForwardPointShader extends Shader
 		setUniform("lightAttenLinear", pointLight.getAttenLinear());
 		setUniform("lightAttenQuadratic", pointLight.getAttenQuadratic());
 		setUniform("lightRange", pointLight.getRange());
+		setUniform("shadowmap", pointLight.getShadowmap());
+		setUniform("shadowBias", pointLight.getShadowBias());
+		setUniform("shadowRange", pointLight.getShadowRange());
+		setUniform("shadowZNear", pointLight.getShadowZNear());
 	}
 }

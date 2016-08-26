@@ -5,12 +5,12 @@ import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 
-public class ShadowmapShader extends Shader
+public class ShadowmapDirectionalShader extends Shader
 {
-	public ShadowmapShader()
+	public ShadowmapDirectionalShader()
 	{
 		super();
-		addVertexShader(loadShader("./res/shaders/shadowmap/shadowmap.vs"));
+		addVertexShader(loadShader("./res/shaders/shadowmap/directional.vs"));
 		compileShader();
 		addUniform("MVP");
 	}
@@ -20,6 +20,6 @@ public class ShadowmapShader extends Shader
 	{
 		super.updateShader(transformation, material, light, camera);
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		setUniform("MVP", MVP);
+		setUniform("MVP", MVP, true);
 	}
 }

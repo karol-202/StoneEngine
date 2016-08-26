@@ -35,8 +35,8 @@ public class ForwardAmbientShader extends Shader
 	{
 		super.updateShader(transformation, material, light, camera);
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		setUniform("MVP", MVP);
-		setUniform("M", transformation);
+		setUniform("MVP", MVP, true);
+		setUniform("M", transformation, true);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
 		setUniform("diffuseColor", material.getDiffuseColor());
 		setUniform("diffuseTexture", material.getDiffuseTexture());

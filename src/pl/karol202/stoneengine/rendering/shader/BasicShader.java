@@ -23,7 +23,7 @@ public class BasicShader extends Shader
 	{
 		super.updateShader(transformation, material, light, camera);
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		setUniform("MVP", MVP);
+		setUniform("MVP", MVP, true);
 		setUniform("texture", material.getDiffuseTexture());
 		setUniform("color", material.getDiffuseColor());
 	}

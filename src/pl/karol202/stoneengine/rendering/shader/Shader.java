@@ -17,6 +17,7 @@ import java.util.Map;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
 public abstract class Shader
 {
@@ -46,6 +47,11 @@ public abstract class Shader
 	public void addVertexShader(String text)
 	{
 		addProgram(text, GL_VERTEX_SHADER);
+	}
+	
+	public void addGeomatryShader(String text)
+	{
+		addProgram(text, GL_GEOMETRY_SHADER);
 	}
 	
 	public void addFragmentShader(String text)
@@ -98,9 +104,9 @@ public abstract class Shader
 		glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
 	}
 	
-	protected void setUniform(String uniformName, Matrix4f value)
+	protected void setUniform(String uniformName, Matrix4f value, boolean transpose)
 	{
-		glUniformMatrix4fv(uniforms.get(uniformName), true, Utils.createFlippedBuffer(value));
+		glUniformMatrix4fv(uniforms.get(uniformName), transpose, Utils.createFlippedBuffer(value));
 	}
 	
 	protected void setUniform(String uniformName, Texture value)

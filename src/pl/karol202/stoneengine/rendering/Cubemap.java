@@ -25,6 +25,11 @@ public class Cubemap implements Texture
 	private int width;
 	private int height;
 	
+	public Cubemap(int textureId)
+	{
+		this.textureId = textureId;
+	}
+	
 	public Cubemap(int width, int height)
 	{
 		this.textureId = glGenTextures();
@@ -64,5 +69,11 @@ public class Cubemap implements Texture
 		{
 			throw new RuntimeException("Could not load texture from file: " + path);
 		}
+	}
+	
+	@Override
+	public int getTextureId()
+	{
+		return textureId;
 	}
 }

@@ -15,13 +15,15 @@ public class SkyboxShader extends Shader
 		compileShader();
 		addUniform("V");
 		addUniform("P");
+		addUniform("skybox");
 	}
 	
 	@Override
 	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)
 	{
 		super.updateShader(transformation, material, light, camera);
-		setUniform("V", camera.getViewMatrix());
-		setUniform("P", camera.getProjectionMatrix());
+		setUniform("V", camera.getViewMatrix(), true);
+		setUniform("P", camera.getProjectionMatrix(), true);
+		setUniform("skybox", 0);
 	}
 }
