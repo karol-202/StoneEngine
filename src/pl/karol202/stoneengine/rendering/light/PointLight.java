@@ -17,6 +17,8 @@ public class PointLight extends Light
 	private int shadowResolutionX;
 	private int shadowResolutionY;
 	private float shadowBias;
+	private float shadowSoftness;
+	private int shadowSamples;
 	
 	private float shadowRange;
 	
@@ -34,7 +36,9 @@ public class PointLight extends Light
 		
 		shadowResolutionX = 1024;
 		shadowResolutionY = 1024;
-		shadowBias = 0.005f;
+		shadowBias = 0.01f;
+		shadowSoftness = 0.004f;
+		shadowSamples = 2;
 		setShadowZNear(0.1f);
 		shadowmapCamera = new ShadowmapPointCamera(this);
 	}
@@ -148,6 +152,26 @@ public class PointLight extends Light
 	{
 		this.shadowBias = shadowBias;
 		shadowmapCamera.updateProjection();
+	}
+	
+	public float getShadowSoftness()
+	{
+		return shadowSoftness;
+	}
+	
+	public void setShadowSoftness(float shadowSoftness)
+	{
+		this.shadowSoftness = shadowSoftness;
+	}
+	
+	public int getShadowSamples()
+	{
+		return shadowSamples;
+	}
+	
+	public void setShadowSamples(int shadowSamples)
+	{
+		this.shadowSamples = shadowSamples;
 	}
 	
 	public float getShadowRange()

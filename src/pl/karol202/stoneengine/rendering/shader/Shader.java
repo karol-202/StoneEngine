@@ -49,7 +49,7 @@ public abstract class Shader
 		addProgram(text, GL_VERTEX_SHADER);
 	}
 	
-	public void addGeomatryShader(String text)
+	public void addGeometryShader(String text)
 	{
 		addProgram(text, GL_GEOMETRY_SHADER);
 	}

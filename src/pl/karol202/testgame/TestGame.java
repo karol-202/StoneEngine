@@ -22,7 +22,7 @@ public class TestGame implements Game
 	private CoreEngine engine;
 	private GameObject root;
 	
-	private GameObject lightObject;
+	private PointLight pointLight;
 	
 	private TestGame()
 	{
@@ -49,14 +49,14 @@ public class TestGame implements Game
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
+		pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(0f);
 		spotLight.setAttenQuadratic(1f);
 		spotLight.setRange(2f);
 		spotLight.setInnerAngle(40f);
 		spotLight.setOuterAngle(60f);*/
-		lightObject = new GameObject();
+		GameObject lightObject = new GameObject();
 		lightObject.addComponent(pointLight);
 		lightObject.getTransform().setTranslation(0.5f, 1.5f, 1f);
 		//lightObject.getTransform().setRotation(35f, 20f, 0f);
@@ -98,6 +98,9 @@ public class TestGame implements Game
 	@Override
 	public void update()
 	{
+		//System.out.println(Math.sin((System.currentTimeMillis() % 150000) / 23880f));
+		//pointLight.setShadowSoftness(0.005f * (float) Math.sin((System.currentTimeMillis() % 150000) / 23880f));
+		
 		root.update();
 	}
 	

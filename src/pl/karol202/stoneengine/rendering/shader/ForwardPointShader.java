@@ -33,6 +33,8 @@ public class ForwardPointShader extends Shader
 		addUniform("shadowBias");
 		addUniform("shadowRange");
 		addUniform("shadowZNear");
+		addUniform("shadowSoftness");
+		addUniform("shadowSamples");
 	}
 	
 	@Override
@@ -44,7 +46,6 @@ public class ForwardPointShader extends Shader
 		PointLight pointLight = (PointLight) light;
 		
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
-		//Matrix4f MVP = pointLight.getShadowmapViewProjectionMatrices()[2].mul(transformation);
 		setUniform("MVP", MVP, true);
 		setUniform("M", transformation, true);
 		setUniform("cameraPos", camera.getGameObject().getTransform().getTranslation());
@@ -64,5 +65,7 @@ public class ForwardPointShader extends Shader
 		setUniform("shadowBias", pointLight.getShadowBias());
 		setUniform("shadowRange", pointLight.getShadowRange());
 		setUniform("shadowZNear", pointLight.getShadowZNear());
+		setUniform("shadowSoftness", pointLight.getShadowSoftness());
+		setUniform("shadowSamples", pointLight.getShadowSamples());
 	}
 }

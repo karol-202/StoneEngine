@@ -12,7 +12,7 @@ public class ShadowmapPointShader extends Shader
 	{
 		super();
 		addVertexShader(loadShader("./res/shaders/shadowmap/point.vs"));
-		addGeomatryShader(loadShader("./res/shaders/shadowmap/point.gs"));
+		addGeometryShader(loadShader("./res/shaders/shadowmap/point.gs"));
 		addFragmentShader(loadShader("./res/shaders/shadowmap/point.fs"));
 		compileShader();
 		addUniform("M");
