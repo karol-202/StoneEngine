@@ -22,8 +22,6 @@ public class CoreEngine
 	{
 		this.game = game;
 		this.running = false;
-		this.width = 800;
-		this.height = 600;
 	}
 	
 	public void start()
@@ -98,7 +96,7 @@ public class CoreEngine
 			fps++;
 			if(framesCounter >= Time.SECOND)
 			{
-				System.out.println(fps);
+				Time.setFPS(fps);
 				fps = 0;
 				framesCounter = 0;
 			}

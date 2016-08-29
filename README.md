@@ -19,7 +19,7 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
     - Directional
     - Point
     - Spot
-  - Shadow maps(for directional and point lights)
+  - Shadow maps(for directional, point and spot lights)
   - Adjustable camera
   - Render to texture
   - Skyboxes, skybox reflections
@@ -33,3 +33,10 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
 - Physics
 - Deferred lighting
 - HDR
+- Cascaded Shadow Maps
+- Particles
+- Emissive texture
+- Parallax mapping
+- Bloom
+- UI, Text rendering
+- Post processing effects

@@ -93,13 +93,13 @@ public class FPPController extends GameComponent
 	
 	private void lookX(float delta)
 	{
-		float rotY = getGameObject().getTransform().getRotation().getY() + (getDeltaMilis() * -lookSpeed * delta);
+		float rotY = getGameObject().getTransform().getRotation().getY() + (-lookSpeed * delta);
 		getGameObject().getTransform().getRotation().setY(rotY);
 	}
 	
 	private void lookY(float delta)
 	{
-		float rotX = getGameObject().getTransform().getRotation().getX() + (getDeltaMilis() * lookSpeed * delta);
+		float rotX = getGameObject().getTransform().getRotation().getX() + (lookSpeed * delta);
 		if(rotX < xRangeMin) rotX = xRangeMin;
 		if(rotX > xRangeMax) rotX = xRangeMax;
 		getGameObject().getTransform().getRotation().setX(rotX);

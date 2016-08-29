@@ -9,15 +9,16 @@ import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.Light;
-import pl.karol202.stoneengine.rendering.light.SpotLight;
+import pl.karol202.stoneengine.rendering.light.PointLight;
+import pl.karol202.stoneengine.util.Time;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
 
-public class TestGame implements Game
+public class TestGame implements Game, Time.FPSListener
 {
-	private final int WIDTH = 800;
-	private final int HEIGHT = 600;
+	private final int WIDTH = 1024;
+	private final int HEIGHT = 768;
 	
 	private CoreEngine engine;
 	private GameObject root;
@@ -47,17 +48,17 @@ public class TestGame implements Game
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		//PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
-		SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
+		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
+		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(1f);
 		spotLight.setAttenQuadratic(0f);
 		spotLight.setRange(8f);
 		spotLight.setInnerAngle(40f);
-		spotLight.setOuterAngle(60f);
+		spotLight.setOuterAngle(60f);*/
 		GameObject lightObject = new GameObject();
-		lightObject.addComponent(spotLight);
+		lightObject.addComponent(pointLight);
 		lightObject.getTransform().setTranslation(0.5f, 1.5f, 1f);
-		lightObject.getTransform().setRotation(15f, 180f, 0f);
+		//lightObject.getTransform().setRotation(15f, 180f, 0f);
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/scene.obj");
@@ -78,7 +79,7 @@ public class TestGame implements Game
 		root.addChild(triangle);
 		
 		ToScreenCamera camera = new ToScreenCamera(WIDTH, HEIGHT);
-		FPPController controller = new FPPController(3f, 0.4f);
+		FPPController controller = new FPPController(3f, 0.3f);
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);
 		camObject.addComponent(controller);
@@ -91,6 +92,7 @@ public class TestGame implements Game
 		root.init();
 		
 		Input.setCursorLocked(true);
+		Time.addFPSListener(this);
 	}
 	
 	@Override
@@ -103,6 +105,12 @@ public class TestGame implements Game
 	public void render()
 	{
 		ForwardRendering.renderAll();
+	}
+	
+	@Override
+	public void onFPSChanged(int fps)
+	{
+		System.out.println(fps);
 	}
 	
 	@Override
