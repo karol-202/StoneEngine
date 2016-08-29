@@ -19,6 +19,7 @@ public class ForwardRendering
 	private static ForwardSpotShader spotShader = new ForwardSpotShader();
 	private static ShadowmapDirectionalShader shadowmapDirectionalShader = new ShadowmapDirectionalShader();
 	private static ShadowmapPointShader shadowmapPointShader = new ShadowmapPointShader();
+	private static ShadowmapSpotShader shadowmapSpotShader = new ShadowmapSpotShader();
 	private static DebugTextureShader debugTextureShader = new DebugTextureShader();
 	private static SkyboxShader skyboxShader = new SkyboxShader();
 	
@@ -68,9 +69,14 @@ public class ForwardRendering
 		renderMeshes(shadowmapDirectionalShader, null, camera);
 	}
 	
-	public static void renderShadowmapPoint(Camera camera, Light light)
+	public static void renderShadowmapPoint(Camera camera, PointLight light)
 	{
 		renderMeshes(shadowmapPointShader, light, camera);
+	}
+	
+	public static void renderShadowmapSpot(Camera camera, SpotLight light)
+	{
+		renderMeshes(shadowmapSpotShader, light, camera);
 	}
 	
 	public static void renderDebugTexture(TextureRenderer renderer)

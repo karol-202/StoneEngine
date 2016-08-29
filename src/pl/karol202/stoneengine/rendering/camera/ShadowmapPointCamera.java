@@ -17,8 +17,7 @@ import static org.lwjgl.opengl.GL32.glFramebufferTexture;
 
 public class ShadowmapPointCamera extends ShadowmapCamera
 {
-	private PointLight light;
-	private int side;
+	protected PointLight light;
 	private Matrix4f[] viewProjectionMatrices;
 	
 	public ShadowmapPointCamera(PointLight light)
@@ -26,7 +25,6 @@ public class ShadowmapPointCamera extends ShadowmapCamera
 		super();
 		this.depthTexture = new Cubemap(glGenTextures());
 		this.light = light;
-		this.side = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 		this.viewProjectionMatrices = new Matrix4f[6];
 	}
 	
@@ -48,8 +46,6 @@ public class ShadowmapPointCamera extends ShadowmapCamera
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture.getTextureId(), 0);
 	}
 	
@@ -80,7 +76,7 @@ public class ShadowmapPointCamera extends ShadowmapCamera
 	@Override
 	protected void updateViewProjection()
 	{
-		if(projectionMatrix == null) return;
+		if(projectionMatrix == null || getGameObject() == null) return;
 		Matrix4f translation = new Matrix4f().initTranslation(getGameObject().getTransform().getTranslation().mul(-1f));
 		viewProjectionMatrices[0] = projectionMatrix.mul(
 				new Matrix4f().initRotation(new Vector3f(1f, 0f, 0f), new Vector3f(0f, 0f, -1f), new Vector3f(0f, -1f, 0f))
@@ -101,7 +97,6 @@ public class ShadowmapPointCamera extends ShadowmapCamera
 				new Matrix4f().initRotation(new Vector3f(0f, 0f, -1f), new Vector3f(-1f, 0f, 0f), new Vector3f(0f, -1f, 0f))
 						.mul(translation));
 		render = true;
-		//viewProjectionMatrices[0] = projectionMatrix;
 	}
 	
 	public Matrix4f[] getViewProjectionMatrices()

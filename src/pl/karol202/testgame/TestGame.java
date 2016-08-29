@@ -9,7 +9,7 @@ import pl.karol202.stoneengine.core.Input;
 import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.Light;
-import pl.karol202.stoneengine.rendering.light.PointLight;
+import pl.karol202.stoneengine.rendering.light.SpotLight;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
@@ -21,8 +21,6 @@ public class TestGame implements Game
 	
 	private CoreEngine engine;
 	private GameObject root;
-	
-	private PointLight pointLight;
 	
 	private TestGame()
 	{
@@ -49,17 +47,17 @@ public class TestGame implements Game
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
-		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
-		spotLight.setAttenLinear(0f);
-		spotLight.setAttenQuadratic(1f);
-		spotLight.setRange(2f);
+		//PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 1f, 1f, 0f, 8f);
+		SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
+		spotLight.setAttenLinear(1f);
+		spotLight.setAttenQuadratic(0f);
+		spotLight.setRange(8f);
 		spotLight.setInnerAngle(40f);
-		spotLight.setOuterAngle(60f);*/
+		spotLight.setOuterAngle(60f);
 		GameObject lightObject = new GameObject();
-		lightObject.addComponent(pointLight);
+		lightObject.addComponent(spotLight);
 		lightObject.getTransform().setTranslation(0.5f, 1.5f, 1f);
-		//lightObject.getTransform().setRotation(35f, 20f, 0f);
+		lightObject.getTransform().setRotation(15f, 180f, 0f);
 		root.addChild(lightObject);
 		
 		Mesh mesh = Mesh.loadMesh("./res/meshes/scene.obj");
@@ -98,9 +96,6 @@ public class TestGame implements Game
 	@Override
 	public void update()
 	{
-		//System.out.println(Math.sin((System.currentTimeMillis() % 150000) / 23880f));
-		//pointLight.setShadowSoftness(0.005f * (float) Math.sin((System.currentTimeMillis() % 150000) / 23880f));
-		
 		root.update();
 	}
 	

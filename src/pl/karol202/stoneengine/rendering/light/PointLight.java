@@ -12,7 +12,7 @@ public class PointLight extends Light
 	private float attenQuadratic;
 	private float range;
 	
-	private ShadowmapPointCamera shadowmapCamera;
+	protected ShadowmapPointCamera shadowmapCamera;
 	private float shadowZNear;
 	private int shadowResolutionX;
 	private int shadowResolutionY;
@@ -34,13 +34,13 @@ public class PointLight extends Light
 		this.attenQuadratic = attenQuadratic;
 		this.setRange(range);
 		
-		shadowResolutionX = 1024;
-		shadowResolutionY = 1024;
-		shadowBias = 0.01f;
-		shadowSoftness = 0.004f;
+		shadowResolutionX = 768;
+		shadowResolutionY = 768;
+		shadowBias = 0.03f;
+		shadowSoftness = 0.003f;
 		shadowSamples = 2;
 		setShadowZNear(0.1f);
-		shadowmapCamera = new ShadowmapPointCamera(this);
+		initShadowmapCamera();
 	}
 	
 	@Override
@@ -51,6 +51,11 @@ public class PointLight extends Light
 		
 		ForwardRendering.addPointLight(this);
 		ForwardRendering.addCamera(shadowmapCamera);
+	}
+	
+	protected void initShadowmapCamera()
+	{
+		shadowmapCamera = new ShadowmapPointCamera(this);
 	}
 	
 	@Override

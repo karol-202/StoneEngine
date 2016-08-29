@@ -66,6 +66,7 @@ public class ShadowmapDirectionalCamera extends ShadowmapCamera
 	@Override
 	protected void updateView()
 	{
+		if(getGameObject() == null) return;
 		Transform tr = getGameObject().getTransform();
 		Matrix4f cameraRotation = new Matrix4f().initRotation(Utils.getForwardFromEuler(tr.getRotation()),
 															  Utils.getRightFromEuler(tr.getRotation()));

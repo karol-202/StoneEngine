@@ -1,12 +1,10 @@
 package pl.karol202.stoneengine.rendering.shader;
 
-import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.Material;
+import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.SpotLight;
 import pl.karol202.stoneengine.util.Matrix4f;
-
-import static org.lwjgl.opengl.GL13.*;
 
 public class ForwardSpotShader extends Shader
 {
@@ -34,6 +32,12 @@ public class ForwardSpotShader extends Shader
 		addUniform("lightRange");
 		addUniform("lightInnerAngle");
 		addUniform("lightOuterAngle");
+		addUniform("shadowmap");
+		addUniform("shadowBias");
+		addUniform("shadowRange");
+		addUniform("shadowZNear");
+		addUniform("shadowSoftness");
+		addUniform("shadowSamples");
 	}
 	
 	@Override
@@ -42,22 +46,6 @@ public class ForwardSpotShader extends Shader
 		super.updateShader(transformation, material, light, camera);
 		if(!(light instanceof SpotLight))
 			throw new RuntimeException("Error during updating shader's uniforms: light passed to shader is of invalid type.");
-		
-		if(material.getDiffuseTexture() != null)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			material.getDiffuseTexture().bind();
-		}
-		if(material.getSpecularTexture() != null)
-		{
-			glActiveTexture(GL_TEXTURE1);
-			material.getSpecularTexture().bind();
-		}
-		if(material.getNormalMap() != null)
-		{
-			glActiveTexture(GL_TEXTURE2);
-			material.getNormalMap().bind();
-		}
 		
 		SpotLight spotLight = (SpotLight) light;
 		Matrix4f MVP = camera.getViewProjectionMatrix().mul(transformation);
@@ -79,5 +67,11 @@ public class ForwardSpotShader extends Shader
 		setUniform("lightRange", spotLight.getRange());
 		setUniform("lightInnerAngle", spotLight.getInnerAngle());
 		setUniform("lightOuterAngle", spotLight.getOuterAngle());
+		setUniform("shadowmap", spotLight.getShadowmap());
+		setUniform("shadowBias", spotLight.getShadowBias());
+		setUniform("shadowRange", spotLight.getShadowRange());
+		setUniform("shadowZNear", spotLight.getShadowZNear());
+		setUniform("shadowSoftness", spotLight.getShadowSoftness());
+		setUniform("shadowSamples", spotLight.getShadowSamples());
 	}
 }

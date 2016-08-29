@@ -1,6 +1,7 @@
 package pl.karol202.stoneengine.rendering.light;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
+import pl.karol202.stoneengine.rendering.camera.ShadowmapSpotCamera;
 import pl.karol202.stoneengine.util.Vector3f;
 
 public class SpotLight extends PointLight
@@ -10,7 +11,12 @@ public class SpotLight extends PointLight
 	
 	public SpotLight(Vector3f color, float intensity)
 	{
-		super(color, intensity);
+		this(color, intensity, 0f, 1f, 10f);
+	}
+	
+	public SpotLight(Vector3f color, float intensity, float attenLinear, float attenQuadratic, float range)
+	{
+		super(color, intensity, attenLinear, attenQuadratic, range);
 		innerAngle = 0.3f;
 		innerAngle = 0.5f;
 	}
@@ -18,7 +24,17 @@ public class SpotLight extends PointLight
 	@Override
 	public void init()
 	{
+		shadowmapCamera.setGameObject(getGameObject());
+		shadowmapCamera.init();
+		
 		ForwardRendering.addSpotLight(this);
+		ForwardRendering.addCamera(shadowmapCamera);
+	}
+	
+	@Override
+	protected void initShadowmapCamera()
+	{
+		shadowmapCamera = new ShadowmapSpotCamera(this);
 	}
 	
 	public float getInnerAngle()
