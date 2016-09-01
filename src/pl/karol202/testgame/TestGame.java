@@ -10,7 +10,7 @@ import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.PointLight;
-import pl.karol202.stoneengine.rendering.postprocess.PESInvert;
+import pl.karol202.stoneengine.rendering.postprocess.PEInvert;
 import pl.karol202.stoneengine.util.Time;
 import pl.karol202.stoneengine.util.Vector3f;
 
@@ -80,7 +80,8 @@ public class TestGame implements Game, Time.FPSListener
 		root.addChild(triangle);
 		
 		ToScreenCamera camera = new ToScreenCamera(WIDTH, HEIGHT, 4);
-		camera.addEffect(new PESInvert());
+		camera.addEffect(new PEInvert());
+		camera.addEffect(new PEInvert());
 		FPPController controller = new FPPController(3f, 0.3f);
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);

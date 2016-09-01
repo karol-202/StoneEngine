@@ -81,7 +81,7 @@ public class ForwardRendering
 	
 	public static void renderTextureToScreen(TextureRenderer renderer)
 	{
-		//renderer.render(debugTextureShader);
+		renderer.render(debugTextureShader);
 	}
 	
 	private static void renderMeshes(Shader shader, Light light, Camera camera)

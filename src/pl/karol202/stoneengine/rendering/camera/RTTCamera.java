@@ -4,7 +4,7 @@ import pl.karol202.stoneengine.rendering.ForwardRendering;
 import pl.karol202.stoneengine.rendering.FramebufferSet;
 import pl.karol202.stoneengine.rendering.Texture2D;
 import pl.karol202.stoneengine.rendering.postprocess.PEManager;
-import pl.karol202.stoneengine.rendering.postprocess.PostEffectShader;
+import pl.karol202.stoneengine.rendering.postprocess.PostEffect;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
@@ -67,7 +67,7 @@ public class RTTCamera extends Camera
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(getOffsetX(), getOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderCamera(this);
-		output = peManager.render(framebufferMS);
+		output = peManager.renderAll(framebufferMS);
 	}
 	
 	@Override
@@ -88,12 +88,12 @@ public class RTTCamera extends Camera
 		this.settings.setCamera(this);
 	}
 	
-	public void addEffect(PostEffectShader effect)
+	public void addEffect(PostEffect effect)
 	{
 		peManager.addEffect(effect);
 	}
 	
-	public void removeEffect(PostEffectShader effect)
+	public void removeEffect(PostEffect effect)
 	{
 		peManager.removeEffect(effect);
 	}
