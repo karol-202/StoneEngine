@@ -79,9 +79,9 @@ public class ForwardRendering
 		renderMeshes(shadowmapSpotShader, light, camera);
 	}
 	
-	public static void renderDebugTexture(TextureRenderer renderer)
+	public static void renderTextureToScreen(TextureRenderer renderer)
 	{
-		renderer.render(debugTextureShader);
+		//renderer.render(debugTextureShader);
 	}
 	
 	private static void renderMeshes(Shader shader, Light light, Camera camera)

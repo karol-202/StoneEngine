@@ -17,8 +17,8 @@ public class DebugCamera extends Camera
 	public DebugCamera(int screenOffsetX, int screenOffsetY, int width, int height, Texture2D debugTexture)
 	{
 		super();
-		setScreenOffsetX(screenOffsetX);
-		setScreenOffsetY(screenOffsetY);
+		setOffsetX(screenOffsetX);
+		setOffsetY(screenOffsetY);
 		setWidth(width);
 		setHeight(height);
 		this.renderer = new TextureRenderer(new Vector2f(-1f, -1f), new Vector2f(1f, 1f), debugTexture);
@@ -37,8 +37,8 @@ public class DebugCamera extends Camera
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
-		ForwardRendering.renderDebugTexture(renderer);
+		glViewport(getOffsetX(), getOffsetY(), getWidth(), getHeight());
+		ForwardRendering.renderTextureToScreen(renderer);
 	}
 	
 	@Override

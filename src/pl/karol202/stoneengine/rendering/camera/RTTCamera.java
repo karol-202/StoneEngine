@@ -1,27 +1,36 @@
 package pl.karol202.stoneengine.rendering.camera;
 
 import pl.karol202.stoneengine.rendering.ForwardRendering;
+import pl.karol202.stoneengine.rendering.FramebufferSet;
 import pl.karol202.stoneengine.rendering.Texture2D;
+import pl.karol202.stoneengine.rendering.postprocess.PEManager;
+import pl.karol202.stoneengine.rendering.postprocess.PostEffectShader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
 import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL32.glFramebufferTexture;
+import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
+import static org.lwjgl.opengl.GL32.glTexImage2DMultisample;
 
 public class RTTCamera extends Camera
 {
 	private CameraSettings settings;
-	private int framebuffer;
-	private Texture2D renderTexture;
-	private int depthRenderbuffer;
+	private PEManager peManager;
+	private FramebufferSet output;
+	private int samples;
 	
-	public RTTCamera(int width, int height)
+	private int framebufferMS;
+	private int colorRenderbufferMS;
+	private int depthRenderbufferMS;
+
+	public RTTCamera(int width, int height, int samples)
 	{
 		super();
 		setWidth(width);
 		setHeight(height);
-		renderTexture = new Texture2D(glGenTextures());
 		setSettings(new PerspectiveSettings(70f, 0.1f, 100f, (float) width / height));
+		this.peManager = new PEManager(width, height);
+		this.samples = samples;
 	}
 	
 	@Override
@@ -30,33 +39,35 @@ public class RTTCamera extends Camera
 		super.init();
 		ForwardRendering.addCamera(this);
 		
-		framebuffer = glGenFramebuffers();
-		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+		framebufferMS = glGenFramebuffers();
+		glBindFramebuffer(GL_FRAMEBUFFER, framebufferMS);
 		
-		renderTexture.bind();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, getWidth(), getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, renderTexture.getTextureId(), 0);
+		colorRenderbufferMS = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, colorRenderbufferMS);
+		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, getWidth(), getHeight(), true);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, colorRenderbufferMS, 0);
+		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 		glDrawBuffers(new int[] { GL_COLOR_ATTACHMENT0 });
 		
-		depthRenderbuffer = glGenRenderbuffers();
-		glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, getWidth(), getHeight());
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+		depthRenderbufferMS = glGenRenderbuffers();
+		glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbufferMS);
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH_COMPONENT, getWidth(), getHeight());
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbufferMS);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		
 		if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			throw new RuntimeException("Cannot initialize framebuffer for camera.");
+			throw new RuntimeException("Cannot initialize framebufferMS for camera.");
 	}
 	
 	@Override
 	public void render()
 	{
 		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-		glViewport(getScreenOffsetX(), getScreenOffsetY(), getWidth(), getHeight());
+		glBindFramebuffer(GL_FRAMEBUFFER, framebufferMS);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(getOffsetX(), getOffsetY(), getWidth(), getHeight());
 		ForwardRendering.renderCamera(this);
+		output = peManager.render(framebufferMS);
 	}
 	
 	@Override
@@ -77,8 +88,37 @@ public class RTTCamera extends Camera
 		this.settings.setCamera(this);
 	}
 	
-	public Texture2D getRenderTexture()
+	public void addEffect(PostEffectShader effect)
 	{
-		return renderTexture;
+		peManager.addEffect(effect);
+	}
+	
+	public void removeEffect(PostEffectShader effect)
+	{
+		peManager.removeEffect(effect);
+	}
+	
+	@Override
+	public void setOffsetX(int offsetX)
+	{
+		super.setOffsetX(offsetX);
+		peManager.setOffsetX(offsetX);
+	}
+	
+	@Override
+	public void setOffsetY(int offsetY)
+	{
+		super.setOffsetY(offsetY);
+		peManager.setOffsetY(offsetY);
+	}
+	
+	public int getRenderedFramebuffer()
+	{
+		return output.getFramebuffer();
+	}
+	
+	public Texture2D getRenderedTexture()
+	{
+		return new Texture2D(output.getColorTexture());
 	}
 }

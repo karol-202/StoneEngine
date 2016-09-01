@@ -34,7 +34,9 @@ public class TextureRenderer extends GameComponent
 	{
 		glActiveTexture(GL_TEXTURE0);
 		texture.bind();
+		
 		shader.bind();
+		shader.updateShader(null, null, null, null);
 		mesh.render();
 	}
 	

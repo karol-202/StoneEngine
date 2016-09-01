@@ -7,6 +7,7 @@ import pl.karol202.stoneengine.util.Time;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class CoreEngine
@@ -53,7 +54,6 @@ public class CoreEngine
 		GLFWErrorCallback.createPrint(System.err).set();
 		if(!glfwInit()) throw new RuntimeException("Unable to initialize GLFW.");
 		
-		glfwWindowHint(GLFW_SAMPLES, 4);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 		window = glfwCreateWindow(width, height, game.getTitle(), NULL, NULL);
 		if(window == NULL) throw new RuntimeException("Unable to create window.");
@@ -65,9 +65,9 @@ public class CoreEngine
 		createCapabilities();
 		System.out.println("OpenGL version: " + glGetString(GL_VERSION));
 		
+		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
-		
 		glFrontFace(GL_CW);
 		
 		inputHandler = new Input();
@@ -112,7 +112,6 @@ public class CoreEngine
 	
 	private void render()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		game.render();
 		glfwSwapBuffers(window);
 	}

@@ -12,8 +12,8 @@ public abstract class Camera extends GameComponent
 	private Matrix4f viewProjectionMatrix;
 	private int width;
 	private int height;
-	private int screenOffsetX;
-	private int screenOffsetY;
+	private int offsetX;
+	private int offsetY;
 	
 	public Camera()
 	{
@@ -92,23 +92,23 @@ public abstract class Camera extends GameComponent
 		this.height = height;
 	}
 	
-	public int getScreenOffsetX()
+	public int getOffsetX()
 	{
-		return screenOffsetX;
+		return offsetX;
 	}
 	
-	public void setScreenOffsetX(int screenOffsetX)
+	public void setOffsetX(int offsetX)
 	{
-		this.screenOffsetX = screenOffsetX;
+		this.offsetX = offsetX;
 	}
 	
-	public int getScreenOffsetY()
+	public int getOffsetY()
 	{
-		return screenOffsetY;
+		return offsetY;
 	}
 	
-	public void setScreenOffsetY(int screenOffsetY)
+	public void setOffsetY(int offsetY)
 	{
-		this.screenOffsetY = screenOffsetY;
+		this.offsetY = offsetY;
 	}
 }
