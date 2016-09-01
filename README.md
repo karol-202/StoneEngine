@@ -27,6 +27,7 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
     - Greyscale
     - Kernel
   - Skyboxes, skybox reflections
+  - HDR, tone mapping
 3. **Components**:
   - First person controller based on keyboard and mouse input
   
@@ -36,7 +37,6 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
 - Basic audio system
 - Physics
 - Deferred lighting
-- HDR
 - Cascaded Shadow Maps
 - Particles
 - Emissive texture

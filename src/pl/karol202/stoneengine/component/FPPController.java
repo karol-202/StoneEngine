@@ -105,11 +105,6 @@ public class FPPController extends GameComponent
 		getGameObject().getTransform().getRotation().setX(rotX);
 	}
 	
-	private float getDeltaMilis()
-	{
-		return Time.getDelta() / 1000000f;
-	}
-	
 	private double getDeltaSeconds()
 	{
 		return Time.getDelta() / (double) Time.SECOND;
