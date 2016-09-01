@@ -6,6 +6,7 @@ import pl.karol202.stoneengine.rendering.camera.Camera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.util.Matrix4f;
 import pl.karol202.stoneengine.util.Utils;
+import pl.karol202.stoneengine.util.Vector2f;
 import pl.karol202.stoneengine.util.Vector3f;
 
 import java.io.BufferedReader;
@@ -89,24 +90,35 @@ public abstract class Shader
 		glAttachShader(program, shader);
 	}
 	
+	private int getUniform(String uniformName)
+	{
+		if(!uniforms.containsKey(uniformName)) throw new RuntimeException("Cannot update shader's uniform: " + uniformName);
+		return uniforms.get(uniformName);
+	}
+	
 	protected void setUniform(String uniformName, int value)
 	{
-		glUniform1i(uniforms.get(uniformName), value);
+		glUniform1i(getUniform(uniformName), value);
 	}
 	
 	protected void setUniform(String uniformName, float value)
 	{
-		glUniform1f(uniforms.get(uniformName), value);
+		glUniform1f(getUniform(uniformName), value);
+	}
+	
+	protected void setUniform(String uniformName, Vector2f value)
+	{
+		glUniform2f(getUniform(uniformName), value.getX(), value.getY());
 	}
 	
 	protected void setUniform(String uniformName, Vector3f value)
 	{
-		glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
+		glUniform3f(getUniform(uniformName), value.getX(), value.getY(), value.getZ());
 	}
 	
 	protected void setUniform(String uniformName, Matrix4f value, boolean transpose)
 	{
-		glUniformMatrix4fv(uniforms.get(uniformName), transpose, Utils.createFlippedBuffer(value));
+		glUniformMatrix4fv(getUniform(uniformName), transpose, Utils.createFlippedBuffer(value));
 	}
 	
 	protected void setUniform(String uniformName, Texture value)
@@ -116,7 +128,7 @@ public abstract class Shader
 			glActiveTexture(GL_TEXTURE0 + textures);
 			value.bind();
 		}
-		glUniform1i(uniforms.get(uniformName), textures++);
+		glUniform1i(getUniform(uniformName), textures++);
 	}
 	
 	public void updateShader(Matrix4f transformation, Material material, Light light, Camera camera)

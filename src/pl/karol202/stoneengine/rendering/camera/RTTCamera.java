@@ -44,7 +44,7 @@ public class RTTCamera extends Camera
 		
 		colorRenderbufferMS = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, colorRenderbufferMS);
-		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, getWidth(), getHeight(), true);
+		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA16F, getWidth(), getHeight(), true);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, colorRenderbufferMS, 0);
 		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 		glDrawBuffers(new int[] { GL_COLOR_ATTACHMENT0 });

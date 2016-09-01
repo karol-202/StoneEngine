@@ -36,7 +36,6 @@ public class TextureRenderer extends GameComponent
 		texture.bind();
 		
 		shader.bind();
-		shader.updateShader(null, null, null, null);
 		mesh.render();
 	}
 	
