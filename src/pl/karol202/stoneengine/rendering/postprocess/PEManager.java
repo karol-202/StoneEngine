@@ -49,13 +49,18 @@ public class PEManager
 		return renderToA ? framebufferB : framebufferA;
 	}
 	
-	public void render(Shader shader)
+	public void render(Shader shader, boolean dontBind)
 	{
 		if(renderToA) framebufferA.bind();
 		else framebufferB.bind();
-		renderer.setTexture(new Texture2D(renderToA ? framebufferB.getColorTexture() : framebufferA.getColorTexture()));
-		renderer.render(shader);
+		if(!dontBind) renderer.setTexture(new Texture2D((renderToA ? framebufferB : framebufferA).getColorTexture()));
+		renderer.render(shader, !dontBind);
 		renderToA = !renderToA;
+	}
+	
+	public FramebufferSet getCurrentFramebuffer()
+	{
+		return renderToA ? framebufferB : framebufferA;
 	}
 	
 	public void addEffect(PostEffect effect)

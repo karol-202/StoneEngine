@@ -25,6 +25,6 @@ public class PEInvert extends PostEffect
 	@Override
 	public void render(PEManager manager)
 	{
-		manager.render(shaderInvert);
+		manager.render(shaderInvert, false);
 	}
 }

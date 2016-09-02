@@ -30,11 +30,13 @@ public class TextureRenderer extends GameComponent
 	@Override
 	public void update() { }
 	
-	public void render(Shader shader)
+	public void render(Shader shader, boolean attachTexture)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		texture.bind();
-		
+		if(attachTexture)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			texture.bind();
+		}
 		shader.bind();
 		mesh.render();
 	}

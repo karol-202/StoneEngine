@@ -25,6 +25,6 @@ public class PEGreyscale extends PostEffect
 	@Override
 	public void render(PEManager manager)
 	{
-		manager.render(shaderGreyscale);
+		manager.render(shaderGreyscale, false);
 	}
 }

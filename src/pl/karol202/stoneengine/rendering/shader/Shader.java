@@ -96,6 +96,11 @@ public abstract class Shader
 		return uniforms.get(uniformName);
 	}
 	
+	protected void setUniform(String uniformName, boolean value)
+	{
+		glUniform1i(getUniform(uniformName), value ? 1 : 0);
+	}
+	
 	protected void setUniform(String uniformName, int value)
 	{
 		glUniform1i(getUniform(uniformName), value);

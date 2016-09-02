@@ -35,7 +35,7 @@ public class PEToneMapping extends PostEffect
 	{
 		shaderToneMapping.bind();
 		shaderToneMapping.updateShader(exposure);
-		manager.render(shaderToneMapping);
+		manager.render(shaderToneMapping, false);
 	}
 	
 	public float getExposure()

@@ -10,6 +10,7 @@ import pl.karol202.stoneengine.rendering.*;
 import pl.karol202.stoneengine.rendering.camera.ToScreenCamera;
 import pl.karol202.stoneengine.rendering.light.Light;
 import pl.karol202.stoneengine.rendering.light.PointLight;
+import pl.karol202.stoneengine.rendering.postprocess.PEBloom;
 import pl.karol202.stoneengine.rendering.postprocess.PEToneMapping;
 import pl.karol202.stoneengine.util.Time;
 import pl.karol202.stoneengine.util.Vector3f;
@@ -50,7 +51,7 @@ public class TestGame implements Game, Time.FPSListener
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
-		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 10f, 1f, 0f, 8f);
+		PointLight pointLight = new PointLight(new Vector3f(1f, 1f, 1f), 2f, 1f, 0f, 8f);
 		/*SpotLight spotLight = new SpotLight(new Vector3f(1f, 1f, 1f), 1f);
 		spotLight.setAttenLinear(1f);
 		spotLight.setAttenQuadratic(0f);
@@ -82,7 +83,8 @@ public class TestGame implements Game, Time.FPSListener
 		
 		ToScreenCamera camera = new ToScreenCamera(WIDTH, HEIGHT, 4);
 		tone = new PEToneMapping();
-		camera.addEffect(tone);
+		//camera.addEffect(tone);
+		camera.addEffect(new PEBloom(4));
 		FPPController controller = new FPPController(3f, 0.3f);
 		GameObject camObject = new GameObject();
 		camObject.addComponent(camera);
@@ -104,7 +106,6 @@ public class TestGame implements Game, Time.FPSListener
 	{
 		if(Input.isKeyDown(Input.KEY_Q)) tone.setExposure(tone.getExposure() - getDeltaSeconds());
 		if(Input.isKeyDown(Input.KEY_E)) tone.setExposure(tone.getExposure() + getDeltaSeconds());
-		System.out.println(tone.getExposure());
 		
 		root.update();
 	}

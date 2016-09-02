@@ -47,7 +47,7 @@ public class PEKernel extends PostEffect
 	{
 		shaderKernel.bind();
 		shaderKernel.updateShader(kernel, kernelOffset);
-		manager.render(shaderKernel);
+		manager.render(shaderKernel, false);
 	}
 	
 	public PEKernel initIdentity(float value)
