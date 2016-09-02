@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL12.GL_TEXTURE_WRAP_R;
 import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL21.GL_SRGB8_ALPHA8;
 
 public class Cubemap implements Texture
 {
@@ -42,7 +43,7 @@ public class Cubemap implements Texture
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
 	}
 	
-	public void addTexture(int side, String path)
+	public void addTexture(int side, String path, boolean srgb)
 	{
 		bind();
 		
@@ -53,12 +54,12 @@ public class Cubemap implements Texture
 		try(FileInputStream fis = new FileInputStream(path))
 		{
 			PNGDecoder decoder = new PNGDecoder(fis);
-			if(decoder.getWidth() != width) throw new RuntimeException("Could not load cubemap: " + path + " has invalid size.");
-			if(decoder.getHeight() != height) throw new RuntimeException("Could not load cubemap: " + path + " has invalid size.");
+			if(decoder.getWidth() != width || decoder.getHeight() != height)
+				throw new RuntimeException("Could not load cubemap: " + path + " has invalid size.");
 			ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
 			decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
 			buffer.flip();
-			glTexImage2D(side, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+			glTexImage2D(side, 0, srgb ? GL_SRGB8_ALPHA8 : GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

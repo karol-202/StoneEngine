@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
+import static org.lwjgl.opengl.GL32.GL_TEXTURE_CUBE_MAP_SEAMLESS;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class CoreEngine
@@ -66,6 +67,7 @@ public class CoreEngine
 		System.out.println("OpenGL version: " + glGetString(GL_VERSION));
 		
 		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		glFrontFace(GL_CW);
