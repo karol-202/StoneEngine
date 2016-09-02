@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ForwardRendering
 {
-	private static ForwardAmbientShader ambientShader = new ForwardAmbientShader();
+	private static ForwardBaseShader baseShader = new ForwardBaseShader();
 	private static ForwardDirectionalShader directionalShader = new ForwardDirectionalShader();
 	private static ForwardPointShader pointShader = new ForwardPointShader();
 	private static ForwardSpotShader spotShader = new ForwardSpotShader();
@@ -44,7 +44,7 @@ public class ForwardRendering
 		if(testShader != null) renderMeshes(testShader, null, camera);
 		else
 		{
-			renderMeshes(ambientShader, ambientLight, camera);
+			renderMeshes(baseShader, ambientLight, camera);
 			
 			glDepthMask(false);
 			glDepthFunc(GL_EQUAL);

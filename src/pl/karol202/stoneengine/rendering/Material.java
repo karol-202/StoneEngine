@@ -16,6 +16,9 @@ public class Material
 	private float normalMapIntensity;
 	private Texture2D normalMap;
 	
+	private Vector3f emissiveColor;
+	private Texture2D emissiveTexture;
+	
 	public Vector3f getDiffuseColor()
 	{
 		return diffuseColor;
@@ -94,5 +97,25 @@ public class Material
 	public void setNormalMap(Texture2D normalMap)
 	{
 		this.normalMap = normalMap;
+	}
+	
+	public Vector3f getEmissiveColor()
+	{
+		return emissiveColor;
+	}
+	
+	public void setEmissiveColor(Vector3f emissiveColor)
+	{
+		this.emissiveColor = emissiveColor;
+	}
+	
+	public Texture2D getEmissiveTexture()
+	{
+		return emissiveTexture;
+	}
+	
+	public void setEmissiveTexture(Texture2D emissiveTexture)
+	{
+		this.emissiveTexture = emissiveTexture;
 	}
 }

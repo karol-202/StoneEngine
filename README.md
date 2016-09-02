@@ -14,6 +14,7 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
     - Specular texture
     - Ambient occlussion
     - Normal map
+    - Emissive texture(emissive light is not affecting other fragments)
   - Lights(Phong model):
     - Ambient
     - Directional
@@ -41,6 +42,6 @@ StoneEngine - Open source 3D game engine written in Java and based on OpenGL(LWJ
 - Deferred lighting
 - Cascaded Shadow Maps
 - Particles
-- Emissive texture
 - Parallax mapping
 - UI, Text rendering
+- Animation system
