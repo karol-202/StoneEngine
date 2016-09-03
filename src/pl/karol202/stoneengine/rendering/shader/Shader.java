@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE_CUBE_MAP;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
@@ -128,10 +131,12 @@ public abstract class Shader
 	
 	protected void setUniform(String uniformName, Texture value)
 	{
-		if(value != null)
+		glActiveTexture(GL_TEXTURE0 + textures);
+		if(value != null) value.bind();
+		else
 		{
-			glActiveTexture(GL_TEXTURE0 + textures);
-			value.bind();
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		}
 		glUniform1i(getUniform(uniformName), textures++);
 	}

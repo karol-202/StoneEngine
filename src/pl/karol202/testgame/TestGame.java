@@ -48,7 +48,7 @@ public class TestGame implements Game, Time.FPSListener
 		skybox.addTexture(Cubemap.NEG_X, "./res/textures/skybox_negx.png", true);
 		skybox.addTexture(Cubemap.NEG_Y, "./res/textures/skybox_negy.png", true);
 		skybox.addTexture(Cubemap.NEG_Z, "./res/textures/skybox_negz.png", true);
-		SkyboxRenderer sr = new SkyboxRenderer(skybox, 0.25f);
+		SkyboxRenderer sr = new SkyboxRenderer(skybox, 0.1f);
 		ForwardRendering.setSkyboxRenderer(sr);
 		
 		//DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
@@ -69,8 +69,8 @@ public class TestGame implements Game, Time.FPSListener
 		Material material = new Material();
 		material.setDiffuseColor(new Vector3f(1f, 1f, 1f));
 		material.setDiffuseTexture(Texture2D.loadTexture("./res/textures/scene.png", true));
-		material.setSpecularColor(new Vector3f(0.3f, 0.3f, 0.3f));
-		//material.setSpecularTexture(Texture2D.loadTexture("./res/textures/box_spec.png", false));
+		material.setSpecularColor(new Vector3f(1f, 1f, 1f));
+		material.setSpecularTexture(Texture2D.loadTexture("./res/textures/scene_spec.png", true));
 		material.setAmbientOcclussionIntensity(0f);
 		//material.setAmbientOcclussionTexture(Texture2D.loadTexture("./res/textures/box_occ.png", false));
 		material.setNormalMapIntensity(0f);

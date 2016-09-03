@@ -61,7 +61,7 @@ void main()
 	vec3 diffuse = diffuseMaterial * diffuseLight;
 	
 	vec4 specularTexture = texture2D(specularTexture, uv);
-	float specularPower = specularTexture.a * 10 + 1;
+	float specularPower = specularTexture.a * 50 + 1;
 	vec3 specularMaterial = specularTexture.rgb * specularColor;
 	vec3 reflection = reflect(lightDirection, normal);
 	float specularFactor = clamp(dot(cameraDirection, reflection), 0, 1);

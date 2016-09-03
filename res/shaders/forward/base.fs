@@ -32,7 +32,7 @@ void main()
 	vec3 diffuse = diffuseMaterial * diffuseLight;
 	
 	vec4 specularTexture = texture2D(specularTexture, uv);
-	float specularPower = specularTexture.a * 5 + 1;
+	//float specularPower = specularTexture.a * 5 + 1;
 	vec3 specularMaterial = specularTexture.rgb * specularColor;
 	vec3 reflection = reflect(cameraDirection, normal);
 	//Reflection from skybox
